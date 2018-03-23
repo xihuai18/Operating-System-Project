@@ -1,0 +1,27 @@
+MEMORY
+{
+    text : ORIGIN = 0x0000, LENGTH = 0x1400
+    room : ORIGIN = 0x1600, LENGTH = 0x1000
+}
+
+SECTIONS
+{
+    . = 0x8100;
+    .text :
+    {
+        *(.text)
+    } > text
+    .eh_frame :
+    {
+        *(.en_frame)
+    } > text
+    . = 0x9100;
+    .data :
+    {
+        *(.data)
+    } > room
+    .bss :
+    {
+        *(.bss)
+    } > room
+}
