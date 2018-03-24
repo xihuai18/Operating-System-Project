@@ -1,0 +1,10 @@
+Wsh manual
+This is the help system in Wsh, and all the instructions as well as their usages are listed as followings:
+
+ls : list the information of the folders and files inside the current work path.
+date : show the current time of the system.
+reboot : reboot the computer.
+exit : shutdown the computer immediately.
+clear : clear the terminal.
+man : show this help file.
+

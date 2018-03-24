@@ -4,6 +4,11 @@ global _printSentence
 global _ClearScreen
 global _getInput
 global _shutdown
+global _dispatch
+global _reboot
+global _getManual
+global _getDate
+global _roll
 
 [section .text]
 _printSentence:
@@ -160,8 +165,8 @@ _getInput:
 		mul dh
 		mov dh, 0
 		add ax, dx
-		mov dh, 2
-		mul dh
+		mov dx, 2
+		mul dx
 		mov bx, ax
 		
 		mov word [es:bx], 0f20h
@@ -181,25 +186,172 @@ _getInput:
 
 _shutdown:
 	mov ax, 5301h ;function 5301h
-
 	xor bx, bx ;device id: 0000h (=system bios)
-
 	int 15h ;call interrupt: 15h
 
 	mov ax, 530eh ;function 530eh
-
 	mov cx, 0102h ;driver version
-
 	int 15h ;call interrupt: 15h
 
 	mov ax, 5307h ;function 5307h
-
 	mov bl, 01h ;device id: 0001h (=all devices)
-
 	mov cx, 0003h ;power state: 0003h (=off)
 
 	int 15h ;call interrupt: 15h
 
 	pop ecx
-
 	jmp cx
+
+_dispatch:
+	;;;  void dispatch(int address, int size)  ;;;;;;
+	offsetOfUserPrg equ 0e000h
+	push ebp
+	mov ax, cs
+	mov ds, ax
+    mov es, ax                ;设置段地址（不能直接mov es,段地址）
+ 	
+ 	; 计算扇区
+ 	mov ax, word [esp+0x8]
+ 	mov dx, 0
+ 	mov cx, 512
+ 	div cx
+    mov cl, al  ;起始扇区
+    inc cl
+    sub cl, 36
+ 	; 计算大小
+ 	push cx
+ 	mov ax, word [esp+0xe]
+    mov cx, 512
+    mov dx, 0
+    div cx
+    ;al已设定
+    pop cx
+
+
+    mov dl,0                 ;驱动器号 ; 软盘为0，硬盘和U盘为80H
+    mov dh,0                 ;磁头号 ; 起始编号为0
+    mov ch,1                 ;柱面号 ; 起始编号为0
+    mov bx, offsetOfUserPrg;偏移地址
+    mov ah, 2 ;功能号
+    int 13h
+
+    call bx
+
+    pop ebp
+	pop ecx
+	jmp cx
+
+
+_reboot:
+	;;;; _reboot() ;;;;;;;;;;;;;
+	int 19h
+
+
+_getManual:
+	;;;; char * getManual();;;;;;;;
+	offSetOfManual equ 0ec00h
+	xor eax, eax
+	mov eax, offSetOfManual
+
+	pop ecx
+	jmp cx
+
+_getDate:
+	;;;; char * _getDate() ;;;;;;;;;;
+	mov ah, 04h
+	int 1ah
+
+	;年
+	mov bl, cl
+	mov al, bl
+	and al, 11110000b
+	mov cl, 4
+	shr al, cl
+
+	and bl, 00001111b
+	mov ah, bl
+	add ax, 3030h
+	mov word [date+6], '20'
+	mov word [date+8], ax
+	
+	;月
+	mov bl, dh
+	mov al, bl
+	and al, 11110000b
+	mov cl, 4
+	shr al, cl
+
+	and bl, 00001111b
+	mov ah, bl
+	add ax, 3030h
+	mov word [date+3], ax
+	mov byte [date+5], '/'
+	
+	;日
+	mov bl, dl
+	mov al, bl
+	and al, 11110000b
+	mov cl, 4
+	shr al, cl
+
+	and bl, 00001111b
+	mov ah, bl
+	add ax, 3030h
+	mov word [date], ax
+	mov byte [date+2], '/'
+
+	xor eax, eax
+	mov ax, date
+
+	pop ecx
+	jmp cx
+
+	date times 11 db 0
+	; xx/xx/xxxx0
+
+_roll:
+	;;;;;;;; void roll();;;;;;;;
+	;复制上一行
+	push ebp
+	mov ax, 0xb800
+	mov es, ax
+	mov si, 160
+	mov ax, cs
+	mov ds, ax
+	mov bx, 0
+
+	mov cx, 1920
+
+	movbyte:
+		mov al, byte [es:si]
+		mov byte [lastline+bx], al
+		inc bx
+		add si, 2
+		loop movbyte
+
+	mov ah, 06h
+	mov al, 1
+	mov bh, 0fh
+	mov cx, 1800h
+	mov dx, 184fh
+	int 10h
+
+	mov ax, cs
+	mov ds, ax
+	mov es, ax
+ 	
+	mov al,1
+    mov bh,0
+    mov bl,0fh          ;白底黑字
+    mov bp, lastline
+    mov cx, 1920
+    mov dh, 0
+    mov dl, 0
+    mov ah,13h
+    int 10h
+
+    pop ebp
+    pop ecx
+    jmp cx
+
+	lastline times 1920 db 0
