@@ -25,8 +25,6 @@ int _main() {
 	initialScreen(1);
 	char * in;
 	struct info tmp = no;
-	// dispatch(18432, 512);
-	// initialScreen(0);
 	do {
 		in = input();
 		if(in[0] == '.' && in[1] == '/')
