@@ -1,13 +1,13 @@
 org 0e000h
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;; 左上角 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;; 左下角 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 Start:
     mov ax,cs
     mov ds,ax         ; DS = CS       
     mov ax,0B800h       ; 文本窗口显存起始地址
     mov es,ax         ; ES = B800h
 
-    mov byte [rdul],Dn_Rt
+    mov byte [rdul],Up_Rt
     mov byte [occurence], IniOccur
     call clearprint
 
@@ -149,17 +149,19 @@ moveBall:
     Up_Lt equ 00h                  ;
     Dn_Lt equ 10h                  ;       
     ;上下，左右
-    x dw 0
+    x dw 13
     y dw 0
-    boundry dw -1,12,-1,39
+    boundry dw 12,25,-1,39
+    color db 5Fh 
     count db 0 
 
-    rdul db Dn_Rt
-    show equ 0c200h
+    rdul db Up_Rt
+     show equ 0c200h
     clearprint equ 0c800h
     checkInput equ 0c600h
 re:
     ret
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; modules ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;  
@@ -180,9 +182,6 @@ delayModule:
     dcount dw delay
     ddcount dw ddelay
     occurence db IniOccur
-
-
-
 
 
 
