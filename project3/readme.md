@@ -4,10 +4,20 @@
 
 ### 需求分析
 1. 建立一个表记录用户程序的存储安排
-2. 查询用户查询的信息，信息包括程序名、字节数、磁盘位置、文件类型（文档、可执行、文件夹）、权限。（定为ls指令，后面可以接名字）
-3. 执行用户程序的指令（直接打名字）
+2. 查询用户查询的信息，信息包括程序名、字节数、磁盘位置、文件类型（文档、可执行、文件夹）。（定为ls指令，后面可以接名字）
+    使用散列，名字作key。
+3. 执行用户程序的指令（'./'+名字）
     详细方法是打一个名字将一个程序加载进内存，因为已经有了记录的表。
     而那些系统例程仍然开机就加载。
+    用户程序有：
+    |name|size|lma|type|
+    |----|----|---|----|  
+    |ball_A|512|18432|exec| 
+    |ball_B|512|18944|exec|
+    |ball_C|512|19456|exec|
+    |ball_D|512|19968|exec|
+    |printBigname|3072|20480|exec|
+
 4. 显示时间（date）
 5. 无错误提示
 6. 重启（reboot）
@@ -112,6 +122,16 @@ gcc的汇编变量类型和数据分离
 
 垃圾滚屏
 
+设想：跨段跳转
+
+神仙bug，全局变量定义多了，会覆盖0xc800后面的内容。
+
+[内存分布][内存分布]
+
+[程序分段][程序分段]
+
+[程序分段]:[https://zhuanlan.zhihu.com/p/28659560]
+[内存分布]:[https://github.com/Urinx/SomeCodes/tree/master/Asm/Boot]
 [gcc]:[https://gcc.gnu.org/onlinedocs/gcc-5.5.0/gcc/x86-Options.html#x86-Options]
 [参考项目]:[https://github.com/richardtsai/homework]
 [wikiX86]:[https://zh.wikipedia.org/wiki/X86%E8%B0%83%E7%94%A8%E7%BA%A6%E5%AE%9A#cdecl]
