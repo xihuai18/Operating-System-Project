@@ -130,9 +130,9 @@ gcc的汇编变量类型和数据分离
 
 [程序分段][程序分段]
 
-[程序分段]:[https://zhuanlan.zhihu.com/p/28659560]
-[内存分布]:[https://github.com/Urinx/SomeCodes/tree/master/Asm/Boot]
-[gcc]:[https://gcc.gnu.org/onlinedocs/gcc-5.5.0/gcc/x86-Options.html#x86-Options]
-[参考项目]:[https://github.com/richardtsai/homework]
-[wikiX86]:[https://zh.wikipedia.org/wiki/X86%E8%B0%83%E7%94%A8%E7%BA%A6%E5%AE%9A#cdecl]
-[关机]:[https://blog.csdn.net/wbcuc/article/details/7873314]
+[程序分段]:https://zhuanlan.zhihu.com/p/28659560
+[内存分布]:https://github.com/Urinx/SomeCodes/tree/master/Asm/Boot
+[gcc]:https://gcc.gnu.org/onlinedocs/gcc-5.5.0/gcc/x86-Options.html#x86-Options
+[参考项目]:https://github.com/richardtsai/homework
+[wikiX86]:https://zh.wikipedia.org/wiki/X86%E8%B0%83%E7%94%A8%E7%BA%A6%E5%AE%9A#cdecl
+[关机]:https://blog.csdn.net/wbcuc/article/details/7873314
