@@ -41,3 +41,5 @@ if "%1" == "run"  bochs.exe -qf "E:\Bochs-2.6.9\bochsrc"
 if "%1" == "debug" 	bochsdbg.exe -qf "E:\Bochs-2.6.9\bochsrc"
 
 rem objdump.exe -D -Mintel i8086 -b binary -m i386  .\loader.bin
+
+del *.bin, *.o, *tmp

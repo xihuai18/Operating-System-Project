@@ -156,6 +156,11 @@ _getInput:
 		int 10h
 		;此时dh，dl为行列位置
 		; 退一格
+		cmp dl, 0
+		jg noEndofLine
+		mov dl, 80
+		dec dh
+	noEndofLine:
 		dec dl
 		mov ah, 2h
 		mov bh, 0
@@ -214,23 +219,27 @@ _dispatch:
  	mov ax, word [esp+0x8]
  	mov dx, 0
  	mov cx, 512
- 	div cx
-    mov cl, al  ;起始扇区
-    inc cl
-    sub cl, 36
+ 	div cx ;现在ax里面是相对扇区号
+ 	mov cx, 18
+ 	div cx ; 余数在dx里面
+ 	mov cl, dl
+ 	inc cl ; 起始扇区号确定
+
+ 	mov dx, ax
+ 	shr ax, 1
+ 	mov ch, al ;磁道号
+ 	mov dh, dl
+ 	and dh, 00000001b
+ 	mov dl, 0 	; 磁面号
+
  	; 计算大小
  	push cx
  	mov ax, word [esp+0xe]
     mov cx, 512
     mov dx, 0
-    div cx
-    ;al已设定
+    div cx ;al已设定
     pop cx
 
-
-    mov dl,0                 ;驱动器号 ; 软盘为0，硬盘和U盘为80H
-    mov dh,0                 ;磁头号 ; 起始编号为0
-    mov ch,1                 ;柱面号 ; 起始编号为0
     mov bx, offsetOfUserPrg;偏移地址
     mov ah, 2 ;功能号
     int 13h
@@ -313,42 +322,48 @@ _roll:
 	;;;;;;;; void roll();;;;;;;;
 	;复制上一行
 	push ebp
-	mov ax, 0xb800
-	mov es, ax
-	mov si, 160
-	mov ax, cs
-	mov ds, ax
-	mov bx, 0
+	; mov ax, 0xb800
+	; mov es, ax
+	; mov si, 160
+	; mov ax, cs
+	; mov ds, ax
+	; mov bx, 0
 
-	mov cx, 1920
+	; mov cx, 1920
 
-	movbyte:
-		mov al, byte [es:si]
-		mov byte [lastline+bx], al
-		inc bx
-		add si, 2
-		loop movbyte
+	; movbyte:
+	; 	mov al, byte [es:si]
+	; 	mov byte [lastline+bx], al
+	; 	inc bx
+	; 	add si, 2
+	; 	loop movbyte
 
 	mov ah, 06h
 	mov al, 1
 	mov bh, 0fh
-	mov cx, 1800h
+	mov cx, 0000h
 	mov dx, 184fh
 	int 10h
+	; mov ah, 06h
+	; mov al, 1
+	; mov bh, 0fh
+	; mov cx, 0000h
+	; mov dx, 184fh
+	; int 10h
 
-	mov ax, cs
-	mov ds, ax
-	mov es, ax
+	; mov ax, cs
+	; mov ds, ax
+	; mov es, ax
  	
-	mov al,1
-    mov bh,0
-    mov bl,0fh          ;白底黑字
-    mov bp, lastline
-    mov cx, 1920
-    mov dh, 0
-    mov dl, 0
-    mov ah,13h
-    int 10h
+	; mov al,1
+ ;    mov bh,0
+ ;    mov bl,0fh          ;白底黑字
+ ;    mov bp, lastline
+ ;    mov cx, 1920
+ ;    mov dh, 0
+ ;    mov dl, 0
+ ;    mov ah,13h
+ ;    int 10h
 
     pop ebp
     pop ecx

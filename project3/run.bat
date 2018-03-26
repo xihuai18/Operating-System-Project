@@ -11,8 +11,8 @@
 .\nasm.exe -f bin .\checkinput.asm -o checkinput.bin > log.txt
 .\nasm.exe -f bin .\printBigName.asm -o printBigName.bin > log.txt
 .\nasm.exe -f elf32 .\utils.asm -o utils.o > log.txt
-gcc -march=i386 -m16 -mpreferred-stack-boundary=2 -ffreestanding -c .\os.c -o os.o > log.txt
-gcc -march=i386 -m16 -mpreferred-stack-boundary=2 -ffreestanding -c .\utilsC.c -o utilsC.o > log.txt
+gcc -march=i386 -g -m16 -mpreferred-stack-boundary=2 -ffreestanding -c .\os.c -o os.o > log.txt
+gcc -march=i386 -g -m16 -mpreferred-stack-boundary=2 -ffreestanding -c .\utilsC.c -o utilsC.o > log.txt
 rem ld -m i386pe -N .\os.o .\utils.o .\utilsC.o  -Ttext 0x7f00 -Tdata 0x9900 -o boot.tmp > log.txt
 ld -m i386pe -N .\os.o .\utils.o .\utilsC.o  -T linkscript -o boot.tmp > log.txt
 objcopy -O binary boot.tmp boot.bin > log.txt
@@ -41,3 +41,5 @@ if "%1" == "run"  bochs.exe -qf "E:\Bochs-2.6.9\bochsrc"
 if "%1" == "debug" 	bochsdbg.exe -qf "E:\Bochs-2.6.9\bochsrc"
 
 rem objdump.exe -D -Mintel i8086 -b binary -m i386  .\loader.bin
+
+del *.bin, *.o
