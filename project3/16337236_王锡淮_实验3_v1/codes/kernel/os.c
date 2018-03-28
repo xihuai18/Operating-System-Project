@@ -12,9 +12,6 @@ __asm__("jmpl $0, $__main\n");
 int line = 0;
 struct info information[Len];
 struct info no;
-// struct record res[Len];
-// struct Control con;
-// struct record root;
 
 char * exitSen = "exit";
 char * rebootSen = "reboot";
@@ -27,7 +24,6 @@ int _main() {
 	initialFile();
 	initialScreen(1);
 	char * in;
-	char * str;
 	struct info tmp = no;
 	// dispatch(18432, 512);
 	// initialScreen(0);
@@ -37,22 +33,10 @@ int _main() {
 		{
 			tmp = find(in+2);
 			if(tmp.type != null){
-				load(tmp.lmaddress, tmp.size, offsetOfUserPrg);
-				dispatch(offsetOfUserPrg);
+				dispatch(tmp.lmaddress, tmp.size);
 				clear();
+				tmp = no;
 			}
-			tmp = no;
-		}
-		else if(in[0] == 't' && in[1] == 'y' &&
-			in[2] == 'p' &&in[3] == 'e'){
-			tmp = find(in+5);
-			if(tmp.type != null){
-				load(tmp.lmaddress, tmp.size, offsetOfUserPrg);
-				str = getRecords(offsetOfUserPrg);
-				printSentence(str, line, 0, strlen(str));
-				line += countLines(str);
-			}
-			tmp = no;
 		}
 		else {
 			if(strcmp(in, rebootSen) == 0)

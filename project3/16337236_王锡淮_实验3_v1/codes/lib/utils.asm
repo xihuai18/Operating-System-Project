@@ -9,8 +9,6 @@ global _reboot
 global _getManual
 global _getDate
 global _roll
-global _getRecords
-global _load
 
 [section .text]
 _printSentence:
@@ -140,7 +138,7 @@ _getInput:
 		mov al, 1h ; 光标位置改变
 		mov ah, 13h
 		mov bh, 0
-		mov bl, 0eh ;黑底白字
+		mov bl, 0fh ;黑底白字
 		mov cx, 1
 		push cs
 		pop es
@@ -209,8 +207,9 @@ _shutdown:
 	pop ecx
 	jmp cx
 
-_load:
-	;;;void load(int lma, int vma);;;;;
+_dispatch:
+	;;;  void dispatch(int address, int size)  ;;;;;;
+	offsetOfUserPrg equ 0e000h
 	push ebp
 	mov ax, cs
 	mov ds, ax
@@ -241,19 +240,9 @@ _load:
     div cx ;al已设定
     pop cx
 
-    mov bx, word [esp+0x10];偏移地址
+    mov bx, offsetOfUserPrg;偏移地址
     mov ah, 2 ;功能号
     int 13h
-
-    pop ebp
-	pop ecx
-	jmp cx
-
-_dispatch:
-	;;;  void dispatch(int address, int size)  ;;;;;;
-	push ebp
-
-	mov bx, word [esp+0x8]
 
     call bx
 
@@ -267,7 +256,14 @@ _reboot:
 	int 19h
 
 
+_getManual:
+	;;;; char * getManual();;;;;;;;
+	offSetOfManual equ 0ec00h
+	xor eax, eax
+	mov eax, offSetOfManual
 
+	pop ecx
+	jmp cx
 
 _getDate:
 	;;;; char * _getDate() ;;;;;;;;;;
@@ -326,6 +322,16 @@ _roll:
 	;;;;;;;; void roll();;;;;;;;
 	;复制上一行
 	push ebp
+	mov ah, 06h
+	mov al, 1
+	mov bh, 0fh
+	mov cx, 0000h
+	mov dx, 184fh
+	int 10h
+    
+    pop ebp
+    pop ecx
+    jmp cx
 	; mov ax, 0xb800
 	; mov es, ax
 	; mov si, 160
@@ -342,18 +348,6 @@ _roll:
 	; 	add si, 2
 	; 	loop movbyte
 
-	mov ah, 06h
-	mov al, 1
-	mov bh, 0fh
-	mov cx, 0000h
-	mov dx, 184fh
-	int 10h
-	; mov ah, 06h
-	; mov al, 1
-	; mov bh, 0fh
-	; mov cx, 0000h
-	; mov dx, 184fh
-	; int 10h
 
 	; mov ax, cs
 	; mov ds, ax
@@ -369,21 +363,5 @@ _roll:
  ;    mov ah,13h
  ;    int 10h
 
-    pop ebp
-    pop ecx
-    jmp cx
 
 	lastline times 1920 db 0
-	
-_getRecords:
-	;;; char * getRecords(int place) ;;;;;;;;;;;
-	push ebp
-	mov ax, cs
-	mov ds, ax
-	mov es, ax
-	xor eax, eax
-	mov eax, [esp+8h]
-
-	pop ebp
-	pop ecx
-	jmp cx

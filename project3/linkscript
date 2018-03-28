@@ -18,4 +18,8 @@ SECTIONS
     {
         *(.rdata)
     }
+    .ldata :
+    {
+        *(.ldata)
+    }
 }

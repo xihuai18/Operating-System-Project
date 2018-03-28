@@ -5,8 +5,7 @@ offSetOfShow equ 0c200h
 offSetOfNames equ 0c400h
 offSetOfCheck equ 0c600h
 offSetOfClear equ 0c800h
-offSetOfManual equ 06000h
-offSetOfRecord equ 07000h
+offSetOfManual equ 0ec00h
 
 [section .text]
 load:
@@ -21,7 +20,7 @@ load:
 	mov ch,0                 ;柱面号 ; 起始编号为0
 	mov bx, os ;偏移地址; 存放数据的内存偏移地址
     mov ah,2                 ; 功能号
-    mov al,31                 ;扇区数
+    mov al,17                 ;扇区数
     mov cl,2                 ;起始扇区号 ; 起始编号为1
     int 13h ;                调用读磁盘BIOS的13h功能
 
@@ -43,7 +42,7 @@ loadShow:
     mov ah,2                 ; 功能号
     mov al,1                 ;扇区数
     ; mov cl,19                 ;起始扇区号 ; 起始编号为1
-    mov cl, 15                ;起始扇区号 ; 起始编号为1
+    mov cl,1                 ;起始扇区号 ; 起始编号为1
     int 13H ;                调用读磁盘BIOS的13h功能
 
 loadNames:
@@ -51,7 +50,7 @@ loadNames:
     mov ah,2                 ; 功能号
     mov al,1                 ;扇区数
     ; mov cl,20                 ;起始扇区号 ; 起始编号为1
-    mov cl,16                 ;起始扇区号 ; 起始编号为1
+    mov cl,2                 ;起始扇区号 ; 起始编号为1
     int 13H ;                调用读磁盘BIOS的13h功能
 
 
@@ -60,7 +59,7 @@ loadCheck:
     mov ah,2                 ; 功能号
     mov al,1                 ;扇区数
     ; mov cl,21                 ;起始扇区号 ; 起始编号为1
-    mov cl,17                 ;起始扇区号 ; 起始编号为1
+    mov cl,3                 ;起始扇区号 ; 起始编号为1
     int 13H ;                调用读磁盘BIOS的13h功能
 
 loadClear:
@@ -68,7 +67,7 @@ loadClear:
     mov ah,2                 ; 功能号
     mov al,1                 ;扇区数
     ; mov cl,22                ;起始扇区号 ; 起始编号为1
-    mov cl,18                ;起始扇区号 ; 起始编号为1
+    mov cl,4                ;起始扇区号 ; 起始编号为1
     int 13H ;                调用读磁盘BIOS的13h功能
 
     
@@ -78,21 +77,9 @@ loadManual:
     mov ch,1                 ;柱面号 ; 起始编号为0
     mov bx,offSetOfManual
     mov ah, 2
-    mov al, 6
-    mov cl, 13
-    int 13h
-
-loadRecord:
-    mov dl,0                 ;驱动器号 ; 软盘为0，硬盘和U盘为80H
-    mov dh,0                 ;磁头号 ; 起始编号为0
-    mov ch,1                 ;柱面号 ; 起始编号为0
-    mov bx,offSetOfRecord
-    mov ah, 2
     mov al, 2
     mov cl, 11
     int 13h
-
-
 
     call installInt2Bh
     ret ;loadAll
