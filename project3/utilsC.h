@@ -31,6 +31,7 @@ struct info
 	enum fileType type;
 	int lmaddress;
 	int  size;
+	int deleted;
 };
 
 void initialFile();
@@ -53,6 +54,6 @@ int hashfun(char * key);
 
 int hash(char * key, struct info record);
 
-struct info find(char * key);
+int find(char * key);
 
 void int2str(int org, char * str);

@@ -10,6 +10,8 @@ Wsh manual
            exit : shutdown the computer immediately.
           clear : clear the terminal.
             man : show this help file.
+      rm [name] : remove a file.
+    type [name] : show the contents of a file.
 
     And use "./" and the program following without space to run the program.
 

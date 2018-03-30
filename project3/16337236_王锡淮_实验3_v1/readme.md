@@ -39,9 +39,9 @@ fileRecord要unix结尾
 
 type指令 ok
 
-history
+history 放弃
 
-加上上下左右按键
+加上上下左右按键 放弃
 
 颜色 ok
 
@@ -131,6 +131,8 @@ GCC遵循cdecl（C declaration，即C声明）是C语言的一种调用约定，
 
 更进一步？
 ----
+
+算了我随手价格懒惰删除吧。。
 + 简单进程 尝试完成PCB和进程表（PS指令？）
 进程表的表项就是PCB，存储的是各寄存器和retaddr（所去的地址），以及当前的地址和栈帧
 要实现这一点，程序里面的变量就要放在PCB栈里，注意栈的切换。
@@ -142,6 +144,7 @@ GCC遵循cdecl（C declaration，即C声明）是C语言的一种调用约定，
 
 + 中断 不了不了
 + 简单文件系统 真的“简单”？加上type,rm指令？[参考](https://www.zhihu.com/question/37550565) 
+不能malloc，只能用静态的了。
 
 + 设想：跨段跳转
 + 设想：挂起态和就绪态

@@ -36,8 +36,7 @@ int countLines(char * sen)
 
 void initialScreen(int welcome)
 {
-	line = 0;
-	ClearScreen();
+	clear();
 	if(welcome) {
 		printSentence(WelcomeSentence, line, 0, strlen(WelcomeSentence));
 		line += countLines(WelcomeSentence);
@@ -50,12 +49,6 @@ void clear()
 {
 	line = 0;
 	ClearScreen();
-}
-
-char * input()
-{
-	char * in = getInput();
-	return in;
 }
 
 int strcmp(char * l, char * r)
@@ -140,7 +133,7 @@ int hash(char * key, struct info record)
 	return code;
 }
 
-struct info find(char * key)
+int find(char * key)
 {
 	int inicode = hashfun(key);
 	int code = inicode, i = 1;
@@ -148,9 +141,9 @@ struct info find(char * key)
 		code = (inicode + i * i) % Len;
 		++i;
 		if(i > Len)
-			return no;
+			return -1;
 	}
-	return information[code];
+	return code;
 }
 
 void ls()
@@ -162,7 +155,7 @@ void ls()
 	char tmp[15];
 	for(int i = 0; i < Len; ++i) 
 	{
-		if(information[i].type != null) {
+		if(information[i].type != null && information[i].deleted != 1) {
 			printSentence(information[i].name, line, 10, strlen(information[i].name));
 			int2str(information[i].size, tmp);
 			printSentence(tmp, line, 25, strlen(tmp));
@@ -244,6 +237,7 @@ void loadFiles()
 		tmp.size = size;
 		tmp.type = t;
 		tmp.lmaddress = place;
+		tmp.deleted = 0;
 		strncpy(name, tmp.name, strlen(name));
 		hash(name, tmp);
 	}
