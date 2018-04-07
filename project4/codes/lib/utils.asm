@@ -11,8 +11,195 @@ global _getDate
 global _roll
 global _getRecords
 global _load
+global _inisys
+extern _curId
 
 [section .text]
+segOfOs equ 0x2000 
+segOfUser equ 0x0
+_inisys:
+	
+	call installInt8h
+	call installInt9h
+	call installInt2Bh
+
+	ret
+
+installInt2Bh:
+    mov ax, 0
+    mov es, ax
+    mov word [es:2bh*4], int2Bh
+    mov [es:2bh*4+2], cs
+    ret
+    int2Bh:
+        popf
+        pop ax ;CS
+        pop ax ;IP
+
+        pop ax ;IP checkinput
+        retf ;IP ball_ifself
+
+installInt9h:
+    xor ax, ax
+    mov es, ax
+    mov ax, cs
+    mov ds, ax
+
+    mov ax, word [es:9*4+2]
+    mov [tmp9+2], ax
+    mov ax, word [es:9*4]
+    mov [tmp9], ax
+
+    cli
+    mov word [es:9*4+2], cs
+    mov word [es:9*4], int9h
+    sti
+
+    ret
+
+
+    tmp9 dw 0,0
+int9h:
+    pusha
+    push es
+    push ds
+
+    mov ax, cs
+    mov ds, ax
+    mov es, ax
+   
+    pushf
+    call far [tmp9]
+   
+showInsert:
+    mov cx, inserting_len
+    mov bp, inserting
+    mov dx, 0x1845
+    mov bl, 0fh
+    mov bh, 0
+    mov ah, 13h
+    mov al, 0
+    int 10h
+
+    mov al, 20h
+    out 20h, al
+    out 0A0h, al
+
+
+    pop ds
+    pop es
+    popa
+
+    iret
+
+    inserting db "inserting"
+    inserting_len equ $-inserting
+
+installInt8h:
+    push es
+    push ax
+    xor ax, ax
+    mov es, ax
+
+    mov ax, word [es:8*4+2]
+    mov [tmp8+2], ax
+    mov ax, word [es:8*4]
+    mov [tmp8], ax
+
+    cli
+    mov word [es:8*4+2], cs
+    mov word [es:8*4], int8h
+    mov word [count], delay
+    sti
+
+    pop ax
+    pop es
+    ret    
+
+    tmp8 dw 0, 0
+int8h:
+    pusha
+    push ds
+    push es
+
+    mov ax, cs
+    mov ds, ax
+
+    pushf
+    call far [tmp8]
+
+    dec word [count]
+    cmp word [count], 0
+    jnz int8hret
+
+    mov word [count], delay
+
+    mov ax, 0xb800
+    mov es, ax
+    
+    mov ah, 04h
+    mov bh, 0
+    mov ah, 3h
+    int 10h
+    ;此时dh，dl为行列位置
+    
+    mov ax, 0
+    mov al, dh
+    mov bl, 80
+    mul bl
+    mov dh, 0
+    add ax, dx
+    mov bx, 2
+    mul bx
+    mov bp, ax
+
+    mov bx, char
+    add bx, [k]
+    mov al, [bx]
+    mov ah, 0fh
+    mov [es:bp], ax
+    mov ax, 0x0f20
+    mov [es:bp+2], ax
+    mov [es:bp+4], ax
+    mov [es:bp+6], ax
+    mov [es:bp+8], ax
+
+    inc word [k]
+    cmp word [k], 4
+    jl insertShow
+    mov word [k], 0
+
+insertShow:
+	push es
+	mov ax, cs
+	mov es, ax
+	mov cx, inserted_len
+	mov bp, inserted
+    mov dx, 0x1845
+    mov bl, 0fh
+    mov bh, 0
+    mov ah, 13h
+    mov al, 0
+    int 10h
+    pop es
+
+int8hret:
+    mov al, 20h
+    out 20h, al
+    out 0A0h, al
+    pop es
+    pop ds
+    popa
+
+    iret
+
+    delay equ 40
+    count dw delay
+    k dw 0
+    char db '|', '\', '-', '/'
+    inserted db "inserted "
+    inserted_len equ $-inserted
+
 _printSentence:
 	;;; _printSentence(message, dh, dl, len, color) ;;;;;
 	push ebp
@@ -212,14 +399,17 @@ _shutdown:
 	jmp cx
 
 _load:
-	;;;void load(int lma, int vma);;;;;
+	;;;void load(int lma, int size, int vma);;;;;
 	push ebp
+	push es
+	push ds
 	mov ax, cs
 	mov ds, ax
+	mov ax, segOfUser
     mov es, ax                ;设置段地址（不能直接mov es,段地址）
  	
  	; 计算扇区
- 	mov ax, word [esp+0x8]
+ 	mov ax, word [esp+0xc]
  	mov dx, 0
  	mov cx, 512
  	div cx ;现在ax里面是相对扇区号
@@ -237,32 +427,172 @@ _load:
 
  	; 计算大小
  	push cx
- 	mov ax, word [esp+0xe]
+ 	mov ax, word [esp+0x12]
     mov cx, 512
     mov dx, 0
     div cx ;al已设定
     pop cx
 
-    mov bx, word [esp+0x10];偏移地址
+    mov bx, word [esp+0x14];偏移地址
     mov ah, 2 ;功能号
     int 13h
-
+    pop ds
+    pop es
     pop ebp
 	pop ecx
 	jmp cx
+
+
+; _dispatch:
+; 	; void dispatch(struct PCB * kernel, struct PCB * pro);;
+; 	push ax
+; 	mov ax, [esp+6]
+; 	mov word [old_process], ax
+; 	mov ax, [esp+0xa]
+; 	mov word [new_process], ax
+; 	pop ax
+
+; 	call save
+; 	call restart
+
+
+; 	; 先保存当前进程控制块(0),再进入参数指定的进程
+; 	; 方案是PCB表放在内核所在的段\
+; 	; 此时栈中应该有ip(进程)\ip(调度函数或中断,应舍弃)
+; save:
+; 	pop word [store_ax]
+; 	;此时栈中为进程ip
+; 	push ds
+; 	;;;;切换到内核栈(PCB表所在);;;;;
+; 	push ax
+; 	mov ax, segOfOs
+; 	mov cs, ax
+; 	pop ax
+	
+; 	push cs
+; 	pop ds
+; 	push si
+; 	push di
+; 	mov si, [new_process] ;new_process
+; 	mov di, [old_process] ;old_process
+
+; 	pop word [store_di] ;di
+; 	pop word [store_si] ;si
+; 	pop word [store_ds] ;ds
+; 	pop word [store_ip] ;ip
+; 	;;;sp恢复到进入函数之前的值;;;;
+; 	mov word [di+16*2], ss
+; 	mov word [di+15*2], sp
+; 	push cs
+; 	pop ss
+; 	add di, 14*2
+; 	mov sp, di
+; 	pushf
+; 	push cs
+; 	push word [store_ip]
+; 	pusha
+; 	;;; si,di have been changed;;;;
+; 	pop di ;si
+; 	pop di
+
+; 	push word [store_si]
+; 	push word [store_di]
+; 	push word [store_ds]
+
+; 	push es
+; 	push fs
+; 	push gs
+
+
+; restart:
+; 	;;注意调用时的压栈等等
+; 	push ax
+
+; 	mov ax, cs
+; 	mov ds, ax
+; 	mov ss, ax
+
+; 	pop ax
+; 	;;;切换到PCB表;;;;
+; 	mov sp, di
+; 	;;restore
+; 	pop gs
+; 	pop fs
+; 	pop es
+; 	pop ds
+; 	popa
+
+; 	pop word [cs:store_ip]
+; 	pop word [cs:store_cs]
+; 	popf
+; 	pop word [cs:store_sp]
+; 	pop ss
+	
+; 	mov word [cs:store_ax], ax
+; 	mov ax, word [cs:store_sp]
+; 	mov sp, ax
+; 	mov ax, word [cs:store_ax]
+
+; 	pushf
+; 	push word [cs:store_cs]
+; 	push word [cs:store_ip]
+
+; 	iret
+
+; 	new_process dw 0
+; 	old_process dw 0
+; 	store_ax dw 0
+; 	store_di dw 0
+; 	store_si dw 0
+; 	store_ds dw 0
+; 	store_ip dw 0
+; 	store_cs dw 0
+; 	store_ss dw 0
+; 	store_sp dw 0
+; 	; new_process dw 0
+; 	; kernel dw 0
+
+
 
 _dispatch:
-	;;;  void dispatch(int address, int size)  ;;;;;;
-	push ebp
+	;;;  void dispatch(int address)  ;;;;;;
+	pusha
+	mov bx, word [esp+0x14]
+	mov word [target], bx
+	mov ax, segOfUser
+	mov word [target+2], ax
+	push ds
+	push es
+	pushf
+	mov ax, ss
+	mov [stroes], ax
 
-	mov bx, word [esp+0x8]
+	
+	mov ax, segOfUser
+	; mov ds, ax
+	mov es, ax
+	mov ss, ax
+	mov word[stroes+2], sp
+	mov sp, 0xffff
 
-    call bx
+    call far [target]
+    ;;;;cs ip;;;;;
+   	mov ax, cs
+   	mov ds, ax
+   	mov ss, [stroes]
+   	mov sp, word [stroes+2]
+   	;;ss;;
+   	popf
+    pop es
+    pop ds
 
-    pop ebp
+    popa
+
 	pop ecx
 	jmp cx
 
+	stroes dw 0,0
+	target dw 0,0
 
 _reboot:
 	;;;; _reboot() ;;;;;;;;;;;;;
@@ -328,21 +658,6 @@ _roll:
 	;;;;;;;; void roll();;;;;;;;
 	;复制上一行
 	push ebp
-	; mov ax, 0xb800
-	; mov es, ax
-	; mov si, 160
-	; mov ax, cs
-	; mov ds, ax
-	; mov bx, 0
-
-	; mov cx, 1920
-
-	; movbyte:
-	; 	mov al, byte [es:si]
-	; 	mov byte [lastline+bx], al
-	; 	inc bx
-	; 	add si, 2
-	; 	loop movbyte
 
 	mov ah, 06h
 	mov al, 1
@@ -350,27 +665,7 @@ _roll:
 	mov cx, 0000h
 	mov dx, 184fh
 	int 10h
-	; mov ah, 06h
-	; mov al, 1
-	; mov bh, 0fh
-	; mov cx, 0000h
-	; mov dx, 184fh
-	; int 10h
-
-	; mov ax, cs
-	; mov ds, ax
-	; mov es, ax
- 	
-	; mov al,1
- ;    mov bh,0
- ;    mov bl,0fh          ;白底黑字
- ;    mov bp, lastline
- ;    mov cx, 1920
- ;    mov dh, 0
- ;    mov dl, 0
- ;    mov ah,13h
- ;    int 10h
-
+	
     pop ebp
     pop ecx
     jmp cx
@@ -378,13 +673,20 @@ _roll:
 	lastline times 1920 db 0
 	
 _getRecords:
-	;;; char * getRecords(int place) ;;;;;;;;;;;
+	;;; char * getRecords(int seg, int place) ;;;;;;;;;;;
 	push ebp
 	mov ax, cs
 	mov ds, ax
+	mov ax, word [esp+8h]
 	mov es, ax
+	xor ebx, ebx
+	mov ebx, [esp+0ch]
 	xor eax, eax
-	mov eax, [esp+8h]
+	; mov ax, cs
+	; mov cl, 4
+	; shl eax, cl
+	; add eax, ebx
+	mov eax, ebx
 
 	pop ebp
 	pop ecx

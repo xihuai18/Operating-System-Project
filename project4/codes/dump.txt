@@ -1,0 +1,2375 @@
+
+..\imgs\boot.tmp:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00000000 <.text>:
+       0:	66 8c c8             	mov    eax,cs
+       3:	8e d8                	mov    ds,ax
+       5:	8e c0                	mov    es,ax
+       7:	8e d0                	mov    ss,ax
+       9:	66 e8 01 03 00 00    	call   310 <_inisys>
+       f:	eb 00                	jmp    11 <__main>
+
+00000011 <__main>:
+_main():
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:21
+short *FAT;
+struct Process processTable[Len];
+int curId;
+//id ไธบ-1ๆไธบ็ฉบ,processTable[0]ไธบๅ…ๆ ธ.
+
+int _main() {
+      11:	66 53                	push   ebx
+      13:	66 83 ec 14          	sub    esp,0x14
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:22
+	initialScreen(1);
+      17:	67 66 c7 04 24 01 00 	mov    DWORD PTR [esp],0x1
+      1e:	00 00 
+      20:	66 e8 2d 0f 00 00    	call   f53 <_initialScreen>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:23
+	initialFile();
+      26:	66 e8 24 1a 00 00    	call   1a50 <_initialFile>
+      2c:	e9 b7 00             	jmp    e6 <.debug_line+0x10>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:35
+	// createProcess(segOfUser, offsetOfUserPrg, segOfUser, 0xffff, 1, "testProcess");
+	// dispatch(&(processTable[0].pcb), &(processTable[1].pcb));
+
+	do {
+		in = getInput();
+		if(in[0] == '.' && in[1] == '/')
+      2f:	67 80 7b 01 2f       	cmp    BYTE PTR [ebx+0x1],0x2f
+      34:	0f 84 1f 01          	je     157 <.debug_abbrev+0x65>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:62
+			if(tmp != -1 && information[tmp].deleted != 1){
+				information[tmp].deleted = 1;
+			}
+		}
+		else {
+			if(strcmp(in, "reboot") == 0)
+      38:	67 66 c7 44 24 04 00 	mov    DWORD PTR [esp+0x4],0x2000
+      3f:	20 00 00 
+      42:	67 66 89 1c 24       	mov    DWORD PTR [esp],ebx
+      47:	66 e8 01 10 00 00    	call   104e <_strcmp>
+      4d:	66 85 c0             	test   eax,eax
+      50:	0f 84 85 02          	je     2d9 <__file_alignment__+0xd9>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:64
+				reboot();
+			if(strcmp(in, "clear") == 0)
+      54:	67 66 c7 44 24 04 07 	mov    DWORD PTR [esp+0x4],0x2007
+      5b:	20 00 00 
+      5e:	67 66 89 1c 24       	mov    DWORD PTR [esp],ebx
+      63:	66 e8 e5 0f 00 00    	call   104e <_strcmp>
+      69:	66 85 c0             	test   eax,eax
+      6c:	0f 84 72 02          	je     2e2 <__file_alignment__+0xe2>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:66
+				clear();
+			if(strcmp(in, "date") == 0)
+      70:	67 66 c7 44 24 04 0d 	mov    DWORD PTR [esp+0x4],0x200d
+      77:	20 00 00 
+      7a:	67 66 89 1c 24       	mov    DWORD PTR [esp],ebx
+      7f:	66 e8 c9 0f 00 00    	call   104e <_strcmp>
+      85:	66 85 c0             	test   eax,eax
+      88:	0f 84 5f 02          	je     2eb <__file_alignment__+0xeb>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:68
+				date();
+			if(strcmp(in, "man") == 0)
+      8c:	67 66 c7 44 24 04 12 	mov    DWORD PTR [esp+0x4],0x2012
+      93:	20 00 00 
+      96:	67 66 89 1c 24       	mov    DWORD PTR [esp],ebx
+      9b:	66 e8 ad 0f 00 00    	call   104e <_strcmp>
+      a1:	66 85 c0             	test   eax,eax
+      a4:	0f 84 4c 02          	je     2f4 <__file_alignment__+0xf4>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:70
+				man();
+			if(strcmp(in, "ls") == 0)
+      a8:	67 66 c7 44 24 04 16 	mov    DWORD PTR [esp+0x4],0x2016
+      af:	20 00 00 
+      b2:	67 66 89 1c 24       	mov    DWORD PTR [esp],ebx
+      b7:	66 e8 91 0f 00 00    	call   104e <_strcmp>
+      bd:	66 85 c0             	test   eax,eax
+      c0:	0f 84 39 02          	je     2fd <__file_alignment__+0xfd>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:72
+				ls();
+			if(strcmp(in, "exit") == 0)
+      c4:	67 66 c7 44 24 04 19 	mov    DWORD PTR [esp+0x4],0x2019
+      cb:	20 00 00 
+      ce:	67 66 89 1c 24       	mov    DWORD PTR [esp],ebx
+      d3:	66 e8 75 0f 00 00    	call   104e <_strcmp>
+      d9:	66 85 c0             	test   eax,eax
+      dc:	0f 84 26 02          	je     306 <__file_alignment__+0x106>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:75
+				shutdown();
+		}
+		newline();
+      e0:	66 e8 9b 11 00 00    	call   1281 <_newline>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:34
+		in = getInput();
+      e6:	66 e8 bb 03 00 00    	call   4a7 <_getInput>
+      ec:	66 89 c3             	mov    ebx,eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:35
+		if(in[0] == '.' && in[1] == '/')
+      ef:	67 8a 00             	mov    al,BYTE PTR [eax]
+      f2:	3c 2e                	cmp    al,0x2e
+      f4:	0f 84 37 ff          	je     2f <delay+0x7>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:44
+		else if(in[0] == 't' && in[1] == 'y' &&
+      f8:	3c 74                	cmp    al,0x74
+      fa:	0f 84 e4 00          	je     1e2 <.debug_abbrev+0xf0>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:55
+		else if(in[0] == 'r' && in[1] == 'm'){
+      fe:	3c 72                	cmp    al,0x72
+     100:	0f 85 34 ff          	jne    38 <delay+0x10>
+     104:	67 80 7b 01 6d       	cmp    BYTE PTR [ebx+0x1],0x6d
+     109:	0f 85 2b ff          	jne    38 <delay+0x10>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:56
+			tmp = find(in+3);
+     10d:	66 83 c3 03          	add    ebx,0x3
+     111:	67 66 89 1c 24       	mov    DWORD PTR [esp],ebx
+     116:	66 e8 58 14 00 00    	call   1574 <_find>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:57
+			if(tmp != -1 && information[tmp].deleted != 1){
+     11c:	66 83 f8 ff          	cmp    eax,0xffffffff
+     120:	74 be                	je     e0 <.debug_line+0xa>
+     122:	67 66 8d 14 00       	lea    edx,[eax+eax*1]
+     127:	66 01 c2             	add    edx,eax
+     12a:	67 66 8d 14 90       	lea    edx,[eax+edx*4]
+     12f:	67 66 83 3c 95 4c 41 	cmp    DWORD PTR [edx*4+0x414c],0x1
+     136:	00 00 01 
+     139:	74 a5                	je     e0 <.debug_line+0xa>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:58
+				information[tmp].deleted = 1;
+     13b:	67 66 8d 14 00       	lea    edx,[eax+eax*1]
+     140:	66 01 c2             	add    edx,eax
+     143:	67 66 8d 04 90       	lea    eax,[eax+edx*4]
+     148:	67 66 c7 04 85 4c 41 	mov    DWORD PTR [eax*4+0x414c],0x1
+     14f:	00 00 01 00 00 00 
+     155:	eb 89                	jmp    e0 <.debug_line+0xa>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:37
+			tmp = find(in+2);
+     157:	66 83 c3 02          	add    ebx,0x2
+     15b:	67 66 89 1c 24       	mov    DWORD PTR [esp],ebx
+     160:	66 e8 0e 14 00 00    	call   1574 <_find>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:38
+			if(tmp != -1 && information[tmp].deleted != 1){
+     166:	66 83 f8 ff          	cmp    eax,0xffffffff
+     16a:	0f 84 72 ff          	je     e0 <.debug_line+0xa>
+     16e:	67 66 8d 14 00       	lea    edx,[eax+eax*1]
+     173:	66 01 c2             	add    edx,eax
+     176:	67 66 8d 14 90       	lea    edx,[eax+edx*4]
+     17b:	67 66 83 3c 95 4c 41 	cmp    DWORD PTR [edx*4+0x414c],0x1
+     182:	00 00 01 
+     185:	0f 84 57 ff          	je     e0 <.debug_line+0xa>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:39
+				load(information[tmp].lmaddress, information[tmp].size, offsetOfUserPrg);
+     189:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0xe000
+     190:	e0 00 00 
+     193:	67 66 8d 14 00       	lea    edx,[eax+eax*1]
+     198:	66 01 c2             	add    edx,eax
+     19b:	66 c1 e2 02          	shl    edx,0x2
+     19f:	67 66 8d 0c 02       	lea    ecx,[edx+eax*1]
+     1a4:	67 66 8b 0c 8d 48 41 	mov    ecx,DWORD PTR [ecx*4+0x4148]
+     1ab:	00 00 
+     1ad:	67 66 89 4c 24 04    	mov    DWORD PTR [esp+0x4],ecx
+     1b3:	66 01 d0             	add    eax,edx
+     1b6:	67 66 8b 04 85 44 41 	mov    eax,DWORD PTR [eax*4+0x4144]
+     1bd:	00 00 
+     1bf:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+     1c4:	66 e8 3c 04 00 00    	call   606 <_load>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:40
+				dispatch(offsetOfUserPrg);
+     1ca:	67 66 c7 04 24 00 e0 	mov    DWORD PTR [esp],0xe000
+     1d1:	00 00 
+     1d3:	66 e8 7d 04 00 00    	call   656 <_dispatch>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:41
+				clear();
+     1d9:	66 e8 56 0e 00 00    	call   1035 <_clear>
+     1df:	e9 fe fe             	jmp    e0 <.debug_line+0xa>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:44
+		else if(in[0] == 't' && in[1] == 'y' &&
+     1e2:	67 80 7b 01 79       	cmp    BYTE PTR [ebx+0x1],0x79
+     1e7:	0f 85 4d fe          	jne    38 <delay+0x10>
+     1eb:	67 80 7b 02 70       	cmp    BYTE PTR [ebx+0x2],0x70
+     1f0:	0f 85 44 fe          	jne    38 <delay+0x10>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:45
+			in[2] == 'p' &&in[3] == 'e'){
+     1f4:	67 80 7b 03 65       	cmp    BYTE PTR [ebx+0x3],0x65
+     1f9:	0f 85 3b fe          	jne    38 <delay+0x10>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:46
+			tmp = find(in+5);
+     1fd:	66 83 c3 05          	add    ebx,0x5
+     201:	67 66 89 1c 24       	mov    DWORD PTR [esp],ebx
+     206:	66 e8 68 13 00 00    	call   1574 <_find>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:48
+			if(tmp != -1 && information[tmp].deleted != 1){
+     20c:	66 83 f8 ff          	cmp    eax,0xffffffff
+     210:	0f 84 cc fe          	je     e0 <.debug_line+0xa>
+     214:	67 66 8d 14 00       	lea    edx,[eax+eax*1]
+     219:	66 01 c2             	add    edx,eax
+     21c:	67 66 8d 14 90       	lea    edx,[eax+edx*4]
+     221:	67 66 83 3c 95 4c 41 	cmp    DWORD PTR [edx*4+0x414c],0x1
+     228:	00 00 01 
+     22b:	0f 84 b1 fe          	je     e0 <.debug_line+0xa>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:49
+				load(information[tmp].lmaddress, information[tmp].size, offsetOfUserPrg);
+     22f:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0xe000
+     236:	e0 00 00 
+     239:	67 66 8d 14 00       	lea    edx,[eax+eax*1]
+     23e:	66 01 c2             	add    edx,eax
+     241:	66 c1 e2 02          	shl    edx,0x2
+     245:	67 66 8d 0c 02       	lea    ecx,[edx+eax*1]
+     24a:	67 66 8b 0c 8d 48 41 	mov    ecx,DWORD PTR [ecx*4+0x4148]
+     251:	00 00 
+     253:	67 66 89 4c 24 04    	mov    DWORD PTR [esp+0x4],ecx
+     259:	66 01 d0             	add    eax,edx
+     25c:	67 66 8b 04 85 44 41 	mov    eax,DWORD PTR [eax*4+0x4144]
+     263:	00 00 
+     265:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+     26a:	66 e8 96 03 00 00    	call   606 <_load>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:50
+				str = getRecords(segOfUser, offsetOfUserPrg);
+     270:	67 66 c7 44 24 04 00 	mov    DWORD PTR [esp+0x4],0xe000
+     277:	e0 00 00 
+     27a:	67 66 c7 04 24 00 00 	mov    DWORD PTR [esp],0x0
+     281:	00 00 
+     283:	66 e8 13 0c 00 00    	call   e9c <_getRecords>
+     289:	66 89 c3             	mov    ebx,eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:51
+				printSentence(str, line, 0, strlen(str), purple);
+     28c:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+     291:	66 e8 29 0c 00 00    	call   ec0 <_strlen>
+     297:	67 66 c7 44 24 10 0d 	mov    DWORD PTR [esp+0x10],0xd
+     29e:	00 00 00 
+     2a1:	67 66 89 44 24 0c    	mov    DWORD PTR [esp+0xc],eax
+     2a7:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
+     2ae:	00 00 00 
+     2b1:	66 a1 a0 40          	mov    eax,ds:0x40a0
+     2b5:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+     2bb:	67 66 89 1c 24       	mov    DWORD PTR [esp],ebx
+     2c0:	66 e8 9c 01 00 00    	call   462 <_printSentence>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:52
+				line += countLines(str);
+     2c6:	67 66 89 1c 24       	mov    DWORD PTR [esp],ebx
+     2cb:	66 e8 25 0c 00 00    	call   ef6 <_countLines>
+     2d1:	66 01 06 a0 40       	add    DWORD PTR ds:0x40a0,eax
+     2d6:	e9 07 fe             	jmp    e0 <.debug_line+0xa>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:63
+				reboot();
+     2d9:	66 e8 bd 03 00 00    	call   69c <_reboot>
+     2df:	e9 72 fd             	jmp    54 <delay+0x2c>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:65
+				clear();
+     2e2:	66 e8 4d 0d 00 00    	call   1035 <_clear>
+     2e8:	e9 85 fd             	jmp    70 <delay+0x48>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:67
+				date();
+     2eb:	66 e8 72 0e 00 00    	call   1163 <_date>
+     2f1:	e9 98 fd             	jmp    8c <delay+0x64>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:69
+				man();
+     2f4:	66 e8 e7 0e 00 00    	call   11e1 <_man>
+     2fa:	e9 ab fd             	jmp    a8 <delay+0x80>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:71
+				ls();
+     2fd:	66 e8 4c 13 00 00    	call   164f <_ls>
+     303:	e9 be fd             	jmp    c4 <delay+0x9c>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./kernel/os.c:73
+				shutdown();
+     306:	66 e8 dd 02 00 00    	call   5e9 <_shutdown>
+     30c:	e9 d1 fd             	jmp    e0 <.debug_line+0xa>
+	...
+
+00000310 <_inisys>:
+     310:	e8 7b 00             	call   38e <installInt8h>
+     313:	e8 1b 00             	call   331 <installInt9h>
+     316:	e8 01 00             	call   31a <installInt2Bh>
+     319:	c3                   	ret    
+
+0000031a <installInt2Bh>:
+     31a:	b8 00 00             	mov    ax,0x0
+     31d:	8e c0                	mov    es,ax
+     31f:	26 c7 06 ac 00 2c 03 	mov    WORD PTR es:0xac,0x32c
+     326:	26 8c 0e ae 00       	mov    WORD PTR es:0xae,cs
+     32b:	c3                   	ret    
+
+0000032c <int2Bh>:
+     32c:	9d                   	popf   
+     32d:	58                   	pop    ax
+     32e:	58                   	pop    ax
+     32f:	58                   	pop    ax
+     330:	cb                   	retf   
+
+00000331 <installInt9h>:
+     331:	31 c0                	xor    ax,ax
+     333:	8e c0                	mov    es,ax
+     335:	8c c8                	mov    ax,cs
+     337:	8e d8                	mov    ds,ax
+     339:	26 a1 26 00          	mov    ax,es:0x26
+     33d:	a3 58 03             	mov    ds:0x358,ax
+     340:	26 a1 24 00          	mov    ax,es:0x24
+     344:	a3 56 03             	mov    ds:0x356,ax
+     347:	fa                   	cli    
+     348:	26 8c 0e 26 00       	mov    WORD PTR es:0x26,cs
+     34d:	26 c7 06 24 00 5a 03 	mov    WORD PTR es:0x24,0x35a
+     354:	fb                   	sti    
+     355:	c3                   	ret    
+
+00000356 <tmp9>:
+     356:	00 00                	add    BYTE PTR [bx+si],al
+	...
+
+0000035a <int9h>:
+     35a:	60                   	pusha  
+     35b:	06                   	push   es
+     35c:	1e                   	push   ds
+     35d:	8c c8                	mov    ax,cs
+     35f:	8e d8                	mov    ds,ax
+     361:	8e c0                	mov    es,ax
+     363:	9c                   	pushf  
+     364:	ff 1e 56 03          	call   DWORD PTR ds:0x356
+
+00000368 <showInsert>:
+     368:	b9 09 00             	mov    cx,0x9
+     36b:	bd 85 03             	mov    bp,0x385
+     36e:	ba 45 18             	mov    dx,0x1845
+     371:	b3 0f                	mov    bl,0xf
+     373:	b7 00                	mov    bh,0x0
+     375:	b4 13                	mov    ah,0x13
+     377:	b0 00                	mov    al,0x0
+     379:	cd 10                	int    0x10
+     37b:	b0 20                	mov    al,0x20
+     37d:	e6 20                	out    0x20,al
+     37f:	e6 a0                	out    0xa0,al
+     381:	1f                   	pop    ds
+     382:	07                   	pop    es
+     383:	61                   	popa   
+     384:	cf                   	iret   
+
+00000385 <inserting>:
+     385:	69 6e 73 65 72       	imul   bp,WORD PTR [bp+0x73],0x7265
+     38a:	74 69                	je     3f5 <int8h+0x38>
+     38c:	6e                   	outs   dx,BYTE PTR ds:[si]
+     38d:	67                   	addr32
+
+0000038e <installInt8h>:
+     38e:	06                   	push   es
+     38f:	50                   	push   ax
+     390:	31 c0                	xor    ax,ax
+     392:	8e c0                	mov    es,ax
+     394:	26 a1 22 00          	mov    ax,es:0x22
+     398:	a3 bb 03             	mov    ds:0x3bb,ax
+     39b:	26 a1 20 00          	mov    ax,es:0x20
+     39f:	a3 b9 03             	mov    ds:0x3b9,ax
+     3a2:	fa                   	cli    
+     3a3:	26 8c 0e 22 00       	mov    WORD PTR es:0x22,cs
+     3a8:	26 c7 06 20 00 bd 03 	mov    WORD PTR es:0x20,0x3bd
+     3af:	c7 06 51 04 28 00    	mov    WORD PTR ds:0x451,0x28
+     3b5:	fb                   	sti    
+     3b6:	58                   	pop    ax
+     3b7:	07                   	pop    es
+     3b8:	c3                   	ret    
+
+000003b9 <tmp8>:
+     3b9:	00 00                	add    BYTE PTR [bx+si],al
+	...
+
+000003bd <int8h>:
+     3bd:	60                   	pusha  
+     3be:	1e                   	push   ds
+     3bf:	06                   	push   es
+     3c0:	8c c8                	mov    ax,cs
+     3c2:	8e d8                	mov    ds,ax
+     3c4:	9c                   	pushf  
+     3c5:	ff 1e b9 03          	call   DWORD PTR ds:0x3b9
+     3c9:	ff 0e 51 04          	dec    WORD PTR ds:0x451
+     3cd:	83 3e 51 04 00       	cmp    WORD PTR ds:0x451,0x0
+     3d2:	75 73                	jne    447 <int8hret>
+     3d4:	c7 06 51 04 28 00    	mov    WORD PTR ds:0x451,0x28
+     3da:	b8 00 b8             	mov    ax,0xb800
+     3dd:	8e c0                	mov    es,ax
+     3df:	b4 04                	mov    ah,0x4
+     3e1:	b7 00                	mov    bh,0x0
+     3e3:	b4 03                	mov    ah,0x3
+     3e5:	cd 10                	int    0x10
+     3e7:	b8 00 00             	mov    ax,0x0
+     3ea:	88 f0                	mov    al,dh
+     3ec:	b3 50                	mov    bl,0x50
+     3ee:	f6 e3                	mul    bl
+     3f0:	b6 00                	mov    dh,0x0
+     3f2:	01 d0                	add    ax,dx
+     3f4:	bb 02 00             	mov    bx,0x2
+     3f7:	f7 e3                	mul    bx
+     3f9:	89 c5                	mov    bp,ax
+     3fb:	bb 55 04             	mov    bx,0x455
+     3fe:	03 1e 53 04          	add    bx,WORD PTR ds:0x453
+     402:	8a 07                	mov    al,BYTE PTR [bx]
+     404:	b4 0f                	mov    ah,0xf
+     406:	26 89 46 00          	mov    WORD PTR es:[bp+0x0],ax
+     40a:	b8 20 0f             	mov    ax,0xf20
+     40d:	26 89 46 02          	mov    WORD PTR es:[bp+0x2],ax
+     411:	26 89 46 04          	mov    WORD PTR es:[bp+0x4],ax
+     415:	26 89 46 06          	mov    WORD PTR es:[bp+0x6],ax
+     419:	26 89 46 08          	mov    WORD PTR es:[bp+0x8],ax
+     41d:	ff 06 53 04          	inc    WORD PTR ds:0x453
+     421:	83 3e 53 04 04       	cmp    WORD PTR ds:0x453,0x4
+     426:	7c 06                	jl     42e <insertShow>
+     428:	c7 06 53 04 00 00    	mov    WORD PTR ds:0x453,0x0
+
+0000042e <insertShow>:
+     42e:	06                   	push   es
+     42f:	8c c8                	mov    ax,cs
+     431:	8e c0                	mov    es,ax
+     433:	b9 09 00             	mov    cx,0x9
+     436:	bd 59 04             	mov    bp,0x459
+     439:	ba 45 18             	mov    dx,0x1845
+     43c:	b3 0f                	mov    bl,0xf
+     43e:	b7 00                	mov    bh,0x0
+     440:	b4 13                	mov    ah,0x13
+     442:	b0 00                	mov    al,0x0
+     444:	cd 10                	int    0x10
+     446:	07                   	pop    es
+
+00000447 <int8hret>:
+     447:	b0 20                	mov    al,0x20
+     449:	e6 20                	out    0x20,al
+     44b:	e6 a0                	out    0xa0,al
+     44d:	07                   	pop    es
+     44e:	1f                   	pop    ds
+     44f:	61                   	popa   
+     450:	cf                   	iret   
+
+00000451 <count>:
+     451:	28 00                	sub    BYTE PTR [bx+si],al
+
+00000453 <k>:
+	...
+
+00000455 <char>:
+     455:	7c 5c                	jl     4b3 <getStr+0x6>
+     457:	2d                   	.byte 0x2d
+     458:	2f                   	das    
+
+00000459 <inserted>:
+     459:	69 6e 73 65 72       	imul   bp,WORD PTR [bp+0x73],0x7265
+     45e:	74 65                	je     4c5 <nochar+0x9>
+     460:	64                   	fs
+     461:	20                   	.byte 0x20
+
+00000462 <_printSentence>:
+     462:	66 55                	push   ebp
+     464:	8c c8                	mov    ax,cs
+     466:	8e d8                	mov    ds,ax
+     468:	8e c0                	mov    es,ax
+     46a:	67 8a 5c 24 18       	mov    bl,BYTE PTR [esp+0x18]
+     46f:	67 8b 4c 24 14       	mov    cx,WORD PTR [esp+0x14]
+     474:	67 8a 54 24 10       	mov    dl,BYTE PTR [esp+0x10]
+     479:	67 8a 74 24 0c       	mov    dh,BYTE PTR [esp+0xc]
+     47e:	67 8b 6c 24 08       	mov    bp,WORD PTR [esp+0x8]
+     483:	b0 01                	mov    al,0x1
+     485:	b7 00                	mov    bh,0x0
+     487:	0e                   	push   cs
+     488:	07                   	pop    es
+     489:	b4 13                	mov    ah,0x13
+     48b:	cd 10                	int    0x10
+     48d:	66 5d                	pop    ebp
+     48f:	66 59                	pop    ecx
+     491:	ff e1                	jmp    cx
+
+00000493 <_ClearScreen>:
+     493:	b4 06                	mov    ah,0x6
+     495:	b0 00                	mov    al,0x0
+     497:	b7 0f                	mov    bh,0xf
+     499:	b5 00                	mov    ch,0x0
+     49b:	b1 00                	mov    cl,0x0
+     49d:	b6 18                	mov    dh,0x18
+     49f:	b2 4f                	mov    dl,0x4f
+     4a1:	cd 10                	int    0x10
+     4a3:	66 59                	pop    ecx
+     4a5:	ff e1                	jmp    cx
+
+000004a7 <_getInput>:
+     4a7:	c7 06 e1 05 00 00    	mov    WORD PTR ds:0x5e1,0x0
+
+000004ad <getStr>:
+     4ad:	b4 00                	mov    ah,0x0
+     4af:	cd 16                	int    0x16
+     4b1:	3c 20                	cmp    al,0x20
+     4b3:	7c 07                	jl     4bc <nochar>
+     4b5:	b4 00                	mov    ah,0x0
+     4b7:	e8 26 00             	call   4e0 <Charmini>
+     4ba:	eb f1                	jmp    4ad <getStr>
+
+000004bc <nochar>:
+     4bc:	80 fc 0e             	cmp    ah,0xe
+     4bf:	74 07                	je     4c8 <backspace>
+     4c1:	80 fc 1c             	cmp    ah,0x1c
+     4c4:	74 09                	je     4cf <enter>
+     4c6:	eb e5                	jmp    4ad <getStr>
+
+000004c8 <backspace>:
+     4c8:	b4 01                	mov    ah,0x1
+     4ca:	e8 13 00             	call   4e0 <Charmini>
+     4cd:	eb de                	jmp    4ad <getStr>
+
+000004cf <enter>:
+     4cf:	b0 00                	mov    al,0x0
+     4d1:	b4 00                	mov    ah,0x0
+     4d3:	e8 0a 00             	call   4e0 <Charmini>
+     4d6:	66 29 c0             	sub    eax,eax
+     4d9:	b8 7c 05             	mov    ax,0x57c
+     4dc:	66 59                	pop    ecx
+     4de:	ff e1                	jmp    cx
+
+000004e0 <Charmini>:
+     4e0:	53                   	push   bx
+     4e1:	52                   	push   dx
+     4e2:	57                   	push   di
+     4e3:	06                   	push   es
+     4e4:	80 fc 01             	cmp    ah,0x1
+     4e7:	0f 8f 8c 00          	jg     577 <Charminiret>
+     4eb:	88 e3                	mov    bl,ah
+     4ed:	b7 00                	mov    bh,0x0
+     4ef:	01 db                	add    bx,bx
+     4f1:	ff a7 e3 05          	jmp    WORD PTR [bx+0x5e3]
+
+000004f5 <charpush>:
+     4f5:	80 3e e1 05 64       	cmp    BYTE PTR ds:0x5e1,0x64
+     4fa:	7d 7b                	jge    577 <Charminiret>
+     4fc:	8b 1e e1 05          	mov    bx,WORD PTR ds:0x5e1
+     500:	fe 06 e1 05          	inc    BYTE PTR ds:0x5e1
+     504:	88 87 7c 05          	mov    BYTE PTR [bx+0x57c],al
+     508:	e8 1a 00             	call   525 <charshow>
+     50b:	eb 6a                	jmp    577 <Charminiret>
+
+0000050d <charpop>:
+     50d:	80 3e e1 05 00       	cmp    BYTE PTR ds:0x5e1,0x0
+     512:	7e 63                	jle    577 <Charminiret>
+     514:	fe 0e e1 05          	dec    BYTE PTR ds:0x5e1
+     518:	8b 1e e1 05          	mov    bx,WORD PTR ds:0x5e1
+     51c:	8a 87 7c 05          	mov    al,BYTE PTR [bx+0x57c]
+     520:	e8 24 00             	call   547 <coverLast>
+     523:	eb 52                	jmp    577 <Charminiret>
+
+00000525 <charshow>:
+     525:	66 55                	push   ebp
+     527:	b7 00                	mov    bh,0x0
+     529:	b4 03                	mov    ah,0x3
+     52b:	cd 10                	int    0x10
+     52d:	b0 01                	mov    al,0x1
+     52f:	b4 13                	mov    ah,0x13
+     531:	b7 00                	mov    bh,0x0
+     533:	b3 0e                	mov    bl,0xe
+     535:	b9 01 00             	mov    cx,0x1
+     538:	0e                   	push   cs
+     539:	07                   	pop    es
+     53a:	bd 7c 05             	mov    bp,0x57c
+     53d:	03 2e e1 05          	add    bp,WORD PTR ds:0x5e1
+     541:	4d                   	dec    bp
+     542:	cd 10                	int    0x10
+     544:	66 5d                	pop    ebp
+     546:	c3                   	ret    
+
+00000547 <coverLast>:
+     547:	b8 00 b8             	mov    ax,0xb800
+     54a:	8e c0                	mov    es,ax
+     54c:	b4 03                	mov    ah,0x3
+     54e:	cd 10                	int    0x10
+     550:	80 fa 00             	cmp    dl,0x0
+     553:	7f 04                	jg     559 <noEndofLine>
+     555:	b2 50                	mov    dl,0x50
+     557:	fe ce                	dec    dh
+
+00000559 <noEndofLine>:
+     559:	fe ca                	dec    dl
+     55b:	b4 02                	mov    ah,0x2
+     55d:	b7 00                	mov    bh,0x0
+     55f:	cd 10                	int    0x10
+     561:	b8 50 00             	mov    ax,0x50
+     564:	f6 e6                	mul    dh
+     566:	b6 00                	mov    dh,0x0
+     568:	01 d0                	add    ax,dx
+     56a:	ba 02 00             	mov    dx,0x2
+     56d:	f7 e2                	mul    dx
+     56f:	89 c3                	mov    bx,ax
+     571:	26 c7 07 20 0f       	mov    WORD PTR es:[bx],0xf20
+     576:	c3                   	ret    
+
+00000577 <Charminiret>:
+     577:	07                   	pop    es
+     578:	5f                   	pop    di
+     579:	5a                   	pop    dx
+     57a:	5b                   	pop    bx
+     57b:	c3                   	ret    
+
+0000057c <input>:
+	...
+
+000005e1 <top>:
+	...
+
+000005e3 <getInputTable>:
+     5e3:	f5                   	cmc    
+     5e4:	04 0d                	add    al,0xd
+     5e6:	05 25 05             	add    ax,0x525
+
+000005e9 <_shutdown>:
+     5e9:	b8 01 53             	mov    ax,0x5301
+     5ec:	31 db                	xor    bx,bx
+     5ee:	cd 15                	int    0x15
+     5f0:	b8 0e 53             	mov    ax,0x530e
+     5f3:	b9 02 01             	mov    cx,0x102
+     5f6:	cd 15                	int    0x15
+     5f8:	b8 07 53             	mov    ax,0x5307
+     5fb:	b3 01                	mov    bl,0x1
+     5fd:	b9 03 00             	mov    cx,0x3
+     600:	cd 15                	int    0x15
+     602:	66 59                	pop    ecx
+     604:	ff e1                	jmp    cx
+
+00000606 <_load>:
+     606:	66 55                	push   ebp
+     608:	06                   	push   es
+     609:	1e                   	push   ds
+     60a:	8c c8                	mov    ax,cs
+     60c:	8e d8                	mov    ds,ax
+     60e:	b8 00 00             	mov    ax,0x0
+     611:	8e c0                	mov    es,ax
+     613:	67 8b 44 24 0c       	mov    ax,WORD PTR [esp+0xc]
+     618:	ba 00 00             	mov    dx,0x0
+     61b:	b9 00 02             	mov    cx,0x200
+     61e:	f7 f1                	div    cx
+     620:	b9 12 00             	mov    cx,0x12
+     623:	f7 f1                	div    cx
+     625:	88 d1                	mov    cl,dl
+     627:	fe c1                	inc    cl
+     629:	89 c2                	mov    dx,ax
+     62b:	d1 e8                	shr    ax,1
+     62d:	88 c5                	mov    ch,al
+     62f:	88 d6                	mov    dh,dl
+     631:	80 e6 01             	and    dh,0x1
+     634:	b2 00                	mov    dl,0x0
+     636:	51                   	push   cx
+     637:	67 8b 44 24 12       	mov    ax,WORD PTR [esp+0x12]
+     63c:	b9 00 02             	mov    cx,0x200
+     63f:	ba 00 00             	mov    dx,0x0
+     642:	f7 f1                	div    cx
+     644:	59                   	pop    cx
+     645:	67 8b 5c 24 14       	mov    bx,WORD PTR [esp+0x14]
+     64a:	b4 02                	mov    ah,0x2
+     64c:	cd 13                	int    0x13
+     64e:	1f                   	pop    ds
+     64f:	07                   	pop    es
+     650:	66 5d                	pop    ebp
+     652:	66 59                	pop    ecx
+     654:	ff e1                	jmp    cx
+
+00000656 <_dispatch>:
+     656:	60                   	pusha  
+     657:	67 8b 5c 24 14       	mov    bx,WORD PTR [esp+0x14]
+     65c:	89 1e 98 06          	mov    WORD PTR ds:0x698,bx
+     660:	b8 00 00             	mov    ax,0x0
+     663:	a3 9a 06             	mov    ds:0x69a,ax
+     666:	1e                   	push   ds
+     667:	06                   	push   es
+     668:	9c                   	pushf  
+     669:	8c d0                	mov    ax,ss
+     66b:	a3 94 06             	mov    ds:0x694,ax
+     66e:	b8 00 00             	mov    ax,0x0
+     671:	8e c0                	mov    es,ax
+     673:	8e d0                	mov    ss,ax
+     675:	89 26 96 06          	mov    WORD PTR ds:0x696,sp
+     679:	bc ff ff             	mov    sp,0xffff
+     67c:	ff 1e 98 06          	call   DWORD PTR ds:0x698
+     680:	8c c8                	mov    ax,cs
+     682:	8e d8                	mov    ds,ax
+     684:	8e 16 94 06          	mov    ss,WORD PTR ds:0x694
+     688:	8b 26 96 06          	mov    sp,WORD PTR ds:0x696
+     68c:	9d                   	popf   
+     68d:	07                   	pop    es
+     68e:	1f                   	pop    ds
+     68f:	61                   	popa   
+     690:	66 59                	pop    ecx
+     692:	ff e1                	jmp    cx
+
+00000694 <stroes>:
+     694:	00 00                	add    BYTE PTR [bx+si],al
+	...
+
+00000698 <target>:
+     698:	00 00                	add    BYTE PTR [bx+si],al
+	...
+
+0000069c <_reboot>:
+     69c:	cd 19                	int    0x19
+
+0000069e <_getDate>:
+     69e:	b4 04                	mov    ah,0x4
+     6a0:	cd 1a                	int    0x1a
+     6a2:	88 cb                	mov    bl,cl
+     6a4:	88 d8                	mov    al,bl
+     6a6:	24 f0                	and    al,0xf0
+     6a8:	b1 04                	mov    cl,0x4
+     6aa:	d2 e8                	shr    al,cl
+     6ac:	80 e3 0f             	and    bl,0xf
+     6af:	88 dc                	mov    ah,bl
+     6b1:	05 30 30             	add    ax,0x3030
+     6b4:	c7 06 01 07 32 30    	mov    WORD PTR ds:0x701,0x3032
+     6ba:	a3 03 07             	mov    ds:0x703,ax
+     6bd:	88 f3                	mov    bl,dh
+     6bf:	88 d8                	mov    al,bl
+     6c1:	24 f0                	and    al,0xf0
+     6c3:	b1 04                	mov    cl,0x4
+     6c5:	d2 e8                	shr    al,cl
+     6c7:	80 e3 0f             	and    bl,0xf
+     6ca:	88 dc                	mov    ah,bl
+     6cc:	05 30 30             	add    ax,0x3030
+     6cf:	a3 fe 06             	mov    ds:0x6fe,ax
+     6d2:	c6 06 00 07 2f       	mov    BYTE PTR ds:0x700,0x2f
+     6d7:	88 d3                	mov    bl,dl
+     6d9:	88 d8                	mov    al,bl
+     6db:	24 f0                	and    al,0xf0
+     6dd:	b1 04                	mov    cl,0x4
+     6df:	d2 e8                	shr    al,cl
+     6e1:	80 e3 0f             	and    bl,0xf
+     6e4:	88 dc                	mov    ah,bl
+     6e6:	05 30 30             	add    ax,0x3030
+     6e9:	a3 fb 06             	mov    ds:0x6fb,ax
+     6ec:	c6 06 fd 06 2f       	mov    BYTE PTR ds:0x6fd,0x2f
+     6f1:	66 31 c0             	xor    eax,eax
+     6f4:	b8 fb 06             	mov    ax,0x6fb
+     6f7:	66 59                	pop    ecx
+     6f9:	ff e1                	jmp    cx
+
+000006fb <date>:
+	...
+
+00000706 <_roll>:
+     706:	66 55                	push   ebp
+     708:	b4 06                	mov    ah,0x6
+     70a:	b0 01                	mov    al,0x1
+     70c:	b7 0f                	mov    bh,0xf
+     70e:	b9 00 00             	mov    cx,0x0
+     711:	ba 4f 18             	mov    dx,0x184f
+     714:	cd 10                	int    0x10
+     716:	66 5d                	pop    ebp
+     718:	66 59                	pop    ecx
+     71a:	ff e1                	jmp    cx
+
+0000071c <lastline>:
+	...
+
+00000e9c <_getRecords>:
+     e9c:	66 55                	push   ebp
+     e9e:	8c c8                	mov    ax,cs
+     ea0:	8e d8                	mov    ds,ax
+     ea2:	67 8b 44 24 08       	mov    ax,WORD PTR [esp+0x8]
+     ea7:	8e c0                	mov    es,ax
+     ea9:	66 31 db             	xor    ebx,ebx
+     eac:	66 67 8b 5c 24 0c    	mov    ebx,DWORD PTR [esp+0xc]
+     eb2:	66 31 c0             	xor    eax,eax
+     eb5:	66 89 d8             	mov    eax,ebx
+     eb8:	66 5d                	pop    ebp
+     eba:	66 59                	pop    ecx
+     ebc:	ff e1                	jmp    cx
+     ebe:	66 90                	xchg   eax,eax
+
+00000ec0 <_strlen>:
+strlen():
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:21
+char * WelcomeSentence = "oh my Wsh\n\rCopyright (C) Xihuai Wang\n\rtype \"man\" to get help\n\r";
+char * prompt = ">>";
+
+// ืขาโืึท๛ดฎาชำะ'0'ฝแฮฒกฃ
+int strlen(char * sen)
+{
+     ec0:	66 55                	push   ebp
+     ec2:	66 89 e5             	mov    ebp,esp
+     ec5:	66 83 ec 04          	sub    esp,0x4
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:22
+	int i = 0;
+     ec9:	67 66 c7 45 fc 00 00 	mov    DWORD PTR [ebp-0x4],0x0
+     ed0:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:23
+	while(sen[i]) { ++i; }
+     ed2:	eb 05                	jmp    ed9 <_strlen+0x19>
+     ed4:	67 66 ff 45 fc       	inc    DWORD PTR [ebp-0x4]
+     ed9:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+     ede:	67 66 8b 45 08       	mov    eax,DWORD PTR [ebp+0x8]
+     ee3:	66 01 d0             	add    eax,edx
+     ee6:	67 8a 00             	mov    al,BYTE PTR [eax]
+     ee9:	84 c0                	test   al,al
+     eeb:	75 e7                	jne    ed4 <_strlen+0x14>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:24
+	return i;
+     eed:	67 66 8b 45 fc       	mov    eax,DWORD PTR [ebp-0x4]
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:25
+}
+     ef2:	66 c9                	leave  
+     ef4:	66 c3                	ret    
+
+00000ef6 <_countLines>:
+countLines():
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:28
+
+int countLines(char * sen)
+{
+     ef6:	66 55                	push   ebp
+     ef8:	66 89 e5             	mov    ebp,esp
+     efb:	66 83 ec 08          	sub    esp,0x8
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:29
+	int lines = 0;
+     eff:	67 66 c7 45 fc 00 00 	mov    DWORD PTR [ebp-0x4],0x0
+     f06:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:30
+	for(int i = 0; sen[i]; ++i) {
+     f08:	67 66 c7 45 f8 00 00 	mov    DWORD PTR [ebp-0x8],0x0
+     f0f:	00 00 
+     f11:	eb 1e                	jmp    f31 <_countLines+0x3b>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:31
+		if(sen[i] == '\n') {
+     f13:	67 66 8b 55 f8       	mov    edx,DWORD PTR [ebp-0x8]
+     f18:	67 66 8b 45 08       	mov    eax,DWORD PTR [ebp+0x8]
+     f1d:	66 01 d0             	add    eax,edx
+     f20:	67 8a 00             	mov    al,BYTE PTR [eax]
+     f23:	3c 0a                	cmp    al,0xa
+     f25:	75 05                	jne    f2c <_countLines+0x36>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:32
+			++lines;
+     f27:	67 66 ff 45 fc       	inc    DWORD PTR [ebp-0x4]
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:30
+	for(int i = 0; sen[i]; ++i) {
+     f2c:	67 66 ff 45 f8       	inc    DWORD PTR [ebp-0x8]
+     f31:	67 66 8b 55 f8       	mov    edx,DWORD PTR [ebp-0x8]
+     f36:	67 66 8b 45 08       	mov    eax,DWORD PTR [ebp+0x8]
+     f3b:	66 01 d0             	add    eax,edx
+     f3e:	67 8a 00             	mov    al,BYTE PTR [eax]
+     f41:	84 c0                	test   al,al
+     f43:	75 ce                	jne    f13 <_countLines+0x1d>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:35
+		}
+	}
+	lines += 1;
+     f45:	67 66 ff 45 fc       	inc    DWORD PTR [ebp-0x4]
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:36
+	return lines;
+     f4a:	67 66 8b 45 fc       	mov    eax,DWORD PTR [ebp-0x4]
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:37
+}
+     f4f:	66 c9                	leave  
+     f51:	66 c3                	ret    
+
+00000f53 <_initialScreen>:
+initialScreen():
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:40
+
+void initialScreen(int welcome)
+{
+     f53:	66 55                	push   ebp
+     f55:	66 89 e5             	mov    ebp,esp
+     f58:	66 83 ec 14          	sub    esp,0x14
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:41
+	clear();
+     f5c:	66 e8 d3 00 00 00    	call   1035 <_clear>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:42
+	if(welcome) {
+     f62:	67 66 83 7d 08 00    	cmp    DWORD PTR [ebp+0x8],0x0
+     f68:	74 63                	je     fcd <_initialScreen+0x7a>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:43
+		printSentence(WelcomeSentence, line, 0, strlen(WelcomeSentence), white);
+     f6a:	66 a1 64 1f          	mov    eax,ds:0x1f64
+     f6e:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+     f73:	66 e8 47 ff ff ff    	call   ec0 <_strlen>
+     f79:	66 89 c1             	mov    ecx,eax
+     f7c:	66 8b 16 a0 40       	mov    edx,DWORD PTR ds:0x40a0
+     f81:	66 a1 64 1f          	mov    eax,ds:0x1f64
+     f85:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
+     f8c:	00 00 00 
+     f8f:	67 66 89 4c 24 0c    	mov    DWORD PTR [esp+0xc],ecx
+     f95:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
+     f9c:	00 00 00 
+     f9f:	67 66 89 54 24 04    	mov    DWORD PTR [esp+0x4],edx
+     fa5:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+     faa:	66 e8 b2 f4 ff ff    	call   462 <_printSentence>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:44
+		line += countLines(WelcomeSentence);
+     fb0:	66 a1 64 1f          	mov    eax,ds:0x1f64
+     fb4:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+     fb9:	66 e8 37 ff ff ff    	call   ef6 <_countLines>
+     fbf:	66 89 c2             	mov    edx,eax
+     fc2:	66 a1 a0 40          	mov    eax,ds:0x40a0
+     fc6:	66 01 d0             	add    eax,edx
+     fc9:	66 a3 a0 40          	mov    ds:0x40a0,eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:46
+	}
+	printSentence(prompt, line, 0, strlen(prompt), white);
+     fcd:	66 a1 68 1f          	mov    eax,ds:0x1f68
+     fd1:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+     fd6:	66 e8 e4 fe ff ff    	call   ec0 <_strlen>
+     fdc:	66 89 c1             	mov    ecx,eax
+     fdf:	66 8b 16 a0 40       	mov    edx,DWORD PTR ds:0x40a0
+     fe4:	66 a1 68 1f          	mov    eax,ds:0x1f68
+     fe8:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
+     fef:	00 00 00 
+     ff2:	67 66 89 4c 24 0c    	mov    DWORD PTR [esp+0xc],ecx
+     ff8:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
+     fff:	00 00 00 
+    1002:	67 66 89 54 24 04    	mov    DWORD PTR [esp+0x4],edx
+    1008:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    100d:	66 e8 4f f4 ff ff    	call   462 <_printSentence>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:47
+	line += countLines(prompt);
+    1013:	66 a1 68 1f          	mov    eax,ds:0x1f68
+    1017:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    101c:	66 e8 d4 fe ff ff    	call   ef6 <_countLines>
+    1022:	66 89 c2             	mov    edx,eax
+    1025:	66 a1 a0 40          	mov    eax,ds:0x40a0
+    1029:	66 01 d0             	add    eax,edx
+    102c:	66 a3 a0 40          	mov    ds:0x40a0,eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:48
+}
+    1030:	90                   	nop
+    1031:	66 c9                	leave  
+    1033:	66 c3                	ret    
+
+00001035 <_clear>:
+clear():
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:51
+
+void clear()
+{
+    1035:	66 55                	push   ebp
+    1037:	66 89 e5             	mov    ebp,esp
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:52
+	line = 0;
+    103a:	66 c7 06 a0 40 00 00 	mov    DWORD PTR ds:0x40a0,0x0
+    1041:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:53
+	ClearScreen();
+    1043:	66 e8 4a f4 ff ff    	call   493 <_ClearScreen>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:54
+}
+    1049:	90                   	nop
+    104a:	66 5d                	pop    ebp
+    104c:	66 c3                	ret    
+
+0000104e <_strcmp>:
+strcmp():
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:57
+
+int strcmp(char * l, char * r)
+{
+    104e:	66 55                	push   ebp
+    1050:	66 89 e5             	mov    ebp,esp
+    1053:	66 83 ec 08          	sub    esp,0x8
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:58
+	int i=0, j=0;
+    1057:	67 66 c7 45 fc 00 00 	mov    DWORD PTR [ebp-0x4],0x0
+    105e:	00 00 
+    1060:	67 66 c7 45 f8 00 00 	mov    DWORD PTR [ebp-0x8],0x0
+    1067:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:59
+	for(; l[i] && r[i]; ++i, ++j)
+    1069:	eb 64                	jmp    10cf <_strcmp+0x81>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:61
+	{
+		if(l[i] < r[j]) {
+    106b:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+    1070:	67 66 8b 45 08       	mov    eax,DWORD PTR [ebp+0x8]
+    1075:	66 01 d0             	add    eax,edx
+    1078:	67 8a 10             	mov    dl,BYTE PTR [eax]
+    107b:	67 66 8b 4d f8       	mov    ecx,DWORD PTR [ebp-0x8]
+    1080:	67 66 8b 45 0c       	mov    eax,DWORD PTR [ebp+0xc]
+    1085:	66 01 c8             	add    eax,ecx
+    1088:	67 8a 00             	mov    al,BYTE PTR [eax]
+    108b:	38 c2                	cmp    dl,al
+    108d:	7d 09                	jge    1098 <_strcmp+0x4a>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:62
+			return -1;
+    108f:	66 b8 ff ff ff ff    	mov    eax,0xffffffff
+    1095:	e9 c7 00             	jmp    115f <_strcmp+0x111>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:63
+		} else if(l[i] > r[j]) {
+    1098:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+    109d:	67 66 8b 45 08       	mov    eax,DWORD PTR [ebp+0x8]
+    10a2:	66 01 d0             	add    eax,edx
+    10a5:	67 8a 10             	mov    dl,BYTE PTR [eax]
+    10a8:	67 66 8b 4d f8       	mov    ecx,DWORD PTR [ebp-0x8]
+    10ad:	67 66 8b 45 0c       	mov    eax,DWORD PTR [ebp+0xc]
+    10b2:	66 01 c8             	add    eax,ecx
+    10b5:	67 8a 00             	mov    al,BYTE PTR [eax]
+    10b8:	38 c2                	cmp    dl,al
+    10ba:	7e 09                	jle    10c5 <_strcmp+0x77>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:64
+			return 1;
+    10bc:	66 b8 01 00 00 00    	mov    eax,0x1
+    10c2:	e9 9a 00             	jmp    115f <_strcmp+0x111>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:59
+	for(; l[i] && r[i]; ++i, ++j)
+    10c5:	67 66 ff 45 fc       	inc    DWORD PTR [ebp-0x4]
+    10ca:	67 66 ff 45 f8       	inc    DWORD PTR [ebp-0x8]
+    10cf:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+    10d4:	67 66 8b 45 08       	mov    eax,DWORD PTR [ebp+0x8]
+    10d9:	66 01 d0             	add    eax,edx
+    10dc:	67 8a 00             	mov    al,BYTE PTR [eax]
+    10df:	84 c0                	test   al,al
+    10e1:	74 16                	je     10f9 <_strcmp+0xab>
+    10e3:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+    10e8:	67 66 8b 45 0c       	mov    eax,DWORD PTR [ebp+0xc]
+    10ed:	66 01 d0             	add    eax,edx
+    10f0:	67 8a 00             	mov    al,BYTE PTR [eax]
+    10f3:	84 c0                	test   al,al
+    10f5:	0f 85 72 ff          	jne    106b <_strcmp+0x1d>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:67
+		} 
+	}
+	if(!l[i] && r[j]) {
+    10f9:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+    10fe:	67 66 8b 45 08       	mov    eax,DWORD PTR [ebp+0x8]
+    1103:	66 01 d0             	add    eax,edx
+    1106:	67 8a 00             	mov    al,BYTE PTR [eax]
+    1109:	84 c0                	test   al,al
+    110b:	75 1c                	jne    1129 <_strcmp+0xdb>
+    110d:	67 66 8b 55 f8       	mov    edx,DWORD PTR [ebp-0x8]
+    1112:	67 66 8b 45 0c       	mov    eax,DWORD PTR [ebp+0xc]
+    1117:	66 01 d0             	add    eax,edx
+    111a:	67 8a 00             	mov    al,BYTE PTR [eax]
+    111d:	84 c0                	test   al,al
+    111f:	74 08                	je     1129 <_strcmp+0xdb>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:68
+		return -1;
+    1121:	66 b8 ff ff ff ff    	mov    eax,0xffffffff
+    1127:	eb 36                	jmp    115f <_strcmp+0x111>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:69
+	} else if(l[i] && !r[j]) {
+    1129:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+    112e:	67 66 8b 45 08       	mov    eax,DWORD PTR [ebp+0x8]
+    1133:	66 01 d0             	add    eax,edx
+    1136:	67 8a 00             	mov    al,BYTE PTR [eax]
+    1139:	84 c0                	test   al,al
+    113b:	74 1c                	je     1159 <_strcmp+0x10b>
+    113d:	67 66 8b 55 f8       	mov    edx,DWORD PTR [ebp-0x8]
+    1142:	67 66 8b 45 0c       	mov    eax,DWORD PTR [ebp+0xc]
+    1147:	66 01 d0             	add    eax,edx
+    114a:	67 8a 00             	mov    al,BYTE PTR [eax]
+    114d:	84 c0                	test   al,al
+    114f:	75 08                	jne    1159 <_strcmp+0x10b>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:70
+		return 1;
+    1151:	66 b8 01 00 00 00    	mov    eax,0x1
+    1157:	eb 06                	jmp    115f <_strcmp+0x111>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:72
+	} else {
+		return 0;
+    1159:	66 b8 00 00 00 00    	mov    eax,0x0
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:74
+	}
+}
+    115f:	66 c9                	leave  
+    1161:	66 c3                	ret    
+
+00001163 <_date>:
+date():
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:77
+
+void date()
+{
+    1163:	66 55                	push   ebp
+    1165:	66 89 e5             	mov    ebp,esp
+    1168:	66 83 ec 18          	sub    esp,0x18
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:78
+	char * dateSen = getDate();
+    116c:	66 e8 2c f5 ff ff    	call   69e <_getDate>
+    1172:	67 66 89 45 fc       	mov    DWORD PTR [ebp-0x4],eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:79
+	printSentence(dateSen, line, 30, strlen(dateSen), purple);
+    1177:	67 66 8b 45 fc       	mov    eax,DWORD PTR [ebp-0x4]
+    117c:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    1181:	66 e8 39 fd ff ff    	call   ec0 <_strlen>
+    1187:	66 89 c2             	mov    edx,eax
+    118a:	66 a1 a0 40          	mov    eax,ds:0x40a0
+    118e:	67 66 c7 44 24 10 0d 	mov    DWORD PTR [esp+0x10],0xd
+    1195:	00 00 00 
+    1198:	67 66 89 54 24 0c    	mov    DWORD PTR [esp+0xc],edx
+    119e:	67 66 c7 44 24 08 1e 	mov    DWORD PTR [esp+0x8],0x1e
+    11a5:	00 00 00 
+    11a8:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+    11ae:	67 66 8b 45 fc       	mov    eax,DWORD PTR [ebp-0x4]
+    11b3:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    11b8:	66 e8 a4 f2 ff ff    	call   462 <_printSentence>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:80
+	line += countLines(dateSen);
+    11be:	67 66 8b 45 fc       	mov    eax,DWORD PTR [ebp-0x4]
+    11c3:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    11c8:	66 e8 28 fd ff ff    	call   ef6 <_countLines>
+    11ce:	66 89 c2             	mov    edx,eax
+    11d1:	66 a1 a0 40          	mov    eax,ds:0x40a0
+    11d5:	66 01 d0             	add    eax,edx
+    11d8:	66 a3 a0 40          	mov    ds:0x40a0,eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:81
+}
+    11dc:	90                   	nop
+    11dd:	66 c9                	leave  
+    11df:	66 c3                	ret    
+
+000011e1 <_man>:
+man():
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:85
+
+
+void man()
+{
+    11e1:	66 55                	push   ebp
+    11e3:	66 89 e5             	mov    ebp,esp
+    11e6:	66 83 ec 18          	sub    esp,0x18
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:86
+	char * manual = getRecords(segOfOs, offsetOfManual);
+    11ea:	67 66 c7 44 24 04 00 	mov    DWORD PTR [esp+0x4],0xd500
+    11f1:	d5 00 00 
+    11f4:	67 66 c7 04 24 00 20 	mov    DWORD PTR [esp],0x2000
+    11fb:	00 00 
+    11fd:	66 e8 99 fc ff ff    	call   e9c <_getRecords>
+    1203:	67 66 89 45 fc       	mov    DWORD PTR [ebp-0x4],eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:87
+	line = 0;
+    1208:	66 c7 06 a0 40 00 00 	mov    DWORD PTR ds:0x40a0,0x0
+    120f:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:88
+	ClearScreen();
+    1211:	66 e8 7c f2 ff ff    	call   493 <_ClearScreen>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:89
+	printSentence(manual, line, 0, strlen(manual), purple);
+    1217:	67 66 8b 45 fc       	mov    eax,DWORD PTR [ebp-0x4]
+    121c:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    1221:	66 e8 99 fc ff ff    	call   ec0 <_strlen>
+    1227:	66 89 c2             	mov    edx,eax
+    122a:	66 a1 a0 40          	mov    eax,ds:0x40a0
+    122e:	67 66 c7 44 24 10 0d 	mov    DWORD PTR [esp+0x10],0xd
+    1235:	00 00 00 
+    1238:	67 66 89 54 24 0c    	mov    DWORD PTR [esp+0xc],edx
+    123e:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
+    1245:	00 00 00 
+    1248:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+    124e:	67 66 8b 45 fc       	mov    eax,DWORD PTR [ebp-0x4]
+    1253:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    1258:	66 e8 04 f2 ff ff    	call   462 <_printSentence>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:90
+	line += countLines(manual);
+    125e:	67 66 8b 45 fc       	mov    eax,DWORD PTR [ebp-0x4]
+    1263:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    1268:	66 e8 88 fc ff ff    	call   ef6 <_countLines>
+    126e:	66 89 c2             	mov    edx,eax
+    1271:	66 a1 a0 40          	mov    eax,ds:0x40a0
+    1275:	66 01 d0             	add    eax,edx
+    1278:	66 a3 a0 40          	mov    ds:0x40a0,eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:91
+}
+    127c:	90                   	nop
+    127d:	66 c9                	leave  
+    127f:	66 c3                	ret    
+
+00001281 <_newline>:
+newline():
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:94
+
+void newline()
+{
+    1281:	66 55                	push   ebp
+    1283:	66 89 e5             	mov    ebp,esp
+    1286:	66 83 ec 14          	sub    esp,0x14
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:95
+	if(line >= 25) {
+    128a:	66 a1 a0 40          	mov    eax,ds:0x40a0
+    128e:	66 83 f8 18          	cmp    eax,0x18
+    1292:	7e 0f                	jle    12a3 <_newline+0x22>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:96
+		roll();
+    1294:	66 e8 6c f4 ff ff    	call   706 <_roll>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:97
+		line = 24;
+    129a:	66 c7 06 a0 40 18 00 	mov    DWORD PTR ds:0x40a0,0x18
+    12a1:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:99
+	}
+	printSentence(prompt, line, 0, strlen(prompt), white);
+    12a3:	66 a1 68 1f          	mov    eax,ds:0x1f68
+    12a7:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    12ac:	66 e8 0e fc ff ff    	call   ec0 <_strlen>
+    12b2:	66 89 c1             	mov    ecx,eax
+    12b5:	66 8b 16 a0 40       	mov    edx,DWORD PTR ds:0x40a0
+    12ba:	66 a1 68 1f          	mov    eax,ds:0x1f68
+    12be:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
+    12c5:	00 00 00 
+    12c8:	67 66 89 4c 24 0c    	mov    DWORD PTR [esp+0xc],ecx
+    12ce:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
+    12d5:	00 00 00 
+    12d8:	67 66 89 54 24 04    	mov    DWORD PTR [esp+0x4],edx
+    12de:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    12e3:	66 e8 79 f1 ff ff    	call   462 <_printSentence>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:100
+	line += countLines(prompt);
+    12e9:	66 a1 68 1f          	mov    eax,ds:0x1f68
+    12ed:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    12f2:	66 e8 fe fb ff ff    	call   ef6 <_countLines>
+    12f8:	66 89 c2             	mov    edx,eax
+    12fb:	66 a1 a0 40          	mov    eax,ds:0x40a0
+    12ff:	66 01 d0             	add    eax,edx
+    1302:	66 a3 a0 40          	mov    ds:0x40a0,eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:101
+}
+    1306:	90                   	nop
+    1307:	66 c9                	leave  
+    1309:	66 c3                	ret    
+
+0000130b <_strncpy>:
+strncpy():
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:106
+
+
+
+void strncpy(char * sour, char * des, int len)
+{
+    130b:	66 55                	push   ebp
+    130d:	66 89 e5             	mov    ebp,esp
+    1310:	66 83 ec 04          	sub    esp,0x4
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:107
+	int i = 0;
+    1314:	67 66 c7 45 fc 00 00 	mov    DWORD PTR [ebp-0x4],0x0
+    131b:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:108
+	while(sour[i] && i < len){
+    131d:	eb 25                	jmp    1344 <_strncpy+0x39>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:109
+		des[i] = sour[i];
+    131f:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+    1324:	67 66 8b 45 0c       	mov    eax,DWORD PTR [ebp+0xc]
+    1329:	66 01 c2             	add    edx,eax
+    132c:	67 66 8b 4d fc       	mov    ecx,DWORD PTR [ebp-0x4]
+    1331:	67 66 8b 45 08       	mov    eax,DWORD PTR [ebp+0x8]
+    1336:	66 01 c8             	add    eax,ecx
+    1339:	67 8a 00             	mov    al,BYTE PTR [eax]
+    133c:	67 88 02             	mov    BYTE PTR [edx],al
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:110
+		++i;
+    133f:	67 66 ff 45 fc       	inc    DWORD PTR [ebp-0x4]
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:108
+	while(sour[i] && i < len){
+    1344:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+    1349:	67 66 8b 45 08       	mov    eax,DWORD PTR [ebp+0x8]
+    134e:	66 01 d0             	add    eax,edx
+    1351:	67 8a 00             	mov    al,BYTE PTR [eax]
+    1354:	84 c0                	test   al,al
+    1356:	74 0c                	je     1364 <_strncpy+0x59>
+    1358:	67 66 8b 45 fc       	mov    eax,DWORD PTR [ebp-0x4]
+    135d:	67 66 3b 45 10       	cmp    eax,DWORD PTR [ebp+0x10]
+    1362:	7c bb                	jl     131f <_strncpy+0x14>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:112
+	}
+	des[i] = '\0';
+    1364:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+    1369:	67 66 8b 45 0c       	mov    eax,DWORD PTR [ebp+0xc]
+    136e:	66 01 d0             	add    eax,edx
+    1371:	67 c6 00 00          	mov    BYTE PTR [eax],0x0
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:113
+}
+    1375:	90                   	nop
+    1376:	66 c9                	leave  
+    1378:	66 c3                	ret    
+
+0000137a <_hashfun>:
+hashfun():
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:115
+
+int hashfun(char * key){
+    137a:	66 55                	push   ebp
+    137c:	66 89 e5             	mov    ebp,esp
+    137f:	66 83 ec 0c          	sub    esp,0xc
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:116
+	int weight = 29;
+    1383:	67 66 c7 45 f4 1d 00 	mov    DWORD PTR [ebp-0xc],0x1d
+    138a:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:117
+	int i = 0;
+    138c:	67 66 c7 45 fc 00 00 	mov    DWORD PTR [ebp-0x4],0x0
+    1393:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:118
+	int ret = 0;
+    1395:	67 66 c7 45 f8 00 00 	mov    DWORD PTR [ebp-0x8],0x0
+    139c:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:119
+	while(key[i]){
+    139e:	eb 3a                	jmp    13da <_hashfun+0x60>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:120
+		ret = (ret + key[i]*weight) % Len;
+    13a0:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+    13a5:	67 66 8b 45 08       	mov    eax,DWORD PTR [ebp+0x8]
+    13aa:	66 01 d0             	add    eax,edx
+    13ad:	67 8a 00             	mov    al,BYTE PTR [eax]
+    13b0:	66 0f be c0          	movsx  eax,al
+    13b4:	67 66 0f af 45 f4    	imul   eax,DWORD PTR [ebp-0xc]
+    13ba:	66 89 c2             	mov    edx,eax
+    13bd:	67 66 8b 45 f8       	mov    eax,DWORD PTR [ebp-0x8]
+    13c2:	66 01 d0             	add    eax,edx
+    13c5:	66 b9 0a 00 00 00    	mov    ecx,0xa
+    13cb:	66 99                	cdq    
+    13cd:	66 f7 f9             	idiv   ecx
+    13d0:	67 66 89 55 f8       	mov    DWORD PTR [ebp-0x8],edx
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:121
+		++i;
+    13d5:	67 66 ff 45 fc       	inc    DWORD PTR [ebp-0x4]
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:119
+	while(key[i]){
+    13da:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+    13df:	67 66 8b 45 08       	mov    eax,DWORD PTR [ebp+0x8]
+    13e4:	66 01 d0             	add    eax,edx
+    13e7:	67 8a 00             	mov    al,BYTE PTR [eax]
+    13ea:	84 c0                	test   al,al
+    13ec:	75 b2                	jne    13a0 <_hashfun+0x26>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:123
+	}
+	return ret;
+    13ee:	67 66 8b 45 f8       	mov    eax,DWORD PTR [ebp-0x8]
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:124
+}
+    13f3:	66 c9                	leave  
+    13f5:	66 c3                	ret    
+
+000013f7 <_hash>:
+hash():
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:155
+// 	information[code].deleted = record->deleted;
+// 	return code;
+// }
+
+int hash(char * key, struct info record)
+{
+    13f7:	66 55                	push   ebp
+    13f9:	66 89 e5             	mov    ebp,esp
+    13fc:	66 83 ec 18          	sub    esp,0x18
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:156
+	int inicode = hashfun(key);
+    1400:	67 66 8b 45 08       	mov    eax,DWORD PTR [ebp+0x8]
+    1405:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    140a:	66 e8 6a ff ff ff    	call   137a <_hashfun>
+    1410:	67 66 89 45 f4       	mov    DWORD PTR [ebp-0xc],eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:157
+	int code = inicode, i = 1;
+    1415:	67 66 8b 45 f4       	mov    eax,DWORD PTR [ebp-0xc]
+    141a:	67 66 89 45 fc       	mov    DWORD PTR [ebp-0x4],eax
+    141f:	67 66 c7 45 f8 01 00 	mov    DWORD PTR [ebp-0x8],0x1
+    1426:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:158
+	while(information[code].type!=null){
+    1428:	eb 2b                	jmp    1455 <_hash+0x5e>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:159
+		code = (inicode + i * i) % Len;
+    142a:	67 66 8b 45 f8       	mov    eax,DWORD PTR [ebp-0x8]
+    142f:	67 66 0f af 45 f8    	imul   eax,DWORD PTR [ebp-0x8]
+    1435:	66 89 c2             	mov    edx,eax
+    1438:	67 66 8b 45 f4       	mov    eax,DWORD PTR [ebp-0xc]
+    143d:	66 01 d0             	add    eax,edx
+    1440:	66 b9 0a 00 00 00    	mov    ecx,0xa
+    1446:	66 99                	cdq    
+    1448:	66 f7 f9             	idiv   ecx
+    144b:	67 66 89 55 fc       	mov    DWORD PTR [ebp-0x4],edx
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:160
+		++i;
+    1450:	67 66 ff 45 f8       	inc    DWORD PTR [ebp-0x8]
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:158
+	while(information[code].type!=null){
+    1455:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+    145a:	66 89 d0             	mov    eax,edx
+    145d:	66 01 c0             	add    eax,eax
+    1460:	66 01 d0             	add    eax,edx
+    1463:	66 c1 e0 02          	shl    eax,0x2
+    1467:	66 01 d0             	add    eax,edx
+    146a:	66 c1 e0 02          	shl    eax,0x2
+    146e:	66 05 40 41 00 00    	add    eax,0x4140
+    1474:	67 66 8b 00          	mov    eax,DWORD PTR [eax]
+    1478:	66 85 c0             	test   eax,eax
+    147b:	75 ad                	jne    142a <_hash+0x33>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:174
+	// int2str(record.type, tmp);
+	// printSentence(tmp, line, 55, strlen(tmp), purple);
+	// line += 1;
+
+
+	information[code].type = record.type;
+    147d:	67 66 8b 4d 2c       	mov    ecx,DWORD PTR [ebp+0x2c]
+    1482:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+    1487:	66 89 d0             	mov    eax,edx
+    148a:	66 01 c0             	add    eax,eax
+    148d:	66 01 d0             	add    eax,edx
+    1490:	66 c1 e0 02          	shl    eax,0x2
+    1494:	66 01 d0             	add    eax,edx
+    1497:	66 c1 e0 02          	shl    eax,0x2
+    149b:	66 05 40 41 00 00    	add    eax,0x4140
+    14a1:	67 66 89 08          	mov    DWORD PTR [eax],ecx
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:175
+	strncpy(record.name, information[code].name, strlen(record.name));
+    14a5:	67 66 8d 45 0c       	lea    eax,[ebp+0xc]
+    14aa:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    14af:	66 e8 0b fa ff ff    	call   ec0 <_strlen>
+    14b5:	66 89 c1             	mov    ecx,eax
+    14b8:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+    14bd:	66 89 d0             	mov    eax,edx
+    14c0:	66 01 c0             	add    eax,eax
+    14c3:	66 01 d0             	add    eax,edx
+    14c6:	66 c1 e0 02          	shl    eax,0x2
+    14ca:	66 01 d0             	add    eax,edx
+    14cd:	66 c1 e0 02          	shl    eax,0x2
+    14d1:	66 05 20 41 00 00    	add    eax,0x4120
+    14d7:	67 66 89 4c 24 08    	mov    DWORD PTR [esp+0x8],ecx
+    14dd:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+    14e3:	67 66 8d 45 0c       	lea    eax,[ebp+0xc]
+    14e8:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    14ed:	66 e8 18 fe ff ff    	call   130b <_strncpy>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:176
+	information[code].size = record.size;
+    14f3:	67 66 8b 4d 34       	mov    ecx,DWORD PTR [ebp+0x34]
+    14f8:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+    14fd:	66 89 d0             	mov    eax,edx
+    1500:	66 01 c0             	add    eax,eax
+    1503:	66 01 d0             	add    eax,edx
+    1506:	66 c1 e0 02          	shl    eax,0x2
+    150a:	66 01 d0             	add    eax,edx
+    150d:	66 c1 e0 02          	shl    eax,0x2
+    1511:	66 05 48 41 00 00    	add    eax,0x4148
+    1517:	67 66 89 08          	mov    DWORD PTR [eax],ecx
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:177
+	information[code].lmaddress = record.lmaddress;
+    151b:	67 66 8b 4d 30       	mov    ecx,DWORD PTR [ebp+0x30]
+    1520:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+    1525:	66 89 d0             	mov    eax,edx
+    1528:	66 01 c0             	add    eax,eax
+    152b:	66 01 d0             	add    eax,edx
+    152e:	66 c1 e0 02          	shl    eax,0x2
+    1532:	66 01 d0             	add    eax,edx
+    1535:	66 c1 e0 02          	shl    eax,0x2
+    1539:	66 05 44 41 00 00    	add    eax,0x4144
+    153f:	67 66 89 08          	mov    DWORD PTR [eax],ecx
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:178
+	information[code].deleted = record.deleted;
+    1543:	67 66 8b 4d 38       	mov    ecx,DWORD PTR [ebp+0x38]
+    1548:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+    154d:	66 89 d0             	mov    eax,edx
+    1550:	66 01 c0             	add    eax,eax
+    1553:	66 01 d0             	add    eax,edx
+    1556:	66 c1 e0 02          	shl    eax,0x2
+    155a:	66 01 d0             	add    eax,edx
+    155d:	66 c1 e0 02          	shl    eax,0x2
+    1561:	66 05 4c 41 00 00    	add    eax,0x414c
+    1567:	67 66 89 08          	mov    DWORD PTR [eax],ecx
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:179
+	return code;
+    156b:	67 66 8b 45 fc       	mov    eax,DWORD PTR [ebp-0x4]
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:180
+}
+    1570:	66 c9                	leave  
+    1572:	66 c3                	ret    
+
+00001574 <_find>:
+find():
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:183
+
+int find(char * key)
+{
+    1574:	66 55                	push   ebp
+    1576:	66 89 e5             	mov    ebp,esp
+    1579:	66 83 ec 14          	sub    esp,0x14
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:184
+	int inicode = hashfun(key);
+    157d:	67 66 8b 45 08       	mov    eax,DWORD PTR [ebp+0x8]
+    1582:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    1587:	66 e8 ed fd ff ff    	call   137a <_hashfun>
+    158d:	67 66 89 45 f4       	mov    DWORD PTR [ebp-0xc],eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:185
+	int code = inicode, i = 1;
+    1592:	67 66 8b 45 f4       	mov    eax,DWORD PTR [ebp-0xc]
+    1597:	67 66 89 45 fc       	mov    DWORD PTR [ebp-0x4],eax
+    159c:	67 66 c7 45 f8 01 00 	mov    DWORD PTR [ebp-0x8],0x1
+    15a3:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:186
+	while(information[code].type == null || strcmp(key, information[code].name) != 0){
+    15a5:	eb 3b                	jmp    15e2 <_find+0x6e>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:187
+		code = (inicode + i * i) % Len;
+    15a7:	67 66 8b 45 f8       	mov    eax,DWORD PTR [ebp-0x8]
+    15ac:	67 66 0f af 45 f8    	imul   eax,DWORD PTR [ebp-0x8]
+    15b2:	66 89 c2             	mov    edx,eax
+    15b5:	67 66 8b 45 f4       	mov    eax,DWORD PTR [ebp-0xc]
+    15ba:	66 01 d0             	add    eax,edx
+    15bd:	66 b9 0a 00 00 00    	mov    ecx,0xa
+    15c3:	66 99                	cdq    
+    15c5:	66 f7 f9             	idiv   ecx
+    15c8:	67 66 89 55 fc       	mov    DWORD PTR [ebp-0x4],edx
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:188
+		++i;
+    15cd:	67 66 ff 45 f8       	inc    DWORD PTR [ebp-0x8]
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:189
+		if(i > Len)
+    15d2:	67 66 83 7d f8 0a    	cmp    DWORD PTR [ebp-0x8],0xa
+    15d8:	7e 08                	jle    15e2 <_find+0x6e>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:190
+			return -1;
+    15da:	66 b8 ff ff ff ff    	mov    eax,0xffffffff
+    15e0:	eb 69                	jmp    164b <_find+0xd7>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:186
+	while(information[code].type == null || strcmp(key, information[code].name) != 0){
+    15e2:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+    15e7:	66 89 d0             	mov    eax,edx
+    15ea:	66 01 c0             	add    eax,eax
+    15ed:	66 01 d0             	add    eax,edx
+    15f0:	66 c1 e0 02          	shl    eax,0x2
+    15f4:	66 01 d0             	add    eax,edx
+    15f7:	66 c1 e0 02          	shl    eax,0x2
+    15fb:	66 05 40 41 00 00    	add    eax,0x4140
+    1601:	67 66 8b 00          	mov    eax,DWORD PTR [eax]
+    1605:	66 85 c0             	test   eax,eax
+    1608:	74 9d                	je     15a7 <_find+0x33>
+    160a:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+    160f:	66 89 d0             	mov    eax,edx
+    1612:	66 01 c0             	add    eax,eax
+    1615:	66 01 d0             	add    eax,edx
+    1618:	66 c1 e0 02          	shl    eax,0x2
+    161c:	66 01 d0             	add    eax,edx
+    161f:	66 c1 e0 02          	shl    eax,0x2
+    1623:	66 05 20 41 00 00    	add    eax,0x4120
+    1629:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+    162f:	67 66 8b 45 08       	mov    eax,DWORD PTR [ebp+0x8]
+    1634:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    1639:	66 e8 0f fa ff ff    	call   104e <_strcmp>
+    163f:	66 85 c0             	test   eax,eax
+    1642:	0f 85 61 ff          	jne    15a7 <_find+0x33>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:192
+	}
+	return code;
+    1646:	67 66 8b 45 fc       	mov    eax,DWORD PTR [ebp-0x4]
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:193
+}
+    164b:	66 c9                	leave  
+    164d:	66 c3                	ret    
+
+0000164f <_ls>:
+ls():
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:196
+
+void ls()
+{
+    164f:	66 55                	push   ebp
+    1651:	66 89 e5             	mov    ebp,esp
+    1654:	66 57                	push   edi
+    1656:	66 53                	push   ebx
+    1658:	66 83 ec 38          	sub    esp,0x38
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:197
+	char * head = "Name           Size           Lma            Type";
+    165c:	67 66 c7 45 f0 64 20 	mov    DWORD PTR [ebp-0x10],0x2064
+    1663:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:198
+	printSentence(head, line, 10, strlen(head), green);
+    1665:	67 66 8b 45 f0       	mov    eax,DWORD PTR [ebp-0x10]
+    166a:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    166f:	66 e8 4b f8 ff ff    	call   ec0 <_strlen>
+    1675:	66 89 c2             	mov    edx,eax
+    1678:	66 a1 a0 40          	mov    eax,ds:0x40a0
+    167c:	67 66 c7 44 24 10 0a 	mov    DWORD PTR [esp+0x10],0xa
+    1683:	00 00 00 
+    1686:	67 66 89 54 24 0c    	mov    DWORD PTR [esp+0xc],edx
+    168c:	67 66 c7 44 24 08 0a 	mov    DWORD PTR [esp+0x8],0xa
+    1693:	00 00 00 
+    1696:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+    169c:	67 66 8b 45 f0       	mov    eax,DWORD PTR [ebp-0x10]
+    16a1:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    16a6:	66 e8 b6 ed ff ff    	call   462 <_printSentence>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:199
+	char typeTable[10][1] = {"N", "D", "E", "F"};
+    16ac:	67 66 8d 55 e6       	lea    edx,[ebp-0x1a]
+    16b1:	66 b9 0a 00 00 00    	mov    ecx,0xa
+    16b7:	b0 00                	mov    al,0x0
+    16b9:	66 89 d7             	mov    edi,edx
+    16bc:	f3 aa                	rep stos BYTE PTR es:[di],al
+    16be:	67 c6 45 e6 4e       	mov    BYTE PTR [ebp-0x1a],0x4e
+    16c3:	67 c6 45 e7 44       	mov    BYTE PTR [ebp-0x19],0x44
+    16c8:	67 c6 45 e8 45       	mov    BYTE PTR [ebp-0x18],0x45
+    16cd:	67 c6 45 e9 46       	mov    BYTE PTR [ebp-0x17],0x46
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:200
+	line += countLines(head);
+    16d2:	67 66 8b 45 f0       	mov    eax,DWORD PTR [ebp-0x10]
+    16d7:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    16dc:	66 e8 14 f8 ff ff    	call   ef6 <_countLines>
+    16e2:	66 89 c2             	mov    edx,eax
+    16e5:	66 a1 a0 40          	mov    eax,ds:0x40a0
+    16e9:	66 01 d0             	add    eax,edx
+    16ec:	66 a3 a0 40          	mov    ds:0x40a0,eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:202
+	char tmp[15];
+	for(int i = 0; i < Len; ++i) 
+    16f0:	67 66 c7 45 f4 00 00 	mov    DWORD PTR [ebp-0xc],0x0
+    16f7:	00 00 
+    16f9:	e9 3f 02             	jmp    193b <_ls+0x2ec>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:204
+	{
+		if(information[i].type != null && information[i].deleted != 1) {
+    16fc:	67 66 8b 55 f4       	mov    edx,DWORD PTR [ebp-0xc]
+    1701:	66 89 d0             	mov    eax,edx
+    1704:	66 01 c0             	add    eax,eax
+    1707:	66 01 d0             	add    eax,edx
+    170a:	66 c1 e0 02          	shl    eax,0x2
+    170e:	66 01 d0             	add    eax,edx
+    1711:	66 c1 e0 02          	shl    eax,0x2
+    1715:	66 05 40 41 00 00    	add    eax,0x4140
+    171b:	67 66 8b 00          	mov    eax,DWORD PTR [eax]
+    171f:	66 85 c0             	test   eax,eax
+    1722:	0f 84 10 02          	je     1936 <_ls+0x2e7>
+    1726:	67 66 8b 55 f4       	mov    edx,DWORD PTR [ebp-0xc]
+    172b:	66 89 d0             	mov    eax,edx
+    172e:	66 01 c0             	add    eax,eax
+    1731:	66 01 d0             	add    eax,edx
+    1734:	66 c1 e0 02          	shl    eax,0x2
+    1738:	66 01 d0             	add    eax,edx
+    173b:	66 c1 e0 02          	shl    eax,0x2
+    173f:	66 05 4c 41 00 00    	add    eax,0x414c
+    1745:	67 66 8b 00          	mov    eax,DWORD PTR [eax]
+    1749:	66 83 f8 01          	cmp    eax,0x1
+    174d:	0f 84 e5 01          	je     1936 <_ls+0x2e7>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:205
+			printSentence(information[i].name, line, 10, strlen(information[i].name), purple);
+    1751:	67 66 8b 55 f4       	mov    edx,DWORD PTR [ebp-0xc]
+    1756:	66 89 d0             	mov    eax,edx
+    1759:	66 01 c0             	add    eax,eax
+    175c:	66 01 d0             	add    eax,edx
+    175f:	66 c1 e0 02          	shl    eax,0x2
+    1763:	66 01 d0             	add    eax,edx
+    1766:	66 c1 e0 02          	shl    eax,0x2
+    176a:	66 05 20 41 00 00    	add    eax,0x4120
+    1770:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    1775:	66 e8 45 f7 ff ff    	call   ec0 <_strlen>
+    177b:	66 89 c3             	mov    ebx,eax
+    177e:	66 8b 0e a0 40       	mov    ecx,DWORD PTR ds:0x40a0
+    1783:	67 66 8b 55 f4       	mov    edx,DWORD PTR [ebp-0xc]
+    1788:	66 89 d0             	mov    eax,edx
+    178b:	66 01 c0             	add    eax,eax
+    178e:	66 01 d0             	add    eax,edx
+    1791:	66 c1 e0 02          	shl    eax,0x2
+    1795:	66 01 d0             	add    eax,edx
+    1798:	66 c1 e0 02          	shl    eax,0x2
+    179c:	66 05 20 41 00 00    	add    eax,0x4120
+    17a2:	67 66 c7 44 24 10 0d 	mov    DWORD PTR [esp+0x10],0xd
+    17a9:	00 00 00 
+    17ac:	67 66 89 5c 24 0c    	mov    DWORD PTR [esp+0xc],ebx
+    17b2:	67 66 c7 44 24 08 0a 	mov    DWORD PTR [esp+0x8],0xa
+    17b9:	00 00 00 
+    17bc:	67 66 89 4c 24 04    	mov    DWORD PTR [esp+0x4],ecx
+    17c2:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    17c7:	66 e8 95 ec ff ff    	call   462 <_printSentence>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:206
+			int2str(information[i].size, tmp);
+    17cd:	67 66 8b 55 f4       	mov    edx,DWORD PTR [ebp-0xc]
+    17d2:	66 89 d0             	mov    eax,edx
+    17d5:	66 01 c0             	add    eax,eax
+    17d8:	66 01 d0             	add    eax,edx
+    17db:	66 c1 e0 02          	shl    eax,0x2
+    17df:	66 01 d0             	add    eax,edx
+    17e2:	66 c1 e0 02          	shl    eax,0x2
+    17e6:	66 05 48 41 00 00    	add    eax,0x4148
+    17ec:	67 66 8b 00          	mov    eax,DWORD PTR [eax]
+    17f0:	67 66 8d 55 d7       	lea    edx,[ebp-0x29]
+    17f5:	67 66 89 54 24 04    	mov    DWORD PTR [esp+0x4],edx
+    17fb:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    1800:	66 e8 4c 01 00 00    	call   1952 <_int2str>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:207
+			printSentence(tmp, line, 25, strlen(tmp), purple);
+    1806:	67 66 8d 45 d7       	lea    eax,[ebp-0x29]
+    180b:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    1810:	66 e8 aa f6 ff ff    	call   ec0 <_strlen>
+    1816:	66 89 c2             	mov    edx,eax
+    1819:	66 a1 a0 40          	mov    eax,ds:0x40a0
+    181d:	67 66 c7 44 24 10 0d 	mov    DWORD PTR [esp+0x10],0xd
+    1824:	00 00 00 
+    1827:	67 66 89 54 24 0c    	mov    DWORD PTR [esp+0xc],edx
+    182d:	67 66 c7 44 24 08 19 	mov    DWORD PTR [esp+0x8],0x19
+    1834:	00 00 00 
+    1837:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+    183d:	67 66 8d 45 d7       	lea    eax,[ebp-0x29]
+    1842:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    1847:	66 e8 15 ec ff ff    	call   462 <_printSentence>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:208
+			int2str(information[i].lmaddress, tmp);
+    184d:	67 66 8b 55 f4       	mov    edx,DWORD PTR [ebp-0xc]
+    1852:	66 89 d0             	mov    eax,edx
+    1855:	66 01 c0             	add    eax,eax
+    1858:	66 01 d0             	add    eax,edx
+    185b:	66 c1 e0 02          	shl    eax,0x2
+    185f:	66 01 d0             	add    eax,edx
+    1862:	66 c1 e0 02          	shl    eax,0x2
+    1866:	66 05 44 41 00 00    	add    eax,0x4144
+    186c:	67 66 8b 00          	mov    eax,DWORD PTR [eax]
+    1870:	67 66 8d 55 d7       	lea    edx,[ebp-0x29]
+    1875:	67 66 89 54 24 04    	mov    DWORD PTR [esp+0x4],edx
+    187b:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    1880:	66 e8 cc 00 00 00    	call   1952 <_int2str>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:209
+			printSentence(tmp, line, 40, strlen(tmp), purple);
+    1886:	67 66 8d 45 d7       	lea    eax,[ebp-0x29]
+    188b:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    1890:	66 e8 2a f6 ff ff    	call   ec0 <_strlen>
+    1896:	66 89 c2             	mov    edx,eax
+    1899:	66 a1 a0 40          	mov    eax,ds:0x40a0
+    189d:	67 66 c7 44 24 10 0d 	mov    DWORD PTR [esp+0x10],0xd
+    18a4:	00 00 00 
+    18a7:	67 66 89 54 24 0c    	mov    DWORD PTR [esp+0xc],edx
+    18ad:	67 66 c7 44 24 08 28 	mov    DWORD PTR [esp+0x8],0x28
+    18b4:	00 00 00 
+    18b7:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+    18bd:	67 66 8d 45 d7       	lea    eax,[ebp-0x29]
+    18c2:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    18c7:	66 e8 95 eb ff ff    	call   462 <_printSentence>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:210
+			printSentence(typeTable[information[i].type], line, 55, 1, purple);
+    18cd:	66 8b 0e a0 40       	mov    ecx,DWORD PTR ds:0x40a0
+    18d2:	67 66 8b 55 f4       	mov    edx,DWORD PTR [ebp-0xc]
+    18d7:	66 89 d0             	mov    eax,edx
+    18da:	66 01 c0             	add    eax,eax
+    18dd:	66 01 d0             	add    eax,edx
+    18e0:	66 c1 e0 02          	shl    eax,0x2
+    18e4:	66 01 d0             	add    eax,edx
+    18e7:	66 c1 e0 02          	shl    eax,0x2
+    18eb:	66 05 40 41 00 00    	add    eax,0x4140
+    18f1:	67 66 8b 00          	mov    eax,DWORD PTR [eax]
+    18f5:	67 66 8d 55 e6       	lea    edx,[ebp-0x1a]
+    18fa:	66 01 d0             	add    eax,edx
+    18fd:	67 66 c7 44 24 10 0d 	mov    DWORD PTR [esp+0x10],0xd
+    1904:	00 00 00 
+    1907:	67 66 c7 44 24 0c 01 	mov    DWORD PTR [esp+0xc],0x1
+    190e:	00 00 00 
+    1911:	67 66 c7 44 24 08 37 	mov    DWORD PTR [esp+0x8],0x37
+    1918:	00 00 00 
+    191b:	67 66 89 4c 24 04    	mov    DWORD PTR [esp+0x4],ecx
+    1921:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    1926:	66 e8 36 eb ff ff    	call   462 <_printSentence>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:211
+			line += 1;
+    192c:	66 a1 a0 40          	mov    eax,ds:0x40a0
+    1930:	66 40                	inc    eax
+    1932:	66 a3 a0 40          	mov    ds:0x40a0,eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:202
+	for(int i = 0; i < Len; ++i) 
+    1936:	67 66 ff 45 f4       	inc    DWORD PTR [ebp-0xc]
+    193b:	67 66 83 7d f4 09    	cmp    DWORD PTR [ebp-0xc],0x9
+    1941:	0f 8e b7 fd          	jle    16fc <_ls+0xad>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:214
+		}
+	}
+}
+    1945:	90                   	nop
+    1946:	66 83 c4 38          	add    esp,0x38
+    194a:	66 5b                	pop    ebx
+    194c:	66 5f                	pop    edi
+    194e:	66 5d                	pop    ebp
+    1950:	66 c3                	ret    
+
+00001952 <_int2str>:
+int2str():
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:217
+
+void int2str(int org, char * str)
+{
+    1952:	66 55                	push   ebp
+    1954:	66 89 e5             	mov    ebp,esp
+    1957:	66 53                	push   ebx
+    1959:	66 83 ec 0c          	sub    esp,0xc
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:218
+	int num = 0;
+    195d:	67 66 c7 45 f8 00 00 	mov    DWORD PTR [ebp-0x8],0x0
+    1964:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:219
+	int cp = org;
+    1966:	67 66 8b 45 08       	mov    eax,DWORD PTR [ebp+0x8]
+    196b:	67 66 89 45 f4       	mov    DWORD PTR [ebp-0xc],eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:220
+	while(cp != 0)
+    1970:	eb 29                	jmp    199b <_int2str+0x49>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:222
+	{
+		cp /= 10;
+    1972:	67 66 8b 4d f4       	mov    ecx,DWORD PTR [ebp-0xc]
+    1977:	66 b8 67 66 66 66    	mov    eax,0x66666667
+    197d:	66 f7 e9             	imul   ecx
+    1980:	66 c1 fa 02          	sar    edx,0x2
+    1984:	66 89 c8             	mov    eax,ecx
+    1987:	66 c1 f8 1f          	sar    eax,0x1f
+    198b:	66 29 c2             	sub    edx,eax
+    198e:	66 89 d0             	mov    eax,edx
+    1991:	67 66 89 45 f4       	mov    DWORD PTR [ebp-0xc],eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:223
+		++num;
+    1996:	67 66 ff 45 f8       	inc    DWORD PTR [ebp-0x8]
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:220
+	while(cp != 0)
+    199b:	67 66 83 7d f4 00    	cmp    DWORD PTR [ebp-0xc],0x0
+    19a1:	75 cf                	jne    1972 <_int2str+0x20>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:225
+	}
+	str[num--] = '\0';
+    19a3:	67 66 8b 45 f8       	mov    eax,DWORD PTR [ebp-0x8]
+    19a8:	67 66 8d 50 ff       	lea    edx,[eax-0x1]
+    19ad:	67 66 89 55 f8       	mov    DWORD PTR [ebp-0x8],edx
+    19b2:	66 89 c2             	mov    edx,eax
+    19b5:	67 66 8b 45 0c       	mov    eax,DWORD PTR [ebp+0xc]
+    19ba:	66 01 d0             	add    eax,edx
+    19bd:	67 c6 00 00          	mov    BYTE PTR [eax],0x0
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:226
+	for(int i = num; i >= 0; --i)
+    19c1:	67 66 8b 45 f8       	mov    eax,DWORD PTR [ebp-0x8]
+    19c6:	67 66 89 45 f0       	mov    DWORD PTR [ebp-0x10],eax
+    19cb:	eb 70                	jmp    1a3d <_int2str+0xeb>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:228
+	{
+		str[i] = org % 10 + 48;
+    19cd:	67 66 8b 55 f0       	mov    edx,DWORD PTR [ebp-0x10]
+    19d2:	67 66 8b 45 0c       	mov    eax,DWORD PTR [ebp+0xc]
+    19d7:	67 66 8d 1c 02       	lea    ebx,[edx+eax*1]
+    19dc:	67 66 8b 4d 08       	mov    ecx,DWORD PTR [ebp+0x8]
+    19e1:	66 b8 67 66 66 66    	mov    eax,0x66666667
+    19e7:	66 f7 e9             	imul   ecx
+    19ea:	66 c1 fa 02          	sar    edx,0x2
+    19ee:	66 89 c8             	mov    eax,ecx
+    19f1:	66 c1 f8 1f          	sar    eax,0x1f
+    19f5:	66 29 c2             	sub    edx,eax
+    19f8:	66 89 d0             	mov    eax,edx
+    19fb:	66 c1 e0 02          	shl    eax,0x2
+    19ff:	66 01 d0             	add    eax,edx
+    1a02:	66 01 c0             	add    eax,eax
+    1a05:	66 29 c1             	sub    ecx,eax
+    1a08:	66 89 ca             	mov    edx,ecx
+    1a0b:	88 d0                	mov    al,dl
+    1a0d:	66 83 c0 30          	add    eax,0x30
+    1a11:	67 88 03             	mov    BYTE PTR [ebx],al
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:229
+		org /= 10;
+    1a14:	67 66 8b 4d 08       	mov    ecx,DWORD PTR [ebp+0x8]
+    1a19:	66 b8 67 66 66 66    	mov    eax,0x66666667
+    1a1f:	66 f7 e9             	imul   ecx
+    1a22:	66 c1 fa 02          	sar    edx,0x2
+    1a26:	66 89 c8             	mov    eax,ecx
+    1a29:	66 c1 f8 1f          	sar    eax,0x1f
+    1a2d:	66 29 c2             	sub    edx,eax
+    1a30:	66 89 d0             	mov    eax,edx
+    1a33:	67 66 89 45 08       	mov    DWORD PTR [ebp+0x8],eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:226
+	for(int i = num; i >= 0; --i)
+    1a38:	67 66 ff 4d f0       	dec    DWORD PTR [ebp-0x10]
+    1a3d:	67 66 83 7d f0 00    	cmp    DWORD PTR [ebp-0x10],0x0
+    1a43:	79 88                	jns    19cd <_int2str+0x7b>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:232
+	}
+	// printSentence(str, line, 0, strlen(str), white);
+}
+    1a45:	90                   	nop
+    1a46:	66 83 c4 0c          	add    esp,0xc
+    1a4a:	66 5b                	pop    ebx
+    1a4c:	66 5d                	pop    ebp
+    1a4e:	66 c3                	ret    
+
+00001a50 <_initialFile>:
+initialFile():
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:235
+
+void initialFile()
+{
+    1a50:	66 55                	push   ebp
+    1a52:	66 89 e5             	mov    ebp,esp
+    1a55:	66 83 ec 10          	sub    esp,0x10
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:236
+	FAT = (short*)getRecords(segOfOs, offsetOfFat);
+    1a59:	67 66 c7 44 24 04 00 	mov    DWORD PTR [esp+0x4],0xe000
+    1a60:	e0 00 00 
+    1a63:	67 66 c7 04 24 00 20 	mov    DWORD PTR [esp],0x2000
+    1a6a:	00 00 
+    1a6c:	66 e8 2a f4 ff ff    	call   e9c <_getRecords>
+    1a72:	66 a3 c4 40          	mov    ds:0x40c4,eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:237
+	for(int i = 0; i < Len; ++i){
+    1a76:	67 66 c7 45 fc 00 00 	mov    DWORD PTR [ebp-0x4],0x0
+    1a7d:	00 00 
+    1a7f:	eb 2c                	jmp    1aad <_initialFile+0x5d>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:238
+		information[i].type=null;
+    1a81:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+    1a86:	66 89 d0             	mov    eax,edx
+    1a89:	66 01 c0             	add    eax,eax
+    1a8c:	66 01 d0             	add    eax,edx
+    1a8f:	66 c1 e0 02          	shl    eax,0x2
+    1a93:	66 01 d0             	add    eax,edx
+    1a96:	66 c1 e0 02          	shl    eax,0x2
+    1a9a:	66 05 40 41 00 00    	add    eax,0x4140
+    1aa0:	67 66 c7 00 00 00 00 	mov    DWORD PTR [eax],0x0
+    1aa7:	00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:237
+	for(int i = 0; i < Len; ++i){
+    1aa8:	67 66 ff 45 fc       	inc    DWORD PTR [ebp-0x4]
+    1aad:	67 66 83 7d fc 09    	cmp    DWORD PTR [ebp-0x4],0x9
+    1ab3:	7e cc                	jle    1a81 <_initialFile+0x31>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:240
+	}
+	no.lmaddress = 0;
+    1ab5:	66 c7 06 04 41 00 00 	mov    DWORD PTR ds:0x4104,0x0
+    1abc:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:241
+	no.size = 0;
+    1abe:	66 c7 06 08 41 00 00 	mov    DWORD PTR ds:0x4108,0x0
+    1ac5:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:242
+	no.type = null;
+    1ac7:	66 c7 06 00 41 00 00 	mov    DWORD PTR ds:0x4100,0x0
+    1ace:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:243
+	strncpy("", no.name, 0);
+    1ad0:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
+    1ad7:	00 00 00 
+    1ada:	67 66 c7 44 24 04 e0 	mov    DWORD PTR [esp+0x4],0x40e0
+    1ae1:	40 00 00 
+    1ae4:	67 66 c7 04 24 96 20 	mov    DWORD PTR [esp],0x2096
+    1aeb:	00 00 
+    1aed:	66 e8 18 f8 ff ff    	call   130b <_strncpy>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:244
+	loadFiles();
+    1af3:	66 e8 05 00 00 00    	call   1afe <_loadFiles>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:246
+
+}
+    1af9:	90                   	nop
+    1afa:	66 c9                	leave  
+    1afc:	66 c3                	ret    
+
+00001afe <_loadFiles>:
+loadFiles():
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:251
+
+struct info used;
+
+void loadFiles()
+{
+    1afe:	66 55                	push   ebp
+    1b00:	66 89 e5             	mov    ebp,esp
+    1b03:	66 57                	push   edi
+    1b05:	66 56                	push   esi
+    1b07:	66 53                	push   ebx
+    1b09:	66 83 ec 74          	sub    esp,0x74
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:252
+	char * rawRecords = getRecords(segOfOs, offsetOfRecord);
+    1b0d:	67 66 c7 44 24 04 00 	mov    DWORD PTR [esp+0x4],0xd000
+    1b14:	d0 00 00 
+    1b17:	67 66 c7 04 24 00 20 	mov    DWORD PTR [esp],0x2000
+    1b1e:	00 00 
+    1b20:	66 e8 76 f3 ff ff    	call   e9c <_getRecords>
+    1b26:	67 66 89 45 e0       	mov    DWORD PTR [ebp-0x20],eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:254
+	// printSentence(rawRecords, 0, 0, strlen(rawRecords), 0x0f);
+	int i = 0;
+    1b2b:	67 66 c7 45 f0 00 00 	mov    DWORD PTR [ebp-0x10],0x0
+    1b32:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:255
+	int l = 0;
+    1b34:	67 66 c7 45 ec 00 00 	mov    DWORD PTR [ebp-0x14],0x0
+    1b3b:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:256
+	int size = 0;
+    1b3d:	67 66 c7 45 e8 00 00 	mov    DWORD PTR [ebp-0x18],0x0
+    1b44:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:257
+	int place = 0;
+    1b46:	67 66 c7 45 e4 00 00 	mov    DWORD PTR [ebp-0x1c],0x0
+    1b4d:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:259
+	char name[30];
+	enum fileType t = null;
+    1b4f:	67 66 c7 45 dc 00 00 	mov    DWORD PTR [ebp-0x24],0x0
+    1b56:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:260
+	struct info *tmp = &used;
+    1b58:	67 66 c7 45 d8 40 46 	mov    DWORD PTR [ebp-0x28],0x4640
+    1b5f:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:261
+	while(rawRecords[i] != '\n')
+    1b61:	e9 ef 01             	jmp    1d53 <_loadFiles+0x255>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:263
+	{
+		size = 0;
+    1b64:	67 66 c7 45 e8 00 00 	mov    DWORD PTR [ebp-0x18],0x0
+    1b6b:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:264
+		place = 0;
+    1b6d:	67 66 c7 45 e4 00 00 	mov    DWORD PTR [ebp-0x1c],0x0
+    1b74:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:266
+		// name
+		++i;
+    1b76:	67 66 ff 45 f0       	inc    DWORD PTR [ebp-0x10]
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:267
+		l = 0;
+    1b7b:	67 66 c7 45 ec 00 00 	mov    DWORD PTR [ebp-0x14],0x0
+    1b82:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:268
+		while(rawRecords[i]!='|'){
+    1b84:	eb 0a                	jmp    1b90 <_loadFiles+0x92>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:269
+			++i;
+    1b86:	67 66 ff 45 f0       	inc    DWORD PTR [ebp-0x10]
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:270
+			++l;
+    1b8b:	67 66 ff 45 ec       	inc    DWORD PTR [ebp-0x14]
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:268
+		while(rawRecords[i]!='|'){
+    1b90:	67 66 8b 55 f0       	mov    edx,DWORD PTR [ebp-0x10]
+    1b95:	67 66 8b 45 e0       	mov    eax,DWORD PTR [ebp-0x20]
+    1b9a:	66 01 d0             	add    eax,edx
+    1b9d:	67 8a 00             	mov    al,BYTE PTR [eax]
+    1ba0:	3c 7c                	cmp    al,0x7c
+    1ba2:	75 e2                	jne    1b86 <_loadFiles+0x88>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:272
+		}
+		++i;
+    1ba4:	67 66 ff 45 f0       	inc    DWORD PTR [ebp-0x10]
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:273
+		strncpy(rawRecords+i-l-1, name, l);
+    1ba9:	67 66 8b 55 f0       	mov    edx,DWORD PTR [ebp-0x10]
+    1bae:	67 66 8b 45 ec       	mov    eax,DWORD PTR [ebp-0x14]
+    1bb3:	66 29 c2             	sub    edx,eax
+    1bb6:	66 89 d0             	mov    eax,edx
+    1bb9:	67 66 8d 50 ff       	lea    edx,[eax-0x1]
+    1bbe:	67 66 8b 45 e0       	mov    eax,DWORD PTR [ebp-0x20]
+    1bc3:	66 01 c2             	add    edx,eax
+    1bc6:	67 66 8b 45 ec       	mov    eax,DWORD PTR [ebp-0x14]
+    1bcb:	67 66 89 44 24 08    	mov    DWORD PTR [esp+0x8],eax
+    1bd1:	67 66 8d 45 ba       	lea    eax,[ebp-0x46]
+    1bd6:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+    1bdc:	67 66 89 14 24       	mov    DWORD PTR [esp],edx
+    1be1:	66 e8 24 f7 ff ff    	call   130b <_strncpy>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:275
+		// size
+		while(rawRecords[i]!='|'){
+    1be7:	eb 3a                	jmp    1c23 <_loadFiles+0x125>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:276
+			size = size * 10 + rawRecords[i]-'0';
+    1be9:	67 66 8b 55 e8       	mov    edx,DWORD PTR [ebp-0x18]
+    1bee:	66 89 d0             	mov    eax,edx
+    1bf1:	66 c1 e0 02          	shl    eax,0x2
+    1bf5:	66 01 d0             	add    eax,edx
+    1bf8:	66 01 c0             	add    eax,eax
+    1bfb:	66 89 c1             	mov    ecx,eax
+    1bfe:	67 66 8b 55 f0       	mov    edx,DWORD PTR [ebp-0x10]
+    1c03:	67 66 8b 45 e0       	mov    eax,DWORD PTR [ebp-0x20]
+    1c08:	66 01 d0             	add    eax,edx
+    1c0b:	67 8a 00             	mov    al,BYTE PTR [eax]
+    1c0e:	66 0f be c0          	movsx  eax,al
+    1c12:	66 01 c8             	add    eax,ecx
+    1c15:	66 83 e8 30          	sub    eax,0x30
+    1c19:	67 66 89 45 e8       	mov    DWORD PTR [ebp-0x18],eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:277
+			++i;
+    1c1e:	67 66 ff 45 f0       	inc    DWORD PTR [ebp-0x10]
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:275
+		while(rawRecords[i]!='|'){
+    1c23:	67 66 8b 55 f0       	mov    edx,DWORD PTR [ebp-0x10]
+    1c28:	67 66 8b 45 e0       	mov    eax,DWORD PTR [ebp-0x20]
+    1c2d:	66 01 d0             	add    eax,edx
+    1c30:	67 8a 00             	mov    al,BYTE PTR [eax]
+    1c33:	3c 7c                	cmp    al,0x7c
+    1c35:	75 b2                	jne    1be9 <_loadFiles+0xeb>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:279
+		}		
+		++i;
+    1c37:	67 66 ff 45 f0       	inc    DWORD PTR [ebp-0x10]
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:281
+		// place
+		while(rawRecords[i]!='|'){
+    1c3c:	eb 3a                	jmp    1c78 <_loadFiles+0x17a>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:282
+			place = place * 10 + rawRecords[i]-'0';
+    1c3e:	67 66 8b 55 e4       	mov    edx,DWORD PTR [ebp-0x1c]
+    1c43:	66 89 d0             	mov    eax,edx
+    1c46:	66 c1 e0 02          	shl    eax,0x2
+    1c4a:	66 01 d0             	add    eax,edx
+    1c4d:	66 01 c0             	add    eax,eax
+    1c50:	66 89 c1             	mov    ecx,eax
+    1c53:	67 66 8b 55 f0       	mov    edx,DWORD PTR [ebp-0x10]
+    1c58:	67 66 8b 45 e0       	mov    eax,DWORD PTR [ebp-0x20]
+    1c5d:	66 01 d0             	add    eax,edx
+    1c60:	67 8a 00             	mov    al,BYTE PTR [eax]
+    1c63:	66 0f be c0          	movsx  eax,al
+    1c67:	66 01 c8             	add    eax,ecx
+    1c6a:	66 83 e8 30          	sub    eax,0x30
+    1c6e:	67 66 89 45 e4       	mov    DWORD PTR [ebp-0x1c],eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:283
+			++i;
+    1c73:	67 66 ff 45 f0       	inc    DWORD PTR [ebp-0x10]
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:281
+		while(rawRecords[i]!='|'){
+    1c78:	67 66 8b 55 f0       	mov    edx,DWORD PTR [ebp-0x10]
+    1c7d:	67 66 8b 45 e0       	mov    eax,DWORD PTR [ebp-0x20]
+    1c82:	66 01 d0             	add    eax,edx
+    1c85:	67 8a 00             	mov    al,BYTE PTR [eax]
+    1c88:	3c 7c                	cmp    al,0x7c
+    1c8a:	75 b2                	jne    1c3e <_loadFiles+0x140>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:285
+		}		
+		++i;
+    1c8c:	67 66 ff 45 f0       	inc    DWORD PTR [ebp-0x10]
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:287
+		//type
+		t = rawRecords[i]-'0';
+    1c91:	67 66 8b 55 f0       	mov    edx,DWORD PTR [ebp-0x10]
+    1c96:	67 66 8b 45 e0       	mov    eax,DWORD PTR [ebp-0x20]
+    1c9b:	66 01 d0             	add    eax,edx
+    1c9e:	67 8a 00             	mov    al,BYTE PTR [eax]
+    1ca1:	66 0f be c0          	movsx  eax,al
+    1ca5:	66 83 e8 30          	sub    eax,0x30
+    1ca9:	67 66 89 45 dc       	mov    DWORD PTR [ebp-0x24],eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:288
+		i+=3;
+    1cae:	67 66 83 45 f0 03    	add    DWORD PTR [ebp-0x10],0x3
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:289
+		tmp->size = size;
+    1cb4:	67 66 8b 45 d8       	mov    eax,DWORD PTR [ebp-0x28]
+    1cb9:	67 66 8b 55 e8       	mov    edx,DWORD PTR [ebp-0x18]
+    1cbe:	67 66 89 50 28       	mov    DWORD PTR [eax+0x28],edx
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:290
+		tmp->type = t;
+    1cc3:	67 66 8b 45 d8       	mov    eax,DWORD PTR [ebp-0x28]
+    1cc8:	67 66 8b 55 dc       	mov    edx,DWORD PTR [ebp-0x24]
+    1ccd:	67 66 89 50 20       	mov    DWORD PTR [eax+0x20],edx
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:291
+		tmp->lmaddress = place;
+    1cd2:	67 66 8b 45 d8       	mov    eax,DWORD PTR [ebp-0x28]
+    1cd7:	67 66 8b 55 e4       	mov    edx,DWORD PTR [ebp-0x1c]
+    1cdc:	67 66 89 50 24       	mov    DWORD PTR [eax+0x24],edx
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:292
+		tmp->deleted = 0;
+    1ce1:	67 66 8b 45 d8       	mov    eax,DWORD PTR [ebp-0x28]
+    1ce6:	67 66 c7 40 2c 00 00 	mov    DWORD PTR [eax+0x2c],0x0
+    1ced:	00 00 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:293
+		strncpy(name, tmp->name, strlen(name));
+    1cef:	67 66 8d 45 ba       	lea    eax,[ebp-0x46]
+    1cf4:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    1cf9:	66 e8 c1 f1 ff ff    	call   ec0 <_strlen>
+    1cff:	66 89 c2             	mov    edx,eax
+    1d02:	67 66 8b 45 d8       	mov    eax,DWORD PTR [ebp-0x28]
+    1d07:	67 66 89 54 24 08    	mov    DWORD PTR [esp+0x8],edx
+    1d0d:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+    1d13:	67 66 8d 45 ba       	lea    eax,[ebp-0x46]
+    1d18:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    1d1d:	66 e8 e8 f5 ff ff    	call   130b <_strncpy>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:305
+		// printSentence(tmpstr, line, 40, strlen(tmpstr), purple);
+		// int2str(tmp->type, tmpstr);
+		// printSentence(tmpstr, line, 55, strlen(tmpstr), purple);
+		// line += 1;
+
+		hash(name, *tmp);
+    1d23:	67 66 8b 55 d8       	mov    edx,DWORD PTR [ebp-0x28]
+    1d28:	67 66 8d 44 24 04    	lea    eax,[esp+0x4]
+    1d2e:	66 89 d3             	mov    ebx,edx
+    1d31:	66 ba 0d 00 00 00    	mov    edx,0xd
+    1d37:	66 89 c7             	mov    edi,eax
+    1d3a:	66 89 de             	mov    esi,ebx
+    1d3d:	66 89 d1             	mov    ecx,edx
+    1d40:	66 f3 a5             	rep movs DWORD PTR es:[di],DWORD PTR ds:[si]
+    1d43:	67 66 8d 45 ba       	lea    eax,[ebp-0x46]
+    1d48:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    1d4d:	66 e8 a4 f6 ff ff    	call   13f7 <_hash>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:261
+	while(rawRecords[i] != '\n')
+    1d53:	67 66 8b 55 f0       	mov    edx,DWORD PTR [ebp-0x10]
+    1d58:	67 66 8b 45 e0       	mov    eax,DWORD PTR [ebp-0x20]
+    1d5d:	66 01 d0             	add    eax,edx
+    1d60:	67 8a 00             	mov    al,BYTE PTR [eax]
+    1d63:	3c 0a                	cmp    al,0xa
+    1d65:	0f 85 fb fd          	jne    1b64 <_loadFiles+0x66>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:308
+		// hash(name, tmp);
+	}
+}
+    1d69:	90                   	nop
+    1d6a:	66 83 c4 74          	add    esp,0x74
+    1d6e:	66 5b                	pop    ebx
+    1d70:	66 5e                	pop    esi
+    1d72:	66 5f                	pop    edi
+    1d74:	66 5d                	pop    ebp
+    1d76:	66 c3                	ret    
+
+00001d78 <_createProcess>:
+createProcess():
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:311
+
+void createProcess(short cs, short ip, short ss, short sp, int id, char * name)
+{
+    1d78:	66 55                	push   ebp
+    1d7a:	66 89 e5             	mov    ebp,esp
+    1d7d:	66 53                	push   ebx
+    1d7f:	66 83 ec 1c          	sub    esp,0x1c
+    1d83:	67 66 8b 5d 08       	mov    ebx,DWORD PTR [ebp+0x8]
+    1d88:	67 66 8b 4d 0c       	mov    ecx,DWORD PTR [ebp+0xc]
+    1d8d:	67 66 8b 55 10       	mov    edx,DWORD PTR [ebp+0x10]
+    1d92:	67 66 8b 45 14       	mov    eax,DWORD PTR [ebp+0x14]
+    1d97:	67 89 5d f8          	mov    WORD PTR [ebp-0x8],bx
+    1d9b:	67 89 4d f4          	mov    WORD PTR [ebp-0xc],cx
+    1d9f:	67 89 55 f0          	mov    WORD PTR [ebp-0x10],dx
+    1da3:	67 89 45 ec          	mov    WORD PTR [ebp-0x14],ax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:312
+	processTable[id].id = id;
+    1da7:	67 66 8b 55 18       	mov    edx,DWORD PTR [ebp+0x18]
+    1dac:	66 89 d0             	mov    eax,edx
+    1daf:	66 c1 e0 03          	shl    eax,0x3
+    1db3:	66 01 d0             	add    eax,edx
+    1db6:	66 01 c0             	add    eax,eax
+    1db9:	66 01 d0             	add    eax,edx
+    1dbc:	66 c1 e0 02          	shl    eax,0x2
+    1dc0:	67 66 8d 90 64 43 00 	lea    edx,[eax+0x4364]
+    1dc7:	00 
+    1dc8:	67 66 8b 45 18       	mov    eax,DWORD PTR [ebp+0x18]
+    1dcd:	67 66 89 02          	mov    DWORD PTR [edx],eax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:313
+	processTable[id].pcb.cs = cs;
+    1dd1:	67 66 8b 55 18       	mov    edx,DWORD PTR [ebp+0x18]
+    1dd6:	66 89 d0             	mov    eax,edx
+    1dd9:	66 c1 e0 03          	shl    eax,0x3
+    1ddd:	66 01 d0             	add    eax,edx
+    1de0:	66 01 c0             	add    eax,eax
+    1de3:	66 01 d0             	add    eax,edx
+    1de6:	66 c1 e0 02          	shl    eax,0x2
+    1dea:	67 66 8d 90 5a 43 00 	lea    edx,[eax+0x435a]
+    1df1:	00 
+    1df2:	67 66 8b 45 f8       	mov    eax,DWORD PTR [ebp-0x8]
+    1df7:	67 89 02             	mov    WORD PTR [edx],ax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:314
+	processTable[id].pcb.ip = ip;
+    1dfa:	67 66 8b 55 18       	mov    edx,DWORD PTR [ebp+0x18]
+    1dff:	66 89 d0             	mov    eax,edx
+    1e02:	66 c1 e0 03          	shl    eax,0x3
+    1e06:	66 01 d0             	add    eax,edx
+    1e09:	66 01 c0             	add    eax,eax
+    1e0c:	66 01 d0             	add    eax,edx
+    1e0f:	66 c1 e0 02          	shl    eax,0x2
+    1e13:	67 66 8d 90 58 43 00 	lea    edx,[eax+0x4358]
+    1e1a:	00 
+    1e1b:	67 66 8b 45 f4       	mov    eax,DWORD PTR [ebp-0xc]
+    1e20:	67 89 02             	mov    WORD PTR [edx],ax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:315
+	processTable[id].pcb.ss_now = ss;
+    1e23:	67 66 8b 55 18       	mov    edx,DWORD PTR [ebp+0x18]
+    1e28:	66 89 d0             	mov    eax,edx
+    1e2b:	66 c1 e0 03          	shl    eax,0x3
+    1e2f:	66 01 d0             	add    eax,edx
+    1e32:	66 01 c0             	add    eax,eax
+    1e35:	66 01 d0             	add    eax,edx
+    1e38:	66 c1 e0 02          	shl    eax,0x2
+    1e3c:	67 66 8d 90 60 43 00 	lea    edx,[eax+0x4360]
+    1e43:	00 
+    1e44:	67 66 8b 45 f0       	mov    eax,DWORD PTR [ebp-0x10]
+    1e49:	67 89 02             	mov    WORD PTR [edx],ax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:316
+	processTable[id].pcb.sp_now = sp;
+    1e4c:	67 66 8b 55 18       	mov    edx,DWORD PTR [ebp+0x18]
+    1e51:	66 89 d0             	mov    eax,edx
+    1e54:	66 c1 e0 03          	shl    eax,0x3
+    1e58:	66 01 d0             	add    eax,edx
+    1e5b:	66 01 c0             	add    eax,eax
+    1e5e:	66 01 d0             	add    eax,edx
+    1e61:	66 c1 e0 02          	shl    eax,0x2
+    1e65:	67 66 8d 90 5e 43 00 	lea    edx,[eax+0x435e]
+    1e6c:	00 
+    1e6d:	67 66 8b 45 ec       	mov    eax,DWORD PTR [ebp-0x14]
+    1e72:	67 89 02             	mov    WORD PTR [edx],ax
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:317
+	strncpy(name, processTable[id].name, strlen(name));
+    1e75:	67 66 8b 45 1c       	mov    eax,DWORD PTR [ebp+0x1c]
+    1e7a:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    1e7f:	66 e8 3b f0 ff ff    	call   ec0 <_strlen>
+    1e85:	66 89 c1             	mov    ecx,eax
+    1e88:	67 66 8b 55 18       	mov    edx,DWORD PTR [ebp+0x18]
+    1e8d:	66 89 d0             	mov    eax,edx
+    1e90:	66 c1 e0 03          	shl    eax,0x3
+    1e94:	66 01 d0             	add    eax,edx
+    1e97:	66 01 c0             	add    eax,eax
+    1e9a:	66 01 d0             	add    eax,edx
+    1e9d:	66 c1 e0 02          	shl    eax,0x2
+    1ea1:	66 83 c0 20          	add    eax,0x20
+    1ea5:	66 05 40 43 00 00    	add    eax,0x4340
+    1eab:	66 83 c0 08          	add    eax,0x8
+    1eaf:	67 66 89 4c 24 08    	mov    DWORD PTR [esp+0x8],ecx
+    1eb5:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+    1ebb:	67 66 8b 45 1c       	mov    eax,DWORD PTR [ebp+0x1c]
+    1ec0:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+    1ec5:	66 e8 40 f4 ff ff    	call   130b <_strncpy>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:318
+}
+    1ecb:	90                   	nop
+    1ecc:	66 83 c4 1c          	add    esp,0x1c
+    1ed0:	66 5b                	pop    ebx
+    1ed2:	66 5d                	pop    ebp
+    1ed4:	66 c3                	ret    
+
+00001ed6 <_initialProcessTable>:
+initialProcessTable():
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:321
+
+void initialProcessTable()
+{
+    1ed6:	66 55                	push   ebp
+    1ed8:	66 89 e5             	mov    ebp,esp
+    1edb:	66 83 ec 1c          	sub    esp,0x1c
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:322
+	for (int i = 0; i < Len; ++i)
+    1edf:	67 66 c7 45 fc 00 00 	mov    DWORD PTR [ebp-0x4],0x0
+    1ee6:	00 00 
+    1ee8:	eb 2c                	jmp    1f16 <_initialProcessTable+0x40>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:324
+	{
+		processTable[i].id = -1;
+    1eea:	67 66 8b 55 fc       	mov    edx,DWORD PTR [ebp-0x4]
+    1eef:	66 89 d0             	mov    eax,edx
+    1ef2:	66 c1 e0 03          	shl    eax,0x3
+    1ef6:	66 01 d0             	add    eax,edx
+    1ef9:	66 01 c0             	add    eax,eax
+    1efc:	66 01 d0             	add    eax,edx
+    1eff:	66 c1 e0 02          	shl    eax,0x2
+    1f03:	66 05 64 43 00 00    	add    eax,0x4364
+    1f09:	67 66 c7 00 ff ff ff 	mov    DWORD PTR [eax],0xffffffff
+    1f10:	ff 
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:322
+	for (int i = 0; i < Len; ++i)
+    1f11:	67 66 ff 45 fc       	inc    DWORD PTR [ebp-0x4]
+    1f16:	67 66 83 7d fc 09    	cmp    DWORD PTR [ebp-0x4],0x9
+    1f1c:	7e cc                	jle    1eea <_initialProcessTable+0x14>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:326
+	}
+	createProcess(0x2000, 0, 0x2000, 0xffff, 0, "kernel");
+    1f1e:	67 66 c7 44 24 14 97 	mov    DWORD PTR [esp+0x14],0x2097
+    1f25:	20 00 00 
+    1f28:	67 66 c7 44 24 10 00 	mov    DWORD PTR [esp+0x10],0x0
+    1f2f:	00 00 00 
+    1f32:	67 66 c7 44 24 0c ff 	mov    DWORD PTR [esp+0xc],0xffffffff
+    1f39:	ff ff ff 
+    1f3c:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x2000
+    1f43:	20 00 00 
+    1f46:	67 66 c7 44 24 04 00 	mov    DWORD PTR [esp+0x4],0x0
+    1f4d:	00 00 00 
+    1f50:	67 66 c7 04 24 00 20 	mov    DWORD PTR [esp],0x2000
+    1f57:	00 00 
+    1f59:	66 e8 19 fe ff ff    	call   1d78 <_createProcess>
+D:\OneDrive\Study\Operating Systems\สตั้\project4\codes/./lib/utilsC.c:327
+}
+    1f5f:	90                   	nop
+    1f60:	66 c9                	leave  
+    1f62:	66 c3                	ret    
+
+00001f64 <_WelcomeSentence>:
+    1f64:	20 20                	and    BYTE PTR [bx+si],ah
+	...
+
+00001f68 <_prompt>:
+    1f68:	5f                   	pop    di
+    1f69:	20 00                	and    BYTE PTR [bx+si],al
+	...

@@ -2,38 +2,20 @@
 // 标签是绿色 0x0a
 // 输入是黄色 0x0e
 // 文本内容是紫色 0x0d
+#ifndef __UTILS_H__
+#define __UTILS_H__
+#define white 0x0f
+#define green 0x0a
+#define yellow 0x0e
+#define purple 0x0d
 
-# define white 0x0f
-# define green 0x0a
-# define yellow 0x0e
-# define purple 0x0d
+#define Len 10
+#define LenOfFat 200
 
-#define Len 100
-// ;;;;;; 文件系统雏形 ;;;;;
-// 首先需要一个全局的控制块，记录当前已用的位置和未用的位置。
-// 然后需要一个目录项，记录文件名称、类型、删除标记、索引序号、兄弟、父文件夹。
-// 索引节点，包括大小、地址。
 enum fileType
 {
 	null=0, docu, exec, folder
 };
-
-// struct Control
-// {
-// 	int used;//第一个使用的位置
-// 	int unused;//第一个未使用的位置
-// };
-
-// struct record
-// {
-// 	char name[30];
-// 	enum fileType type;
-// 	int deleted;
-// 	int info_index;
-// 	int father_folder;
-// 	int sibling;
-// 	int son;
-// };
 
 struct info
 {
@@ -42,7 +24,45 @@ struct info
 	int lmaddress;
 	int  size;
 	int deleted;
+	int start;
 };
+
+struct PCB
+{
+	short gs;
+	short fs;
+	short es;
+	short ds;
+	short di;
+	short si;
+	short bp;
+	short sp;
+	short bx;
+	short dx;
+	short cx;
+	short ax;
+	// short retaddr; 
+
+	short ip;
+	short cs;
+	short flags;
+	short sp_now;
+	short ss_now;
+};
+
+enum Processstatus
+{
+	Origin=0, ready, running, hold, exit
+};
+
+struct Process
+{
+	struct PCB pcb;
+	int id;
+	char name[30];
+	enum Processstatus status;
+};
+
 
 void initialFile();
 void loadFiles();
@@ -67,3 +87,9 @@ int hash(char * key, struct info record);
 int find(char * key);
 
 void int2str(int org, char * str);
+
+void initialProcessTable();
+
+void createProcess(short cs, short ip, short ss, short sp, int id, char * name);
+
+#endif

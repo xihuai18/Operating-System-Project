@@ -2,27 +2,34 @@
 #include "../lib/utilsAsm.h"
 
 
-// __asm__(".code16gcc\n");
-__asm__("mov $0, %eax\n");
+__asm__(".code16gcc\n");
+__asm__("mov %cs, %eax\n");
 __asm__("mov %ax, %ds\n");
 __asm__("mov %ax, %es\n");
-__asm__("jmpl $0, $__main\n");
+__asm__("mov %ax, %ss\n");
+__asm__("call _inisys\n");
+__asm__("jmp __main\n");
 
 int line = 0;
 struct info information[Len];
 struct info no;
-// struct record res[Len];
-// struct Control con;
-// struct record root;
+short *FAT;
+struct Process processTable[Len];
+int curId;
+//id 为-1意为空,processTable[0]为内核.
 
 int _main() {
-	initialFile();
 	initialScreen(1);
+	initialFile();
 	char * in;
 	char * str;
 	int tmp = -1;
-	// dispatch(18432, 512);
-	// initialScreen(0);
+	// str = getRecords(offsetOfRecord);
+	// printSentence(str, 0, 0, strlen(str), 0x0f);
+	// load(20480, 3072, offsetOfUserPrg);
+	// createProcess(segOfUser, offsetOfUserPrg, segOfUser, 0xffff, 1, "testProcess");
+	// dispatch(&(processTable[0].pcb), &(processTable[1].pcb));
+
 	do {
 		in = getInput();
 		if(in[0] == '.' && in[1] == '/')
@@ -40,7 +47,7 @@ int _main() {
 			// if(tmp.type != null){
 			if(tmp != -1 && information[tmp].deleted != 1){
 				load(information[tmp].lmaddress, information[tmp].size, offsetOfUserPrg);
-				str = getRecords(offsetOfUserPrg);
+				str = getRecords(segOfUser, offsetOfUserPrg);
 				printSentence(str, line, 0, strlen(str), purple);
 				line += countLines(str);
 			}

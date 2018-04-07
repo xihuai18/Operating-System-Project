@@ -7,14 +7,16 @@ extern struct info no;
 extern int line;
 extern struct Control con;
 extern struct record root;
+extern short* FAT;
+extern struct Process processTable[Len];
 // extern struct record res[Len];
 
-// __asm__(".code16gcc\n");
+__asm__(".code16gcc\n");
 
 char * WelcomeSentence = "oh my Wsh\n\rCopyright (C) Xihuai Wang\n\rtype \"man\" to get help\n\r";
 char * prompt = ">>";
 
-// æ³¨æ„å­—ç¬¦ä¸²è¦æœ‰'0'ç»“å°¾ã€‚
+// ×¢Òâ×Ö·û´®ÒªÓÐ'0'½áÎ²¡£
 int strlen(char * sen)
 {
 	int i = 0;
@@ -81,7 +83,7 @@ void date()
 
 void man()
 {
-	char * manual = getRecords(offsetOfManual);
+	char * manual = getRecords(segOfOs, offsetOfManual);
 	line = 0;
 	ClearScreen();
 	printSentence(manual, line, 0, strlen(manual), purple);
@@ -121,6 +123,34 @@ int hashfun(char * key){
 	return ret;
 }
 
+// int hash(char * key, struct info * record)
+// {
+// 	int inicode = hashfun(key);
+// 	int code = inicode, i = 1;
+// 	while(information[code].type!=null){
+// 		code = (inicode + i * i) % Len;
+// 		++i;
+// 	}
+
+// 	char tmp[15];
+// 	printSentence(record->name, line, 10, strlen(record->name), purple);
+// 	int2str(record->size, tmp);
+// 	printSentence(tmp, line, 25, strlen(tmp), purple);
+// 	int2str(record->lmaddress, tmp);
+// 	printSentence(tmp, line, 40, strlen(tmp), purple);
+// 	int2str(record->type, tmp);
+// 	printSentence(tmp, line, 55, strlen(tmp), purple);
+// 	line += 1;
+
+
+// 	information[code].type = record->type;
+// 	strncpy(record->name, information[code].name, strlen(record->name));
+// 	information[code].size = record->size;
+// 	information[code].lmaddress = record->lmaddress;
+// 	information[code].deleted = record->deleted;
+// 	return code;
+// }
+
 int hash(char * key, struct info record)
 {
 	int inicode = hashfun(key);
@@ -129,7 +159,23 @@ int hash(char * key, struct info record)
 		code = (inicode + i * i) % Len;
 		++i;
 	}
-	information[code] = record;
+
+	// char tmp[15];
+	// printSentence(record.name, line, 10, strlen(record.name), purple);
+	// int2str(record.size, tmp);
+	// printSentence(tmp, line, 25, strlen(tmp), purple);
+	// int2str(record.lmaddress, tmp);
+	// printSentence(tmp, line, 40, strlen(tmp), purple);
+	// int2str(record.type, tmp);
+	// printSentence(tmp, line, 55, strlen(tmp), purple);
+	// line += 1;
+
+
+	information[code].type = record.type;
+	strncpy(record.name, information[code].name, strlen(record.name));
+	information[code].size = record.size;
+	information[code].lmaddress = record.lmaddress;
+	information[code].deleted = record.deleted;
 	return code;
 }
 
@@ -149,8 +195,8 @@ int find(char * key)
 void ls()
 {
 	char * head = "Name           Size           Lma            Type";
-	char typeTable[10][1] = {"N", "D", "E", "F"};
 	printSentence(head, line, 10, strlen(head), green);
+	char typeTable[10][1] = {"N", "D", "E", "F"};
 	line += countLines(head);
 	char tmp[15];
 	for(int i = 0; i < Len; ++i) 
@@ -182,10 +228,12 @@ void int2str(int org, char * str)
 		str[i] = org % 10 + 48;
 		org /= 10;
 	}
+	// printSentence(str, line, 0, strlen(str), white);
 }
 
 void initialFile()
 {
+	FAT = (short*)getRecords(segOfOs, offsetOfFat);
 	for(int i = 0; i < Len; ++i){
 		information[i].type=null;
 	}
@@ -194,18 +242,22 @@ void initialFile()
 	no.type = null;
 	strncpy("", no.name, 0);
 	loadFiles();
+
 }
+
+struct info used;
 
 void loadFiles()
 {
-	char * rawRecords = getRecords(offsetOfRecord);
+	char * rawRecords = getRecords(segOfOs, offsetOfRecord);
+	// printSentence(rawRecords, 0, 0, strlen(rawRecords), 0x0f);
 	int i = 0;
 	int l = 0;
 	int size = 0;
 	int place = 0;
 	char name[30];
 	enum fileType t = null;
-	struct info tmp;
+	struct info *tmp = &used;
 	while(rawRecords[i] != '\n')
 	{
 		size = 0;
@@ -234,56 +286,45 @@ void loadFiles()
 		//type
 		t = rawRecords[i]-'0';
 		i+=3;
-		tmp.size = size;
-		tmp.type = t;
-		tmp.lmaddress = place;
-		tmp.deleted = 0;
-		strncpy(name, tmp.name, strlen(name));
-		hash(name, tmp);
+		tmp->size = size;
+		tmp->type = t;
+		tmp->lmaddress = place;
+		tmp->deleted = 0;
+		strncpy(name, tmp->name, strlen(name));
+		
+		// char tmpstr[15];
+		// printSentence(tmp->name, line, 10, strlen(tmp->name), purple);
+		// int2str(tmp->size, tmpstr);
+		// printSentence(tmpstr, line, 25, strlen(tmpstr), purple);
+		// int2str(tmp->lmaddress, tmpstr);
+		// printSentence(tmpstr, line, 40, strlen(tmpstr), purple);
+		// int2str(tmp->type, tmpstr);
+		// printSentence(tmpstr, line, 55, strlen(tmpstr), purple);
+		// line += 1;
+
+		hash(name, *tmp);
+		// hash(name, tmp);
 	}
 }
 
-// void initialFile()
-// {
-// 	for(int i = 0; i < Len; ++i){
-// 		information[i].type=null;
-// 	}
-// 	no.lmaddress = 0;
-// 	no.size = 0;
-// 	no.type = null;
-// 	strcpy("", no.name);
-// 	struct info A;
-// 	A.lmaddress = 18432;
-// 	A.size = 512;
-// 	A.type = exec;
-// 	strcpy("ball_A", A.name);
-// 	struct info B;
-// 	B.lmaddress = 18944;
-// 	B.size = 512;
-// 	B.type = exec;
-// 	strcpy("ball_B", B.name);
-// 	struct info C;
-// 	C.lmaddress = 19456;
-// 	C.size = 512;
-// 	C.type = exec;
-// 	strcpy("ball_C", C.name);
-// 	struct info D;
-// 	D.lmaddress = 19968;
-// 	D.size = 512;
-// 	D.type = exec;
-// 	strcpy("ball_D", D.name);
-// 	hash("ball_A" ,A);
-// 	hash("ball_B", B);
-// 	hash("ball_C", C);
-// 	hash("ball_D", D);
+void createProcess(short cs, short ip, short ss, short sp, int id, char * name)
+{
+	processTable[id].id = id;
+	processTable[id].pcb.cs = cs;
+	processTable[id].pcb.ip = ip;
+	processTable[id].pcb.ss_now = ss;
+	processTable[id].pcb.sp_now = sp;
+	strncpy(name, processTable[id].name, strlen(name));
+}
 
-// 	struct info P;
-// 	P.lmaddress = 20480;
-// 	P.size = 3072;
-// 	P.type = exec;
-// 	strcpy("printBigname", P.name);
-// 	hash("printBigname", P);
-// }
+void initialProcessTable()
+{
+	for (int i = 0; i < Len; ++i)
+	{
+		processTable[i].id = -1;
+	}
+	createProcess(0x2000, 0, 0x2000, 0xffff, 0, "kernel");
+}
 
 
 // void initialFile()

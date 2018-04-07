@@ -1,7 +1,7 @@
 
 SECTIONS
 {
-    . = 0x0500;
+    . = 0x00000;
     .text :
     {
         *(.text)
@@ -14,8 +14,4 @@ SECTIONS
     {
         *(.bss)
     } 
-    .rdata :
-    {
-        *(.rdata)
-    }
 }
