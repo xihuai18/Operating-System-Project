@@ -12,34 +12,275 @@ global _roll
 global _getRecords
 global _load
 global _inisys
+global _test
 extern _curId
+extern _processTable
+extern _date
+extern _initialScreen
+extern _ps
+extern _kill
+extern _unused
+extern _int2str
+extern _int34h
+extern _int35h
+extern _int36h
+extern _int37h
 
 [section .text]
 segOfOs equ 0x2000 
 segOfUser equ 0x0
+
+;;;;;;;;;;;;;;;
+
+_test:
+int 34h
+int 35h
+int 36h
+int 37h
+
+pop ecx
+
+jmp cx
+
+
+
+;;;;;;;;;;;;;;;
+
+
+
 _inisys:
-	
+	pusha
+
 	call installInt8h
 	call installInt9h
 	call installInt2Bh
+	call installInt21h
+	call installInt34_37h
+
+	popa
+	ret
+
+;;;;;;;;;;;;;;;;;;;;;;;; int 21h starts ;;;;;;;;;;;;;;;;;;;;;;;;
+
+installInt21h:
+	push ax
+	push es
+	mov ax, 0
+    mov es, ax
+    mov word [es:21h*4], int21h
+    mov [es:21h*4+2], cs
+    pop es
+    pop ax
+	ret 
+
+	int21h:
+	pusha
+	push ds
+
+	push cs
+	pop ds
+	mov bx, 0
+
+	push ax
+	mov al, ah
+	mov bl, 2
+	mul bl
+	mov bl, al
+	pop ax
+
+	call [int21hTable+bx]	
+
+
+	int21hre:
+		pop ds
+		popa
+		iret
+
+
+	int21hTable dw int21hps, int21hkill, int21hPrintString, \
+	int21hshowDate, int21hClear, int21hint2str
+	times 0x98-($-int21hTable) db 0
+	dw int21hexit
+
+int21hps:
+	push eax
+	xor eax, eax
+	mov ax, _ps
+	call dword eax
+	pop eax
+	
+	ret
+
+int21hkill:
+	push eax
+	push ebx
+	mov ebx, 0
+	mov bl, al
+	push ebx
+	xor eax, eax
+	mov ax, _kill
+	call dword eax
+	pop ebx
+	pop ebx
+	pop eax
+	
+	ret
+
+
+
+int21hshowDate:
+	sti 
+	; 函数内部会调用中断
+	xor eax, eax
+	mov ax, _date
+	call dword eax
+	ret
+
+int21hClear:
+
+	push eax
+	xor eax, eax
+	push eax
+	mov ax, _initialScreen
+	call dword eax
+	pop eax
+	pop eax
+	
+	ret
+
+
+int21hexit:
+	
+	push eax
+	xor eax, eax
+	mov ax, _shutdown
+	call dword eax
+	pop eax
+	
+	ret
+
+int21hPrintString:
+	;;;; _printSentence(message, dh, dl, len, color) ;;;;;
+	;;;; di, dh, dl, cx, bh, gs ;;;;;
+	pusha
+	push ds
+	push eax	
+
+	mov ax, gs
+	mov ds, ax
+
+	push ebx
+	push ecx
+	
+
+	mov eax, 0
+	mov al, dl
+
+	push eax
+
+	mov al, dh
+	push eax
+	push edi
+
+	xor eax, eax
+	mov ax, _printSentence
+	call eax
+
+	pop edi
+	pop eax
+	pop eax
+	pop ecx
+	pop ebx
+
+	pop eax
+	pop ds
+	popa
+
 
 	ret
 
+int21hint2str:
+	;;;; void int2str(int org, char * str) ;;;;;
+	;;;; bx, di, gs ;;;;
+	pusha
+	push ds
+
+	mov ax, gs
+	mov ds, ax
+
+	push edi
+	push ebx
+
+	mov ax, _int2str
+	call eax
+
+	pop ebx
+	pop edi
+
+	pop ds
+	popa
+
+	ret
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;; int 21h ends ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 installInt2Bh:
+	pusha
+	push es
     mov ax, 0
     mov es, ax
     mov word [es:2bh*4], int2Bh
     mov [es:2bh*4+2], cs
+    pop es
+    popa
     ret
     int2Bh:
-        popf
-        pop ax ;CS
-        pop ax ;IP
+    ; 注意进来这里的时候，其实cs是PCB的cs（内核），其余的ds,es,ss都是用户态
+    ; 用户栈里面有\ip(user)\flags(user)\cs(checkinput/user)\ip(checkinput)
+    ; Process的大小是0x4c，pcb在其首地址。
 
-        pop ax ;IP checkinput
-        retf ;IP ball_ifself
+        pop word [in2b_store_ip] ;ip
+        pop word [in2b_store_cs] ;cs
+        popf
+        pop word [in2b_store_ip] ;ip
+        ; 恢复标志变量，存储ip和cs
+
+        push word [in2b_store_cs]
+        push word [in2b_store_ip]
+
+        push bx
+        push ax
+        push ds
+        mov ax, cs
+        mov ds, ax
+        mov bx, [_curId]
+        mov ax, 0x4c
+        mul bl
+        mov bx, ax
+        add bx, _processTable
+
+        mov word [new_process], _processTable
+        mov word [old_process], bx
+        pop ds
+        pop ax
+        pop bx
+
+        call save
+        call restart
+
+
+
+        in2b_store_ip dw 0
+        in2b_store_cs dw 0
 
 installInt9h:
+	
+	pusha
+	push es
+	push ds
     xor ax, ax
     mov es, ax
     mov ax, cs
@@ -54,7 +295,9 @@ installInt9h:
     mov word [es:9*4+2], cs
     mov word [es:9*4], int9h
     sti
-
+    pop ds
+    pop es
+    popa
     ret
 
 
@@ -200,11 +443,81 @@ int8hret:
     inserted db "inserted "
     inserted_len equ $-inserted
 
+
+installInt34_37h:
+	push es
+	push ax
+	mov ax, 0
+	mov es, ax
+
+	cli
+    mov word [es:0x34*4+2], cs
+    mov word [es:0x34*4], int34h
+    sti
+    cli
+    mov word [es:0x35*4+2], cs
+    mov word [es:0x35*4], int35h
+    sti
+    cli
+    mov word [es:0x36*4+2], cs
+    mov word [es:0x36*4], int36h
+    sti
+    cli
+    mov word [es:0x37*4+2], cs
+    mov word [es:0x37*4], int37h
+    sti
+
+    pop ax
+    pop es
+
+    ret
+
+    int34h:
+
+    mov ax, cs
+    mov ds, ax
+
+    xor eax, eax
+	mov ax, _int34h
+	call dword eax
+	iret
+
+    int35h:
+    mov ax, cs
+    mov ds, ax
+
+    xor eax, eax
+	mov ax, _int35h
+	call dword eax
+	iret
+
+    int36h:
+    mov ax, cs
+    mov ds, ax
+
+    xor eax, eax
+	mov ax, _int36h
+	call dword eax
+	iret
+
+    int37h:
+    mov ax, cs
+    mov ds, ax
+
+    xor eax, eax
+	mov ax, _int37h
+	call dword eax
+	iret
+
+
+
+
+
+
 _printSentence:
 	;;; _printSentence(message, dh, dl, len, color) ;;;;;
 	push ebp
 	mov ax, cs
-	mov ds, ax
 	mov es, ax
  	
  	mov bl, byte [esp+18h]
@@ -226,6 +539,7 @@ _printSentence:
 	
 _ClearScreen:
 	;;; _ClearScreen() ;;;;
+	pusha
 	mov ah, 06h
 	mov al, 0 ; 0 是清空屏幕
 	mov bh, 0fh; 白底黑字
@@ -234,7 +548,7 @@ _ClearScreen:
 	mov dh, 24
 	mov dl, 79
 	int 10h
-
+	popa
 	pop ecx
 
 	jmp cx
@@ -369,6 +683,7 @@ _getInput:
 		ret
 
 	Charminiret:
+
 	pop es
 	pop di
 	pop dx
@@ -381,6 +696,7 @@ _getInput:
 
 
 _shutdown:
+	pusha
 	mov ax, 5301h ;function 5301h
 	xor bx, bx ;device id: 0000h (=system bios)
 	int 15h ;call interrupt: 15h
@@ -395,6 +711,7 @@ _shutdown:
 
 	int 15h ;call interrupt: 15h
 
+	popa
 	pop ecx
 	jmp cx
 
@@ -403,13 +720,17 @@ _load:
 	push ebp
 	push es
 	push ds
+	push ax
+	push dx
+	push cx
+	push bx
 	mov ax, cs
 	mov ds, ax
 	mov ax, segOfUser
     mov es, ax                ;设置段地址（不能直接mov es,段地址）
  	
  	; 计算扇区
- 	mov ax, word [esp+0xc]
+ 	mov ax, word [esp+0x14]
  	mov dx, 0
  	mov cx, 512
  	div cx ;现在ax里面是相对扇区号
@@ -427,15 +748,19 @@ _load:
 
  	; 计算大小
  	push cx
- 	mov ax, word [esp+0x12]
+ 	mov ax, word [esp+0x1a]
     mov cx, 512
     mov dx, 0
     div cx ;al已设定
     pop cx
 
-    mov bx, word [esp+0x14];偏移地址
+    mov bx, word [esp+0x1c];偏移地址
     mov ah, 2 ;功能号
     int 13h
+    pop bx
+    pop cx
+    pop dx
+    pop ax
     pop ds
     pop es
     pop ebp
@@ -443,156 +768,125 @@ _load:
 	jmp cx
 
 
-; _dispatch:
-; 	; void dispatch(struct PCB * kernel, struct PCB * pro);;
-; 	push ax
-; 	mov ax, [esp+6]
-; 	mov word [old_process], ax
-; 	mov ax, [esp+0xa]
-; 	mov word [new_process], ax
-; 	pop ax
-
-; 	call save
-; 	call restart
-
-
-; 	; 先保存当前进程控制块(0),再进入参数指定的进程
-; 	; 方案是PCB表放在内核所在的段\
-; 	; 此时栈中应该有ip(进程)\ip(调度函数或中断,应舍弃)
-; save:
-; 	pop word [store_ax]
-; 	;此时栈中为进程ip
-; 	push ds
-; 	;;;;切换到内核栈(PCB表所在);;;;;
-; 	push ax
-; 	mov ax, segOfOs
-; 	mov cs, ax
-; 	pop ax
-	
-; 	push cs
-; 	pop ds
-; 	push si
-; 	push di
-; 	mov si, [new_process] ;new_process
-; 	mov di, [old_process] ;old_process
-
-; 	pop word [store_di] ;di
-; 	pop word [store_si] ;si
-; 	pop word [store_ds] ;ds
-; 	pop word [store_ip] ;ip
-; 	;;;sp恢复到进入函数之前的值;;;;
-; 	mov word [di+16*2], ss
-; 	mov word [di+15*2], sp
-; 	push cs
-; 	pop ss
-; 	add di, 14*2
-; 	mov sp, di
-; 	pushf
-; 	push cs
-; 	push word [store_ip]
-; 	pusha
-; 	;;; si,di have been changed;;;;
-; 	pop di ;si
-; 	pop di
-
-; 	push word [store_si]
-; 	push word [store_di]
-; 	push word [store_ds]
-
-; 	push es
-; 	push fs
-; 	push gs
-
-
-; restart:
-; 	;;注意调用时的压栈等等
-; 	push ax
-
-; 	mov ax, cs
-; 	mov ds, ax
-; 	mov ss, ax
-
-; 	pop ax
-; 	;;;切换到PCB表;;;;
-; 	mov sp, di
-; 	;;restore
-; 	pop gs
-; 	pop fs
-; 	pop es
-; 	pop ds
-; 	popa
-
-; 	pop word [cs:store_ip]
-; 	pop word [cs:store_cs]
-; 	popf
-; 	pop word [cs:store_sp]
-; 	pop ss
-	
-; 	mov word [cs:store_ax], ax
-; 	mov ax, word [cs:store_sp]
-; 	mov sp, ax
-; 	mov ax, word [cs:store_ax]
-
-; 	pushf
-; 	push word [cs:store_cs]
-; 	push word [cs:store_ip]
-
-; 	iret
-
-; 	new_process dw 0
-; 	old_process dw 0
-; 	store_ax dw 0
-; 	store_di dw 0
-; 	store_si dw 0
-; 	store_ds dw 0
-; 	store_ip dw 0
-; 	store_cs dw 0
-; 	store_ss dw 0
-; 	store_sp dw 0
-; 	; new_process dw 0
-; 	; kernel dw 0
-
-
-
 _dispatch:
-	;;;  void dispatch(int address)  ;;;;;;
-	pusha
-	mov bx, word [esp+0x14]
-	mov word [target], bx
-	mov ax, segOfUser
-	mov word [target+2], ax
+	; void dispatch(struct PCB * kernel, struct PCB * pro);;
+	push ax
+	mov ax, [esp+6]
+	mov word [old_process], ax
+	mov ax, [esp+0xa]
+	mov word [new_process], ax
+	pop ax
+
+	push cs
+	call save
+	call restart
+
+
+	; 先保存当前进程控制块(0),再进入参数指定的进程
+	; 方案是PCB表放在内核所在的段\
+	; 此时栈中应该有ip(进程)\cs(进程)\ip(调度函数或中断,应舍弃)
+save:
+	pop word [cs:store_retaddr]
+	;此时栈中为进程ip
 	push ds
-	push es
+	;;;;切换到内核栈(PCB表所在);;;;;
+	push cs
+	pop ds
+	push si
+	push di
+	mov si, [new_process] ;new_process
+	mov di, [old_process] ;old_process
+
+	pop word [store_di] ;di
+	pop word [store_si] ;si
+	pop word [store_ds] ;ds
+	pop word [store_cs] ;cs
+	pop word [store_ip] ;ip
+	;;;sp恢复到进入函数之前的值;;;;
+	mov word [di+16*2], ss
+	mov word [di+15*2], sp
+	push cs
+	pop ss
+	add di, 15*2
+	mov sp, di
 	pushf
-	mov ax, ss
-	mov [stroes], ax
+	push word [store_cs]
+	push word [store_ip]
+	pusha
+	;;; si,di have been changed;;;;
+	pop di ;si
+	pop di
 
-	
-	mov ax, segOfUser
-	; mov ds, ax
-	mov es, ax
+	push word [store_si]
+	push word [store_di]
+	push word [store_ds]
+
+	push es
+	push fs
+	push gs
+
+	jmp word [ds:store_retaddr]
+
+
+restart:
+	;;注意调用时的压栈等等
+	pop word [cs:store_retaddr]
+	push ax
+
+	mov ax, cs
+	mov ds, ax
 	mov ss, ax
-	mov word[stroes+2], sp
-	mov sp, 0xffff
 
-    call far [target]
-    ;;;;cs ip;;;;;
-   	mov ax, cs
-   	mov ds, ax
-   	mov ss, [stroes]
-   	mov sp, word [stroes+2]
-   	;;ss;;
-   	popf
-    pop es
-    pop ds
+	pop ax
+	;;;切换到PCB表;;;;
+	
+	mov sp, [new_process]
 
-    popa
+	mov ax, sp
+	add ax, 12*2
+	mov word [store_sp], ax
 
-	pop ecx
-	jmp cx
+	;;restore
+	pop gs
+	pop fs
+	pop es
+	pop ds
+	popa
 
-	stroes dw 0,0
-	target dw 0,0
+	mov sp, word [cs:store_sp]
+
+	pop word [cs:store_ip]
+	pop word [cs:store_cs]
+	popf
+	pop word [cs:store_sp]
+	pop ss
+	
+	mov word [cs:store_ax], ax
+	mov ax, word [cs:store_sp]
+	mov sp, ax
+	mov ax, word [cs:store_ax]
+
+	pushf
+	push word [cs:store_cs]
+	push word [cs:store_ip]
+
+	iret
+
+	new_process dw 0
+	old_process dw 0
+	store_ax dw 0
+	store_di dw 0
+	store_si dw 0
+	store_ds dw 0
+	store_ip dw 0
+	store_cs dw 0
+	store_ss dw 0
+	store_sp dw 0
+	store_retaddr dw 0
+	; new_process dw 0
+	; kernel dw 0
+
+
 
 _reboot:
 	;;;; _reboot() ;;;;;;;;;;;;;
@@ -602,6 +896,7 @@ _reboot:
 
 
 _getDate:
+	pusha
 	;;;; char * _getDate() ;;;;;;;;;;
 	mov ah, 04h
 	int 1ah
@@ -645,6 +940,7 @@ _getDate:
 	mov word [date], ax
 	mov byte [date+2], '/'
 
+	popa
 	xor eax, eax
 	mov ax, date
 
@@ -676,16 +972,12 @@ _getRecords:
 	;;; char * getRecords(int seg, int place) ;;;;;;;;;;;
 	push ebp
 	mov ax, cs
-	mov ds, ax
 	mov ax, word [esp+8h]
 	mov es, ax
 	xor ebx, ebx
 	mov ebx, [esp+0ch]
 	xor eax, eax
-	; mov ax, cs
-	; mov cl, 4
-	; shl eax, cl
-	; add eax, ebx
+
 	mov eax, ebx
 
 	pop ebp

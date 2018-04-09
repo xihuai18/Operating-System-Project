@@ -13,15 +13,17 @@ Start:
 
 
     
-
+    int 9h
 loopBall: 
     dec byte [occurence]
-    jz re
+    jz reto
     call delayModule
     call moveBall
     call checkInput
     jmp loopBall
 
+reto:
+    call re
 
 moveBall:
     mov al,11h
@@ -159,7 +161,7 @@ moveBall:
     clearprint equ 0c800h
     checkInput equ 0c600h
 re:
-    retf
+    int 2bh
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; modules ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;  

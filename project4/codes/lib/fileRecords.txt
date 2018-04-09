@@ -4,4 +4,6 @@
 |ball_D|512|19968|2|
 |printBigname|3072|20480|2|
 |manual.txt|3072|24576|1|
+|testSysCall|512|6656|2|
+|testInt34_37|512|7168|2|
 

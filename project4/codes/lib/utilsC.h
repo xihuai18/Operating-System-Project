@@ -52,7 +52,7 @@ struct PCB
 
 enum Processstatus
 {
-	Origin=0, ready, running, hold, exit
+	Origin=0, ready, running, choked, hold, exit
 };
 
 struct Process
@@ -69,6 +69,7 @@ void loadFiles();
 
 void initialScreen(int welcome);
 char* input();
+void clear();
 
 int strlen(char * sen);
 int strcmp(char * l, char * r);
@@ -89,6 +90,10 @@ int find(char * key);
 void int2str(int org, char * str);
 
 void initialProcessTable();
+
+void ps();
+
+void kill(int id);
 
 void createProcess(short cs, short ip, short ss, short sp, int id, char * name);
 

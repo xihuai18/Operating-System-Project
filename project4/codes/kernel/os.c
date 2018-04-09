@@ -19,16 +19,18 @@ int curId;
 //id 为-1意为空,processTable[0]为内核.
 
 int _main() {
+	curId = 0;
 	initialScreen(1);
 	initialFile();
+	initialProcessTable();
 	char * in;
 	char * str;
 	int tmp = -1;
-	// str = getRecords(offsetOfRecord);
-	// printSentence(str, 0, 0, strlen(str), 0x0f);
-	// load(20480, 3072, offsetOfUserPrg);
-	// createProcess(segOfUser, offsetOfUserPrg, segOfUser, 0xffff, 1, "testProcess");
-	// dispatch(&(processTable[0].pcb), &(processTable[1].pcb));
+
+	// test();
+	// load(6656, 512, offsetOfUserPrg, segOfUser);
+	// createProcess(segOfUser, offsetOfUserPrg, segOfUser, 0xffff, ++curId, "testSysCall");
+	// dispatch(&(processTable[0].pcb), &(processTable[curId].pcb));
 
 	do {
 		in = getInput();
@@ -36,17 +38,17 @@ int _main() {
 		{
 			tmp = find(in+2);
 			if(tmp != -1 && information[tmp].deleted != 1){
-				load(information[tmp].lmaddress, information[tmp].size, offsetOfUserPrg);
-				dispatch(offsetOfUserPrg);
+				load(information[tmp].lmaddress, information[tmp].size, offsetOfUserPrg, segOfUser);
+				createProcess(segOfUser, offsetOfUserPrg, segOfUser, 0xffff, ++curId, information[tmp].name);
+				dispatch(&(processTable[0].pcb), &(processTable[curId].pcb));
 				clear();
 			}
 		}
 		else if(in[0] == 't' && in[1] == 'y' &&
 			in[2] == 'p' &&in[3] == 'e'){
 			tmp = find(in+5);
-			// if(tmp.type != null){
 			if(tmp != -1 && information[tmp].deleted != 1){
-				load(information[tmp].lmaddress, information[tmp].size, offsetOfUserPrg);
+				load(information[tmp].lmaddress, information[tmp].size, offsetOfUserPrg, segOfOs);
 				str = getRecords(segOfUser, offsetOfUserPrg);
 				printSentence(str, line, 0, strlen(str), purple);
 				line += countLines(str);
@@ -57,6 +59,10 @@ int _main() {
 			if(tmp != -1 && information[tmp].deleted != 1){
 				information[tmp].deleted = 1;
 			}
+		}
+		else if(in[0] == 'k' && in[1] == 'i' &&
+			in[2] == 'l' && in[3] == 'l'){
+			kill(in[5]-'0');
 		}
 		else {
 			if(strcmp(in, "reboot") == 0)
@@ -71,6 +77,8 @@ int _main() {
 				ls();
 			if(strcmp(in, "exit") == 0)
 				shutdown();
+			if(strcmp(in, "ps") == 0)
+				ps();
 		}
 		newline();
 	}while(1);

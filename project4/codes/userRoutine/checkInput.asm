@@ -1,5 +1,6 @@
 org 0c600h
 checkInput:
+    pushf
     mov ah,01h
     int 16h
     jz re
@@ -11,8 +12,10 @@ checkInput:
 next:
     cmp al, 'q'
     jnz re
+    popf
     int 2bh
     re:
+        popf
         ret
 
 clearprint equ 0c800h

@@ -6,6 +6,8 @@ nasm.exe -f bin .\user\ball_A.asm -o .\user\ball_A.bin > log.txt
 nasm.exe -f bin .\user\ball_B.asm -o .\user\ball_B.bin > log.txt
 nasm.exe -f bin .\user\ball_C.asm -o .\user\ball_C.bin > log.txt
 nasm.exe -f bin .\user\ball_D.asm -o .\user\ball_D.bin > log.txt
+nasm.exe -f bin .\user\testSysCall.asm -o .\user\testSysCall.bin > log.txt
+nasm.exe -f bin .\user\testInt34_37.asm -o .\user\testInt34_37.bin > log.txt
 nasm.exe -f bin .\userRoutine\showBall.asm -o .\userRoutine\showBall.bin > log.txt
 nasm.exe -f bin .\userRoutine\printnames.asm -o .\userRoutine\printnames.bin > log.txt 
 nasm.exe -f bin .\userRoutine\cleanPrint.asm -o .\userRoutine\cleanPrint.bin > log.txt
@@ -28,6 +30,8 @@ type log.txt |find "Warn"
 rem 0磁头0柱面
 dd if=.\boot\loader.bin of=..\imgs\boot.img bs=512 count=1 conv=notrunc
 dd if=.\kernel\fat.bin of=..\imgs\boot.img bs=512 seek=1 count=12 conv=notrunc
+dd if=.\user\testSysCall.bin of=..\imgs\boot.img bs=512 seek=13 count=1 conv=notrunc
+dd if=.\user\testInt34_37.bin of=..\imgs\boot.img bs=512 seek=14 count=1 conv=notrunc
 rem 1磁头0柱面
 dd if=.\userRoutine\showBall.bin of=..\imgs\boot.img bs=512 seek=32 count=1 conv=notrunc
 dd if=.\userRoutine\printnames.bin of=..\imgs\boot.img bs=512 seek=33 count=1 conv=notrunc

@@ -9,14 +9,13 @@ extern struct Control con;
 extern struct record root;
 extern short* FAT;
 extern struct Process processTable[Len];
-// extern struct record res[Len];
 
 __asm__(".code16gcc\n");
 
 char * WelcomeSentence = "oh my Wsh\n\rCopyright (C) Xihuai Wang\n\rtype \"man\" to get help\n\r";
 char * prompt = ">>";
 
-// ע���ַ���Ҫ��'0'��β��
+// ×¢Òâ×Ö·û´®ÒªÓÐ'0'½áÎ²¡£
 int strlen(char * sen)
 {
 	int i = 0;
@@ -77,6 +76,7 @@ void date()
 {
 	char * dateSen = getDate();
 	printSentence(dateSen, line, 30, strlen(dateSen), purple);
+	newline();
 	line += countLines(dateSen);
 }
 
@@ -123,34 +123,6 @@ int hashfun(char * key){
 	return ret;
 }
 
-// int hash(char * key, struct info * record)
-// {
-// 	int inicode = hashfun(key);
-// 	int code = inicode, i = 1;
-// 	while(information[code].type!=null){
-// 		code = (inicode + i * i) % Len;
-// 		++i;
-// 	}
-
-// 	char tmp[15];
-// 	printSentence(record->name, line, 10, strlen(record->name), purple);
-// 	int2str(record->size, tmp);
-// 	printSentence(tmp, line, 25, strlen(tmp), purple);
-// 	int2str(record->lmaddress, tmp);
-// 	printSentence(tmp, line, 40, strlen(tmp), purple);
-// 	int2str(record->type, tmp);
-// 	printSentence(tmp, line, 55, strlen(tmp), purple);
-// 	line += 1;
-
-
-// 	information[code].type = record->type;
-// 	strncpy(record->name, information[code].name, strlen(record->name));
-// 	information[code].size = record->size;
-// 	information[code].lmaddress = record->lmaddress;
-// 	information[code].deleted = record->deleted;
-// 	return code;
-// }
-
 int hash(char * key, struct info record)
 {
 	int inicode = hashfun(key);
@@ -159,16 +131,6 @@ int hash(char * key, struct info record)
 		code = (inicode + i * i) % Len;
 		++i;
 	}
-
-	// char tmp[15];
-	// printSentence(record.name, line, 10, strlen(record.name), purple);
-	// int2str(record.size, tmp);
-	// printSentence(tmp, line, 25, strlen(tmp), purple);
-	// int2str(record.lmaddress, tmp);
-	// printSentence(tmp, line, 40, strlen(tmp), purple);
-	// int2str(record.type, tmp);
-	// printSentence(tmp, line, 55, strlen(tmp), purple);
-	// line += 1;
 
 
 	information[code].type = record.type;
@@ -222,13 +184,14 @@ void int2str(int org, char * str)
 		cp /= 10;
 		++num;
 	}
+	if(org == 0)
+		num = 1;
 	str[num--] = '\0';
 	for(int i = num; i >= 0; --i)
 	{
 		str[i] = org % 10 + 48;
 		org /= 10;
 	}
-	// printSentence(str, line, 0, strlen(str), white);
 }
 
 void initialFile()
@@ -250,7 +213,6 @@ struct info used;
 void loadFiles()
 {
 	char * rawRecords = getRecords(segOfOs, offsetOfRecord);
-	// printSentence(rawRecords, 0, 0, strlen(rawRecords), 0x0f);
 	int i = 0;
 	int l = 0;
 	int size = 0;
@@ -271,6 +233,7 @@ void loadFiles()
 		}
 		++i;
 		strncpy(rawRecords+i-l-1, name, l);
+		name[l] = '\0';
 		// size
 		while(rawRecords[i]!='|'){
 			size = size * 10 + rawRecords[i]-'0';
@@ -291,19 +254,7 @@ void loadFiles()
 		tmp->lmaddress = place;
 		tmp->deleted = 0;
 		strncpy(name, tmp->name, strlen(name));
-		
-		// char tmpstr[15];
-		// printSentence(tmp->name, line, 10, strlen(tmp->name), purple);
-		// int2str(tmp->size, tmpstr);
-		// printSentence(tmpstr, line, 25, strlen(tmpstr), purple);
-		// int2str(tmp->lmaddress, tmpstr);
-		// printSentence(tmpstr, line, 40, strlen(tmpstr), purple);
-		// int2str(tmp->type, tmpstr);
-		// printSentence(tmpstr, line, 55, strlen(tmpstr), purple);
-		// line += 1;
-
 		hash(name, *tmp);
-		// hash(name, tmp);
 	}
 }
 
@@ -314,6 +265,7 @@ void createProcess(short cs, short ip, short ss, short sp, int id, char * name)
 	processTable[id].pcb.ip = ip;
 	processTable[id].pcb.ss_now = ss;
 	processTable[id].pcb.sp_now = sp;
+	processTable[id].status = ready;
 	strncpy(name, processTable[id].name, strlen(name));
 }
 
@@ -322,115 +274,51 @@ void initialProcessTable()
 	for (int i = 0; i < Len; ++i)
 	{
 		processTable[i].id = -1;
+		processTable[i].status = Origin;
 	}
 	createProcess(0x2000, 0, 0x2000, 0xffff, 0, "kernel");
+	processTable[0].status = running;
 }
 
+void ps()
+{
+	char * head = "Id  ProcessName\n";
+	printSentence(head, line++, 29, strlen(head), purple);
+	char str[30];
+	for (int i = 0; i < Len; ++i)
+	{
+		if(processTable[i].id != -1)
+		{
+			int2str(processTable[i].id, str);
+			printSentence(str, line, 30, strlen(str), purple);
+			printSentence(processTable[i].name, line++, 34, strlen(processTable[i].name), purple);
+		}
+	}
+}
 
-// void initialFile()
-// {
-// 	con.used = 18432;
-// 	con.unused = 24376;
-// 	strncpy("root", root.name, 4);
-// 	root.type = folder;
-// 	root.deleted = 0;
-// 	root.info_index = -1;
-// 	root.father_folder=-1;
-// 	root.sibling = -1;
-// 	root.son = 1;
-// 	loadFiles();
-// }
-// void loadFiles()
-// {
-// 	char * rawRecords = getRecords();
-// 	int son = root.son;
-// 	int i = 0;
-// 	int l = 0;
-// 	int size = 0;
-// 	int place = 0;
-// 	enum fileType t = null;
-// 	while(rawRecords[i] != '\n')
-// 	{
-// 		// name
-// 		++i;
-// 		l = 0;
-// 		while(rawRecords[i]!='|'){
-// 			++l;
-// 		}
-// 		++i;
-// 		strncpy(rawRecords+i-1, res[son].name, l);
-// 		// size
-// 		l = 1;
-// 		while(rawRecords[i]!='|'){
-// 			size = size * l + rawRecords[i]-'0';
-// 			l *= 10;
-// 		}		
-// 		++i;
-// 		// place
-// 		l = 1;
-// 		while(rawRecords[i]!='|'){
-// 			place = place * l + rawRecords[i]-'0';
-// 			l *= 10;
-// 		}		
-// 		++i;
-// 		t = rawRecords[i]-'0';
-// 		i+=2;
-// 		res[son].type = t;
-// 		res[son].deleted = 0;
-// 		res[son].father_folder = 0;
-// 		res[son].sibling = son+1;
-// 		res[son].son = -1;
-// 		struct info re;
-// 		re.lmaddress = place;
-// 		re.size = size;
-// 		res[son].info_index = hash(res[son].name, re);
-// 		son += 1;
-// 	}
-// }
-// void loadFiles()
-// {
-// 	char * rawRecords = getRecords();
-// 	int son = root.son;
-// 	int i = 0;
-// 	int l = 0;
-// 	int size = 0;
-// 	int place = 0;
-// 	enum fileType t = null;
-// 	while(rawRecords[i] != '\n')
-// 	{
-// 		// name
-// 		++i;
-// 		l = 0;
-// 		while(rawRecords[i]!='|'){
-// 			++l;
-// 		}
-// 		++i;
-// 		strncpy(rawRecords+i-1, res[son].name, l);
-// 		// size
-// 		l = 1;
-// 		while(rawRecords[i]!='|'){
-// 			size = size * l + rawRecords[i]-'0';
-// 			l *= 10;
-// 		}		
-// 		++i;
-// 		// place
-// 		l = 1;
-// 		while(rawRecords[i]!='|'){
-// 			place = place * l + rawRecords[i]-'0';
-// 			l *= 10;
-// 		}		
-// 		++i;
-// 		t = rawRecords[i]-'0';
-// 		i+=2;
-// 		res[son].type = t;
-// 		res[son].deleted = 0;
-// 		res[son].father_folder = 0;
-// 		res[son].sibling = son+1;
-// 		res[son].son = -1;
-// 		struct info re;
-// 		re.lmaddress = place;
-// 		re.size = size;
-// 		res[son].info_index = hash(res[son].name, re);
-// 		son += 1;
-// 	}
-// }
+void kill(int id)
+{
+	processTable[id].status = exit;
+	processTable[id].id = -1;
+}
+
+void int34h()
+{
+	char * s = "Int 34h Xihuai Wang";
+	printSentence(s, 6, 5, strlen(s), purple);
+}
+void int35h()
+{
+	char * s = "Int 35h 16337236";
+	printSentence(s, 6, 46, strlen(s), purple);
+}
+void int36h()
+{
+	char * s = "Int 34h Class two";
+	printSentence(s, 18, 5, strlen(s), purple);
+}
+void int37h()
+{
+	char * s = "Int 34h Grade 2016";
+	printSentence(s, 18, 46, strlen(s), purple);
+}

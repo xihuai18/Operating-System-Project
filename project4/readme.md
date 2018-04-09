@@ -13,6 +13,13 @@
 9. 如何分开save和dispatch
 10. 考虑中断切换
 11. load中断会改ax
+12. cs好像不能直接改
+13. push先減再放
+14. C语言的变量在汇编中以地址形式。
+15. 诡异事件，传名字错误，找到了，函数改了寄存器，，，
+16. 汇编使用的C地址是16位的。
+17. int21h 功能表
+18. popa 注意返回值放在ax里面
 
 ### Requirements Analysis
 1. Clock Interruptions: 
@@ -24,13 +31,30 @@
 
 3. System Call
     - [ ] int 21h
+        + [X] ah = 00h 查看运行的进程
+        + [X] ah = 01h 关闭进程
+        + [X] ah = 02h 打印句子
+        + [X] ah = 03h 显示时间
+        + [X] ah = 04h 清空屏幕
+        + [X] ah = 05h int类型转字符串
+        + [X] ah = 4Ch 关闭操作系统
 
 4. Test Program
-    - [ ]
+    想法是显示现在是用的什么中断，再加一点特色。
+    
+    左上、右上、左下、右下。
+    
+    整个屏幕闪烁。
+
+    - [X] 34h 
+    - [X] 35h
+    - [X] 36h
+    - [X] 37h
 
 5. File System
     - [x] File Allocate Table
     - [x] Contents Table
 
-6. Remember to restore the interruptioin
-    - [ ]
+6. Process Control Block
+    - [x] PCB
+    - [X] Process Table
