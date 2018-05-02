@@ -1,0 +1,23 @@
+Wsh manual
+  This is the help system in Wsh, and all the instructions as well as their usages are listed as followings:
+
+             ls : list the information of the folders and files inside 
+                 the current work path in the below format:
+          name    size    loaded memory address    type
+		                           (lma)   (E:executable, F:folder, D: document)
+           date : show the current time of the system.
+         reboot : reboot the computer.
+           exit : shutdown the computer immediately.
+          clear : clear the terminal.
+            man : show this help file.
+             ps : show the processes.
+      kill [Id] : kill a process with specified Id.
+      rm [name] : remove a file.
+    type [name] : show the contents of a file.
+            run : following by a list of programs, seperated by "enter".
+
+    And use "./" and the program following without space to run the program.
+
+    If you type wrong instructions, there are no warnnings and errors.
+
+
