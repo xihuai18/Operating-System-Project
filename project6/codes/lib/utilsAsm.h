@@ -24,13 +24,15 @@ void roll();
 char * getRecords(int seg, int place);
 ////////////// terminal ends ///////////////
 
+////////////// file system //////////////
+void loadReal(int lma, int size, int vma, int seg);
 
+void write(int lma, int size, int vma, int seg);
+////////////// file system ends//////////////
 
 
 ///////////// process///////////////
-// void dispatchReal(struct PCB * kernel, struct PCB * pro);
 
-void loadReal(int lma, int size, int vma, int seg);
 
 int fork();
 

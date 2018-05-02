@@ -16,6 +16,7 @@ extern int ProcessSize;
 extern int runSub;
 extern struct Queue ReadyQue;
 extern struct Queue BlockedQue;
+extern struct Queue SuspendQue;
 
 __asm__(".code16gcc\n");
 
@@ -101,10 +102,18 @@ void ls()
 	{
 		if(information[i].type != null && information[i].deleted != 1) {
 			printSentence(information[i].name, line, 10, strlen(information[i].name), purple);
-			int2str(information[i].size, tmp);
-			printSentence(tmp, line, 25, strlen(tmp), purple);
-			int2str(information[i].lmaddress, tmp);
-			printSentence(tmp, line, 40, strlen(tmp), purple);
+			if(information[i].size == 0){
+				printSentence("--", line, 25, 2, purple);
+			} else {
+				int2str(information[i].size, tmp);
+				printSentence(tmp, line, 25, strlen(tmp), purple);
+			}
+			if(information[i].lmaddress == 0){
+				printSentence("--", line, 40, 2, purple);
+			} else {
+				int2str(information[i].lmaddress, tmp);
+				printSentence(tmp, line, 40, strlen(tmp), purple);
+			}
 			printSentence(typeTable[information[i].type], line, 55, 1, purple);
 			line += 1;
 		}
@@ -325,10 +334,34 @@ void loadFiles()
 		tmp.type = t;
 		tmp.lmaddress = place;
 		tmp.deleted = 0;
+		tmp.start = place / Cluster;
+		setFAT(place, size);
 		strncpy(name, tmp.name, strlen(name));
 		hash(name, tmp);
 	}
 }
+// 注意FAT从0开始。
+void setFAT(int lmaddress, int size)
+{
+	int begin = lmaddress/Cluster;
+	int num = size/Cluster;
+	for(int i = 0; i < num-1; ++i)
+	{
+		FAT[i+begin] = i+begin+1;
+	}
+	FAT[num+begin-1] = 0xffff;
+}
+
+void resetFAT(int lmaddress, int size)
+{
+	int begin = lmaddress/Cluster;
+	int num = size/Cluster;
+	for(int i = 0; i < num; ++i)
+	{
+		FAT[i+begin] = 0;
+	}
+}
+
 ////////////// File ends ///////////////
 
 
@@ -342,6 +375,7 @@ void initialProcessTable()
 		processTable[i].status = Origin;
 		processTable[i].fatherID = -1;
 		processTable[i].sonID = -1;
+		processTable[i].waitProcess = -1;
 
 	}
 	
@@ -380,9 +414,11 @@ void createProcess(int id, char * name, int size, int cs, int ip, int ss, int sp
 	processTable[id].pcb.ip = ip;
 	processTable[id].pcb.ss_now = ss;
 	processTable[id].pcb.sp_now = sp;
+	processTable[id].size = size;
 	// loadReal(lmaddress, fileSize, offsetOfPrg, segOfPrg);
 }
 
+// 被内核阻塞的 waitProcess = -1
 int quesize, tmp;
 void block(int id)
 {
@@ -514,6 +550,76 @@ int do_wait()
 	return ret;
 }
 
+void Tosuspend(int processID)
+{
+	int Size = memoryTable[processTable[processID].blockNum].endAddr - memoryTable[processTable[processID].blockNum].beginAddr + 1;
+	int count = 0;
+	int begin = 0;
+	for (int i = 0; i < LenOfFat; ++i)
+	{	
+		if(FAT[begin] == 0)
+		{
+			++count;
+		}
+		else {
+			begin = i+1;
+			count = 0;
+		}
+		if(count*Cluster >= Size)
+		{
+			break;
+		}
+	}
+	write(begin*Cluster, Size, (memoryTable[processTable[processID].blockNum].beginAddr&0x0000ffff), (memoryTable[processTable[processID].blockNum].beginAddr&0xf0000)>>4);
+	processTable[processID].lmaddress = begin*Cluster;
+	enqueue(&SuspendQue, processID);
+	///////////////////////////
+	if(processTable[processID].status == ready)
+	////////////////////////////
+	{
+		quesize = size(&ReadyQue);
+		for (int i = 0; i < quesize; ++i)
+		{
+			dequeue(&ReadyQue, &tmp);
+			if(tmp != processID)
+			{
+				enqueue(&ReadyQue, tmp);
+			}
+		}	
+	}
+	///////////////////////////
+	else if(processTable[processID].status == blocked)
+	////////////////////////////
+	{
+		quesize = size(&BlockedQue);
+		for (int i = 0; i < quesize; ++i)
+		{
+			dequeue(&BlockedQue, &tmp);
+			if(tmp != processID)
+			{
+				enqueue(&BlockedQue, tmp);
+			}
+		}	
+	}
+	processTable[processID].status = suspend;
+	release(memoryTable[processTable[processID].blockNum].beginAddr, memoryTable[processTable[processID].blockNum].endAddr);
+}
+void activate(int processID)
+{
+	loadReal(processTable[processID].lmaddress, processTable[processID].size, (memoryTable[processTable[processID].blockNum].beginAddr&0x0000ffff), (memoryTable[processTable[processID].blockNum].beginAddr&0xf0000)>>4);
+	quesize = size(&SuspendQue);
+	for (int i = 0; i < quesize; ++i)
+	{
+		dequeue(&SuspendQue, &tmp);
+		if(tmp != processID)
+		{
+			enqueue(&SuspendQue, tmp);
+		}
+	}
+	processTable[processID].status = ready;
+	enqueue(&ReadyQue, processID);
+}
+
 int empty(struct Queue * que)
 {
 	return que->size == 0;
@@ -565,11 +671,11 @@ void * malloc(int size)
 	size = size + (16 - size % 16);
 	int blockNum = findLaterBlock(ds<<4, size);
 	int endDs = ((memoryTable[blockNum].beginAddr + size)&0xf0000) >> 4;
-	if(endDs != ds){
+	if(endDs > ds){
 		return 0;
 	} else {
 		blockNum = require(size, blockNum);
-		return (void*)(memoryTable[blockNum].beginAddr & 0x0000ffff);
+		return (void*)((memoryTable[blockNum].beginAddr) - (ds << 4));
 	}
 }
 
@@ -654,6 +760,15 @@ void initialMemoryTable()
 
 	memoryTable[firstUnusedMemoryItem].used = 1;
 	memoryTable[firstUnusedMemoryItem].beginAddr = 0x20000;
+	memoryTable[firstUnusedMemoryItem].endAddr = 0x2cfff;
+	memoryTable[firstUnusedMemoryItem].status = used;
+	next = nextUnusedItem();
+	memoryTable[next].pre = firstUnusedMemoryItem;
+	memoryTable[firstUnusedMemoryItem].next = next;
+	firstUnusedMemoryItem = next;
+	// blockNum = 7;
+	memoryTable[firstUnusedMemoryItem].used = 1;
+	memoryTable[firstUnusedMemoryItem].beginAddr = 0x2d000;
 	memoryTable[firstUnusedMemoryItem].endAddr = 0x2ffff;
 	memoryTable[firstUnusedMemoryItem].status = used;
 	next = nextUnusedItem();
@@ -661,7 +776,7 @@ void initialMemoryTable()
 	memoryTable[firstUnusedMemoryItem].next = next;
 	firstUnusedMemoryItem = next;
 
-	// blockNum = 7;
+	// blockNum = 8;
 	memoryTable[firstUnusedMemoryItem].used = 1;
 	memoryTable[firstUnusedMemoryItem].beginAddr = 0x30000;
 	memoryTable[firstUnusedMemoryItem].endAddr = 0x7ffff;
@@ -671,7 +786,7 @@ void initialMemoryTable()
 	memoryTable[firstUnusedMemoryItem].next = next;
 	firstUnusedMemoryItem = next;
 
-	// blockNum = 8;
+	// blockNum = 9;
 	memoryTable[firstUnusedMemoryItem].used = 1;
 	memoryTable[firstUnusedMemoryItem].beginAddr = 0x80000;
 	memoryTable[firstUnusedMemoryItem].endAddr = 0x84bff;
@@ -681,7 +796,7 @@ void initialMemoryTable()
 	memoryTable[firstUnusedMemoryItem].next = next;
 	firstUnusedMemoryItem = next;
 
-	// blockNum = 9;
+	// blockNum = 10;
 	memoryTable[firstUnusedMemoryItem].used = 1;
 	memoryTable[firstUnusedMemoryItem].beginAddr = 0x84c00;
 	memoryTable[firstUnusedMemoryItem].endAddr = 0x9ffff;

@@ -24,6 +24,7 @@ int runSub;
 int SizeOfProcessStruct;
 struct Queue ReadyQue;
 struct Queue BlockedQue;
+struct Queue SuspendQue;
 //id 为-1意为空,processTable[0]为内核.
 
 struct testMalloc
@@ -43,6 +44,7 @@ int _main() {
 	int tmp = -1;
 	init(&ReadyQue);
 	init(&BlockedQue);
+	init(&SuspendQue);
 
 	// __asm__("mov $0x0, %ah\n");
 	// test();
@@ -75,7 +77,7 @@ int _main() {
 			offsetOfPrg = 0x80000 & offsetMask;
 			segOfPrg = (0x80000 & segMask) >> 4;
 			int cs = segOfPrg + (offsetOfPrg >> 4), ip = 0, ss = segOfPrg + (offsetOfPrg >> 4), sp = information[tmp].size+1024-1;
-			createProcess(ProcessSize++, information[tmp].name, information[tmp].size+1024, cs, ip, ss, sp, 8);
+			createProcess(ProcessSize++, information[tmp].name, information[tmp].size+1024, cs, ip, ss, sp, 9);
 			enqueue(&ReadyQue, ProcessSize-1);
 			clear();
 			runSub = 1;
@@ -106,8 +108,18 @@ int _main() {
 					}
 				}
 			}while(str[0] != '\0');
+			int queSize = size(&BlockedQue);
+			for (int i = 0; i < queSize; ++i)
+			{
+				dequeue(&BlockedQue, &tmp);
+				if(processTable[tmp].waitProcess == -1) {
+					processTable[tmp].status = ready;
+					enqueue(&ReadyQue, tmp); 
+				} else {
+					enqueue(&BlockedQue, tmp);
+				}
+			}
 			runSub = 1;
-			// wakeup();
 			__asm__("int $0x8\n");
 			runSub = 0;
 			clear();
@@ -152,6 +164,28 @@ int _main() {
 		else if(in[0] == 'k' && in[1] == 'i' &&
 			in[2] == 'l' && in[3] == 'l'){
 			kill(in[5]-'0');
+		}
+		else if(in[0] == 's' && in[1] == 'u' &&
+			in[2] == 's' && in[3] == 'p'){
+			Tosuspend(in[5]-'0');
+		}
+		else if(in[0] == 'a' && in[1] == 'c' &&
+			in[2] == 't' && in[3] == 'i'){
+			tmp = in[5]-'0';
+			// int blockNum = findEnoughBlock(processTable[tmp].size);
+			// blockNum = require(processTable[tmp].size, blockNum);
+			// processTable[tmp].blockNum = blockNum;
+			// int offsetOfPrg, segOfPrg;
+			// int offsetMask = 0x0000ffff;
+			// int segMask = 0xf0000;
+			// offsetOfPrg = memoryTable[blockNum].beginAddr & offsetMask;
+			// segOfPrg = (memoryTable[blockNum].beginAddr & segMask) >> 4;
+			// int cs = segOfPrg + (offsetOfPrg >> 4), ip = 0, ss = segOfPrg + (offsetOfPrg >> 4), sp = processTable[tmp].size-1;
+			// processTable[tmp].pcb.cs = cs;
+			// processTable[tmp].pcb.ip = ip;
+			// processTable[tmp].pcb.ss_now = ss;
+			// processTable[tmp].pcb.sp_now = sp;
+			activate(tmp);
 		}
 		else {
 			if(strcmp(in, "reboot") == 0)

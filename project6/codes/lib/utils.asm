@@ -17,6 +17,7 @@ global _fork
 global _exitprg
 global _wait
 global _memcpy
+global _write
 
 
 extern _malloc
@@ -1317,5 +1318,59 @@ _memcpy:
 	mov esp, ebp
 	pop ebp
 	
+	pop ecx
+	jmp cx
+
+
+_write:
+; void write(int lma, int size, int vma, int seg);
+	push ebp
+	push es
+	push ds
+	push ax
+	push dx
+	push cx
+	push bx
+	mov ax, cs
+	mov ds, ax
+	mov ax, [esp+0x20]
+    mov es, ax                ;设置段地址（不能直接mov es,段地址）
+ 	
+ 	; 计算扇区
+ 	mov ax, word [esp+0x14]
+ 	mov dx, 0
+ 	mov cx, 512
+ 	div cx ;现在ax里面是相对扇区号
+ 	mov cx, 18
+ 	div cx ; 余数在dx里面
+ 	mov cl, dl
+ 	inc cl ; 起始扇区号确定
+
+ 	mov dx, ax
+ 	shr ax, 1
+ 	mov ch, al ;磁道号
+ 	mov dh, dl
+ 	and dh, 00000001b
+ 	mov dl, 0 	; 磁面号
+
+ 	; 计算大小
+ 	push cx
+ 	mov ax, word [esp+0x1a]
+    mov cx, 512
+    mov dx, 0
+    div cx ;al已设定
+    pop cx
+
+    mov bx, word [esp+0x1c];偏移地址
+    mov ah, 3 ;功能号
+    int 13h
+    pop bx
+    pop cx
+    pop dx
+    pop ax
+    pop ds
+    pop es
+    pop ebp
+    
 	pop ecx
 	jmp cx

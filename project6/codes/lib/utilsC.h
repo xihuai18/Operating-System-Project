@@ -13,8 +13,9 @@
 #define Len 50
 #define MemLen 50
 #define LenOfFat 200
+#define Cluster 512
 
-/////////  filesystem /////////////////
+/////////  file system /////////////////
 enum fileType
 {
 	null=0, docu, exec, folder
@@ -37,6 +38,10 @@ int hash(char * key, struct info record);
 int find(char * key);
 
 void loadFiles();
+
+void setFAT(int lmaddress, int size);
+
+void resetFAT(int lmaddress, int size);
 /////////////////// file system ends ///////////////////
 
 
@@ -74,6 +79,8 @@ struct Process
 	struct PCB pcb;
 	int id;
 	int blockNum;
+	int lmaddress;
+	int size;
 	char name[30];
 	int retValue; //退出时的返回值
 	int fatherID;
@@ -106,6 +113,9 @@ struct Queue
 	int tail, head, size;
 	int array[Len];
 };
+
+void Tosuspend(int processID);
+void activate(int processID);
 
 int empty(struct Queue * que);
 int size(struct Queue * que);

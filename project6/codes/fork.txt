@@ -165,18 +165,18 @@ int _main()
  151:	66 55                	push   ebp
  153:	66 89 e5             	mov    ebp,esp
  156:	66 53                	push   ebx
- 158:	66 83 ec 30          	sub    esp,0x30
+ 158:	66 83 ec 38          	sub    esp,0x38
 D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:25
 	char tmpstr[10];
 
 	struct testMalloc * first = (struct testMalloc *)(malloc(sizeof(struct testMalloc)));
  15c:	67 66 c7 04 24 08 00 	mov    DWORD PTR [esp],0x8
  163:	00 00 
- 165:	66 e8 0c 05 00 00    	call   677 <_malloc>
- 16b:	67 66 89 45 f4       	mov    DWORD PTR [ebp-0xc],eax
+ 165:	66 e8 2c 05 00 00    	call   697 <_malloc>
+ 16b:	67 66 89 45 f0       	mov    DWORD PTR [ebp-0x10],eax
 D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:26
 	if(first == 0)
- 170:	67 66 83 7d f4 00    	cmp    DWORD PTR [ebp-0xc],0x0
+ 170:	67 66 83 7d f0 00    	cmp    DWORD PTR [ebp-0x10],0x0
  176:	75 37                	jne    1af <__main+0x5e>
 D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:28
 	{
@@ -191,382 +191,409 @@ D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:28
  19d:	00 00 00 
  1a0:	67 66 c7 04 24 00 10 	mov    DWORD PTR [esp],0x1000
  1a7:	00 00 
- 1a9:	66 e8 ea 04 00 00    	call   699 <_printSentence>
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:30
-	}
-	first->i = 1;
- 1af:	67 66 8b 45 f4       	mov    eax,DWORD PTR [ebp-0xc]
- 1b4:	67 66 c7 00 01 00 00 	mov    DWORD PTR [eax],0x1
- 1bb:	00 
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:31
-	first->next = (struct testMalloc *)(malloc(sizeof(struct testMalloc)));
- 1bc:	67 66 c7 04 24 08 00 	mov    DWORD PTR [esp],0x8
- 1c3:	00 00 
- 1c5:	66 e8 ac 04 00 00    	call   677 <_malloc>
- 1cb:	66 89 c2             	mov    edx,eax
- 1ce:	67 66 8b 45 f4       	mov    eax,DWORD PTR [ebp-0xc]
- 1d3:	67 66 89 50 04       	mov    DWORD PTR [eax+0x4],edx
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:32
-	first->next->i = 2; 
- 1d8:	67 66 8b 45 f4       	mov    eax,DWORD PTR [ebp-0xc]
- 1dd:	67 66 8b 40 04       	mov    eax,DWORD PTR [eax+0x4]
- 1e2:	67 66 c7 00 02 00 00 	mov    DWORD PTR [eax],0x2
- 1e9:	00 
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:33
-	first->next->next = NULL;
- 1ea:	67 66 8b 45 f4       	mov    eax,DWORD PTR [ebp-0xc]
- 1ef:	67 66 8b 40 04       	mov    eax,DWORD PTR [eax+0x4]
- 1f4:	67 66 c7 40 04 00 00 	mov    DWORD PTR [eax+0x4],0x0
- 1fb:	00 00 
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:35
+ 1a9:	66 e8 0a 05 00 00    	call   6b9 <_printSentence>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:36
+	// first->next = (struct testMalloc *)(malloc(sizeof(struct testMalloc)));
+	// first->next->i = 2; 
+	// first->next->next = NULL;
 
-	struct testMalloc * one = first;
- 1fd:	67 66 8b 45 f4       	mov    eax,DWORD PTR [ebp-0xc]
- 202:	67 66 89 45 f8       	mov    DWORD PTR [ebp-0x8],eax
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:36
-	while(one){
- 207:	eb 6f                	jmp    278 <__file_alignment__+0x78>
+	// struct testMalloc * one = first;
+	struct testMalloc * p = first;
+ 1af:	67 66 8b 45 f0       	mov    eax,DWORD PTR [ebp-0x10]
+ 1b4:	67 66 89 45 f8       	mov    DWORD PTR [ebp-0x8],eax
 D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:37
-		int2str(one->i, tmpstr);
- 209:	67 66 8b 45 f8       	mov    eax,DWORD PTR [ebp-0x8]
- 20e:	67 66 8b 00          	mov    eax,DWORD PTR [eax]
- 212:	67 66 8d 55 e2       	lea    edx,[ebp-0x1e]
- 217:	67 66 89 54 24 04    	mov    DWORD PTR [esp+0x4],edx
- 21d:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
- 222:	66 e8 e4 fd ff ff    	call   c <_int2str>
+	int i = 0;
+ 1b9:	67 66 c7 45 ec 00 00 	mov    DWORD PTR [ebp-0x14],0x0
+ 1c0:	00 00 
 D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:38
-		printSentence(tmpstr, 10+one->i, 0, 1, white);
- 228:	67 66 8b 45 f8       	mov    eax,DWORD PTR [ebp-0x8]
- 22d:	67 66 8b 00          	mov    eax,DWORD PTR [eax]
- 231:	66 83 c0 0a          	add    eax,0xa
- 235:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
- 23c:	00 00 00 
- 23f:	67 66 c7 44 24 0c 01 	mov    DWORD PTR [esp+0xc],0x1
- 246:	00 00 00 
- 249:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
- 250:	00 00 00 
- 253:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
- 259:	67 66 8d 45 e2       	lea    eax,[ebp-0x1e]
- 25e:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
- 263:	66 e8 30 04 00 00    	call   699 <_printSentence>
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:39
-		one = one->next;
- 269:	67 66 8b 45 f8       	mov    eax,DWORD PTR [ebp-0x8]
- 26e:	67 66 8b 40 04       	mov    eax,DWORD PTR [eax+0x4]
- 273:	67 66 89 45 f8       	mov    DWORD PTR [ebp-0x8],eax
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:36
-	while(one){
- 278:	67 66 83 7d f8 00    	cmp    DWORD PTR [ebp-0x8],0x0
- 27e:	75 89                	jne    209 <__file_alignment__+0x9>
+	for (int i = 0; i < 10; ++i)
+ 1c2:	67 66 c7 45 f4 00 00 	mov    DWORD PTR [ebp-0xc],0x0
+ 1c9:	00 00 
+ 1cb:	eb 3e                	jmp    20b <__file_alignment__+0xb>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:40
+	{
+		p->i = i;
+ 1cd:	67 66 8b 45 f8       	mov    eax,DWORD PTR [ebp-0x8]
+ 1d2:	67 66 8b 55 f4       	mov    edx,DWORD PTR [ebp-0xc]
+ 1d7:	67 66 89 10          	mov    DWORD PTR [eax],edx
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:41
+		p->next = (struct testMalloc *)(malloc(sizeof(struct testMalloc)));
+ 1db:	67 66 c7 04 24 08 00 	mov    DWORD PTR [esp],0x8
+ 1e2:	00 00 
+ 1e4:	66 e8 ad 04 00 00    	call   697 <_malloc>
+ 1ea:	66 89 c2             	mov    edx,eax
+ 1ed:	67 66 8b 45 f8       	mov    eax,DWORD PTR [ebp-0x8]
+ 1f2:	67 66 89 50 04       	mov    DWORD PTR [eax+0x4],edx
 D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:42
+		p = p->next;
+ 1f7:	67 66 8b 45 f8       	mov    eax,DWORD PTR [ebp-0x8]
+ 1fc:	67 66 8b 40 04       	mov    eax,DWORD PTR [eax+0x4]
+ 201:	67 66 89 45 f8       	mov    DWORD PTR [ebp-0x8],eax
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:38
+	for (int i = 0; i < 10; ++i)
+ 206:	67 66 ff 45 f4       	inc    DWORD PTR [ebp-0xc]
+ 20b:	67 66 83 7d f4 09    	cmp    DWORD PTR [ebp-0xc],0x9
+ 211:	7e ba                	jle    1cd <__main+0x7c>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:45
 	}
+
+	p = first;
+ 213:	67 66 8b 45 f0       	mov    eax,DWORD PTR [ebp-0x10]
+ 218:	67 66 89 45 f8       	mov    DWORD PTR [ebp-0x8],eax
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:46
+	while(p){
+ 21d:	eb 6f                	jmp    28e <__file_alignment__+0x8e>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:47
+		int2str(p->i, tmpstr);
+ 21f:	67 66 8b 45 f8       	mov    eax,DWORD PTR [ebp-0x8]
+ 224:	67 66 8b 00          	mov    eax,DWORD PTR [eax]
+ 228:	67 66 8d 55 da       	lea    edx,[ebp-0x26]
+ 22d:	67 66 89 54 24 04    	mov    DWORD PTR [esp+0x4],edx
+ 233:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+ 238:	66 e8 ce fd ff ff    	call   c <_int2str>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:48
+		printSentence(tmpstr, 10+p->i, 0, 1, white);
+ 23e:	67 66 8b 45 f8       	mov    eax,DWORD PTR [ebp-0x8]
+ 243:	67 66 8b 00          	mov    eax,DWORD PTR [eax]
+ 247:	66 83 c0 0a          	add    eax,0xa
+ 24b:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
+ 252:	00 00 00 
+ 255:	67 66 c7 44 24 0c 01 	mov    DWORD PTR [esp+0xc],0x1
+ 25c:	00 00 00 
+ 25f:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
+ 266:	00 00 00 
+ 269:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+ 26f:	67 66 8d 45 da       	lea    eax,[ebp-0x26]
+ 274:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+ 279:	66 e8 3a 04 00 00    	call   6b9 <_printSentence>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:49
+		p = p->next;
+ 27f:	67 66 8b 45 f8       	mov    eax,DWORD PTR [ebp-0x8]
+ 284:	67 66 8b 40 04       	mov    eax,DWORD PTR [eax+0x4]
+ 289:	67 66 89 45 f8       	mov    DWORD PTR [ebp-0x8],eax
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:46
+	while(p){
+ 28e:	67 66 83 7d f8 00    	cmp    DWORD PTR [ebp-0x8],0x0
+ 294:	75 89                	jne    21f <__file_alignment__+0x1f>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:53
+	}
+
 
 	int line = 0;
- 280:	67 66 c7 45 f0 00 00 	mov    DWORD PTR [ebp-0x10],0x0
- 287:	00 00 
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:44
+ 296:	67 66 c7 45 e8 00 00 	mov    DWORD PTR [ebp-0x18],0x0
+ 29d:	00 00 
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:55
 	int pid;
 	printSentence(str, line++, 0, strlen(str), white);
- 289:	67 66 c7 04 24 e0 05 	mov    DWORD PTR [esp],0x5e0
- 290:	00 00 
- 292:	66 e8 83 fe ff ff    	call   11b <_strlen>
- 298:	66 89 c2             	mov    edx,eax
- 29b:	67 66 8b 45 f0       	mov    eax,DWORD PTR [ebp-0x10]
- 2a0:	67 66 8d 48 01       	lea    ecx,[eax+0x1]
- 2a5:	67 66 89 4d f0       	mov    DWORD PTR [ebp-0x10],ecx
- 2aa:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
- 2b1:	00 00 00 
- 2b4:	67 66 89 54 24 0c    	mov    DWORD PTR [esp+0xc],edx
- 2ba:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
- 2c1:	00 00 00 
- 2c4:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
- 2ca:	67 66 c7 04 24 e0 05 	mov    DWORD PTR [esp],0x5e0
- 2d1:	00 00 
- 2d3:	66 e8 c0 03 00 00    	call   699 <_printSentence>
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:45
+ 29f:	67 66 c7 04 24 00 06 	mov    DWORD PTR [esp],0x600
+ 2a6:	00 00 
+ 2a8:	66 e8 6d fe ff ff    	call   11b <_strlen>
+ 2ae:	66 89 c2             	mov    edx,eax
+ 2b1:	67 66 8b 45 e8       	mov    eax,DWORD PTR [ebp-0x18]
+ 2b6:	67 66 8d 48 01       	lea    ecx,[eax+0x1]
+ 2bb:	67 66 89 4d e8       	mov    DWORD PTR [ebp-0x18],ecx
+ 2c0:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
+ 2c7:	00 00 00 
+ 2ca:	67 66 89 54 24 0c    	mov    DWORD PTR [esp+0xc],edx
+ 2d0:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
+ 2d7:	00 00 00 
+ 2da:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+ 2e0:	67 66 c7 04 24 00 06 	mov    DWORD PTR [esp],0x600
+ 2e7:	00 00 
+ 2e9:	66 e8 ca 03 00 00    	call   6b9 <_printSentence>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:56
 	pid = fork();
- 2d9:	66 e8 61 03 00 00    	call   640 <_fork>
- 2df:	67 66 89 45 ec       	mov    DWORD PTR [ebp-0x14],eax
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:47
+ 2ef:	66 e8 6b 03 00 00    	call   660 <_fork>
+ 2f5:	67 66 89 45 e4       	mov    DWORD PTR [ebp-0x1c],eax
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:58
 
 	if(pid == -1)
- 2e4:	67 66 83 7d ec ff    	cmp    DWORD PTR [ebp-0x14],0xffffffff
- 2ea:	75 53                	jne    33f <__file_alignment__+0x13f>
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:49
+ 2fa:	67 66 83 7d e4 ff    	cmp    DWORD PTR [ebp-0x1c],0xffffffff
+ 300:	75 53                	jne    355 <__file_alignment__+0x155>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:60
 	{
 		printSentence("Error in fork\r\n", line++, 0, strlen("Error in fork\r\n"), white);
- 2ec:	67 66 c7 04 24 06 10 	mov    DWORD PTR [esp],0x1006
- 2f3:	00 00 
- 2f5:	66 e8 20 fe ff ff    	call   11b <_strlen>
- 2fb:	66 89 c2             	mov    edx,eax
- 2fe:	67 66 8b 45 f0       	mov    eax,DWORD PTR [ebp-0x10]
- 303:	67 66 8d 48 01       	lea    ecx,[eax+0x1]
- 308:	67 66 89 4d f0       	mov    DWORD PTR [ebp-0x10],ecx
- 30d:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
- 314:	00 00 00 
- 317:	67 66 89 54 24 0c    	mov    DWORD PTR [esp+0xc],edx
- 31d:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
- 324:	00 00 00 
- 327:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
- 32d:	67 66 c7 04 24 06 10 	mov    DWORD PTR [esp],0x1006
- 334:	00 00 
- 336:	66 e8 5d 03 00 00    	call   699 <_printSentence>
- 33c:	e9 80 02             	jmp    5bf <__file_alignment__+0x3bf>
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:50
-	} else if(pid > 0) {
- 33f:	67 66 83 7d ec 00    	cmp    DWORD PTR [ebp-0x14],0x0
- 345:	0f 8e 11 02          	jle    55a <__file_alignment__+0x35a>
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:51
-		ret = wait();
- 349:	66 e8 16 03 00 00    	call   665 <_wait>
- 34f:	66 a3 44 30          	mov    ds:0x3044,eax
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:52
-		printSentence("Number of letter in str is ", ++line, 0, strlen("Number of letter in str is "), white);
- 353:	67 66 c7 04 24 16 10 	mov    DWORD PTR [esp],0x1016
- 35a:	00 00 
- 35c:	66 e8 b9 fd ff ff    	call   11b <_strlen>
- 362:	67 66 ff 45 f0       	inc    DWORD PTR [ebp-0x10]
- 367:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
- 36e:	00 00 00 
- 371:	67 66 89 44 24 0c    	mov    DWORD PTR [esp+0xc],eax
- 377:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
- 37e:	00 00 00 
- 381:	67 66 8b 45 f0       	mov    eax,DWORD PTR [ebp-0x10]
- 386:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
- 38c:	67 66 c7 04 24 16 10 	mov    DWORD PTR [esp],0x1016
- 393:	00 00 
- 395:	66 e8 fe 02 00 00    	call   699 <_printSentence>
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:53
-		int2str(count, tmpstr);
- 39b:	66 a1 2c 30          	mov    eax,ds:0x302c
- 39f:	67 66 8d 55 e2       	lea    edx,[ebp-0x1e]
- 3a4:	67 66 89 54 24 04    	mov    DWORD PTR [esp+0x4],edx
- 3aa:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
- 3af:	66 e8 57 fc ff ff    	call   c <_int2str>
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:54
-		printSentence(tmpstr, line, strlen("Number of letter in str is "), strlen(tmpstr), white);
- 3b5:	67 66 8d 45 e2       	lea    eax,[ebp-0x1e]
- 3ba:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
- 3bf:	66 e8 56 fd ff ff    	call   11b <_strlen>
- 3c5:	66 89 c3             	mov    ebx,eax
- 3c8:	67 66 c7 04 24 16 10 	mov    DWORD PTR [esp],0x1016
- 3cf:	00 00 
- 3d1:	66 e8 44 fd ff ff    	call   11b <_strlen>
- 3d7:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
- 3de:	00 00 00 
- 3e1:	67 66 89 5c 24 0c    	mov    DWORD PTR [esp+0xc],ebx
- 3e7:	67 66 89 44 24 08    	mov    DWORD PTR [esp+0x8],eax
- 3ed:	67 66 8b 45 f0       	mov    eax,DWORD PTR [ebp-0x10]
- 3f2:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
- 3f8:	67 66 8d 45 e2       	lea    eax,[ebp-0x1e]
- 3fd:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
- 402:	66 e8 91 02 00 00    	call   699 <_printSentence>
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:55
-		printSentence("\r\n", line++, 0, strlen("\r\n"), white);
- 408:	67 66 c7 04 24 32 10 	mov    DWORD PTR [esp],0x1032
- 40f:	00 00 
- 411:	66 e8 04 fd ff ff    	call   11b <_strlen>
- 417:	66 89 c2             	mov    edx,eax
- 41a:	67 66 8b 45 f0       	mov    eax,DWORD PTR [ebp-0x10]
- 41f:	67 66 8d 48 01       	lea    ecx,[eax+0x1]
- 424:	67 66 89 4d f0       	mov    DWORD PTR [ebp-0x10],ecx
- 429:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
- 430:	00 00 00 
- 433:	67 66 89 54 24 0c    	mov    DWORD PTR [esp+0xc],edx
- 439:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
- 440:	00 00 00 
- 443:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
- 449:	67 66 c7 04 24 32 10 	mov    DWORD PTR [esp],0x1032
- 450:	00 00 
- 452:	66 e8 41 02 00 00    	call   699 <_printSentence>
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:56
-		int2str(ret, tmpstr);
- 458:	66 a1 44 30          	mov    eax,ds:0x3044
- 45c:	67 66 8d 55 e2       	lea    edx,[ebp-0x1e]
- 461:	67 66 89 54 24 04    	mov    DWORD PTR [esp+0x4],edx
- 467:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
- 46c:	66 e8 9a fb ff ff    	call   c <_int2str>
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:57
-		printSentence("The returned value is ", line, 0, strlen("The returned value is "), white);
- 472:	67 66 c7 04 24 35 10 	mov    DWORD PTR [esp],0x1035
- 479:	00 00 
- 47b:	66 e8 9a fc ff ff    	call   11b <_strlen>
- 481:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
- 488:	00 00 00 
- 48b:	67 66 89 44 24 0c    	mov    DWORD PTR [esp+0xc],eax
- 491:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
- 498:	00 00 00 
- 49b:	67 66 8b 45 f0       	mov    eax,DWORD PTR [ebp-0x10]
- 4a0:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
- 4a6:	67 66 c7 04 24 35 10 	mov    DWORD PTR [esp],0x1035
- 4ad:	00 00 
- 4af:	66 e8 e4 01 00 00    	call   699 <_printSentence>
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:58
-		printSentence(tmpstr, line, strlen("The returned value is "), strlen(tmpstr), white);
- 4b5:	67 66 8d 45 e2       	lea    eax,[ebp-0x1e]
- 4ba:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
- 4bf:	66 e8 56 fc ff ff    	call   11b <_strlen>
- 4c5:	66 89 c3             	mov    ebx,eax
- 4c8:	67 66 c7 04 24 35 10 	mov    DWORD PTR [esp],0x1035
- 4cf:	00 00 
- 4d1:	66 e8 44 fc ff ff    	call   11b <_strlen>
- 4d7:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
- 4de:	00 00 00 
- 4e1:	67 66 89 5c 24 0c    	mov    DWORD PTR [esp+0xc],ebx
- 4e7:	67 66 89 44 24 08    	mov    DWORD PTR [esp+0x8],eax
- 4ed:	67 66 8b 45 f0       	mov    eax,DWORD PTR [ebp-0x10]
- 4f2:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
- 4f8:	67 66 8d 45 e2       	lea    eax,[ebp-0x1e]
- 4fd:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
- 502:	66 e8 91 01 00 00    	call   699 <_printSentence>
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:59
-		printSentence("\r\n", line++, 0, strlen("\r\n"), white);
- 508:	67 66 c7 04 24 32 10 	mov    DWORD PTR [esp],0x1032
- 50f:	00 00 
- 511:	66 e8 04 fc ff ff    	call   11b <_strlen>
- 517:	66 89 c2             	mov    edx,eax
- 51a:	67 66 8b 45 f0       	mov    eax,DWORD PTR [ebp-0x10]
- 51f:	67 66 8d 48 01       	lea    ecx,[eax+0x1]
- 524:	67 66 89 4d f0       	mov    DWORD PTR [ebp-0x10],ecx
- 529:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
- 530:	00 00 00 
- 533:	67 66 89 54 24 0c    	mov    DWORD PTR [esp+0xc],edx
- 539:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
- 540:	00 00 00 
- 543:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
- 549:	67 66 c7 04 24 32 10 	mov    DWORD PTR [esp],0x1032
- 550:	00 00 
- 552:	66 e8 41 01 00 00    	call   699 <_printSentence>
- 558:	eb 65                	jmp    5bf <__file_alignment__+0x3bf>
+ 302:	67 66 c7 04 24 06 10 	mov    DWORD PTR [esp],0x1006
+ 309:	00 00 
+ 30b:	66 e8 0a fe ff ff    	call   11b <_strlen>
+ 311:	66 89 c2             	mov    edx,eax
+ 314:	67 66 8b 45 e8       	mov    eax,DWORD PTR [ebp-0x18]
+ 319:	67 66 8d 48 01       	lea    ecx,[eax+0x1]
+ 31e:	67 66 89 4d e8       	mov    DWORD PTR [ebp-0x18],ecx
+ 323:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
+ 32a:	00 00 00 
+ 32d:	67 66 89 54 24 0c    	mov    DWORD PTR [esp+0xc],edx
+ 333:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
+ 33a:	00 00 00 
+ 33d:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+ 343:	67 66 c7 04 24 06 10 	mov    DWORD PTR [esp],0x1006
+ 34a:	00 00 
+ 34c:	66 e8 67 03 00 00    	call   6b9 <_printSentence>
+ 352:	e9 80 02             	jmp    5d5 <__file_alignment__+0x3d5>
 D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:61
+	} else if(pid > 0) {
+ 355:	67 66 83 7d e4 00    	cmp    DWORD PTR [ebp-0x1c],0x0
+ 35b:	0f 8e 11 02          	jle    570 <__file_alignment__+0x370>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:62
+		ret = wait();
+ 35f:	66 e8 20 03 00 00    	call   685 <_wait>
+ 365:	66 a3 44 30          	mov    ds:0x3044,eax
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:63
+		printSentence("Number of letter in str is ", ++line, 0, strlen("Number of letter in str is "), white);
+ 369:	67 66 c7 04 24 16 10 	mov    DWORD PTR [esp],0x1016
+ 370:	00 00 
+ 372:	66 e8 a3 fd ff ff    	call   11b <_strlen>
+ 378:	67 66 ff 45 e8       	inc    DWORD PTR [ebp-0x18]
+ 37d:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
+ 384:	00 00 00 
+ 387:	67 66 89 44 24 0c    	mov    DWORD PTR [esp+0xc],eax
+ 38d:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
+ 394:	00 00 00 
+ 397:	67 66 8b 45 e8       	mov    eax,DWORD PTR [ebp-0x18]
+ 39c:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+ 3a2:	67 66 c7 04 24 16 10 	mov    DWORD PTR [esp],0x1016
+ 3a9:	00 00 
+ 3ab:	66 e8 08 03 00 00    	call   6b9 <_printSentence>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:64
+		int2str(count, tmpstr);
+ 3b1:	66 a1 2c 30          	mov    eax,ds:0x302c
+ 3b5:	67 66 8d 55 da       	lea    edx,[ebp-0x26]
+ 3ba:	67 66 89 54 24 04    	mov    DWORD PTR [esp+0x4],edx
+ 3c0:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+ 3c5:	66 e8 41 fc ff ff    	call   c <_int2str>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:65
+		printSentence(tmpstr, line, strlen("Number of letter in str is "), strlen(tmpstr), white);
+ 3cb:	67 66 8d 45 da       	lea    eax,[ebp-0x26]
+ 3d0:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+ 3d5:	66 e8 40 fd ff ff    	call   11b <_strlen>
+ 3db:	66 89 c3             	mov    ebx,eax
+ 3de:	67 66 c7 04 24 16 10 	mov    DWORD PTR [esp],0x1016
+ 3e5:	00 00 
+ 3e7:	66 e8 2e fd ff ff    	call   11b <_strlen>
+ 3ed:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
+ 3f4:	00 00 00 
+ 3f7:	67 66 89 5c 24 0c    	mov    DWORD PTR [esp+0xc],ebx
+ 3fd:	67 66 89 44 24 08    	mov    DWORD PTR [esp+0x8],eax
+ 403:	67 66 8b 45 e8       	mov    eax,DWORD PTR [ebp-0x18]
+ 408:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+ 40e:	67 66 8d 45 da       	lea    eax,[ebp-0x26]
+ 413:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+ 418:	66 e8 9b 02 00 00    	call   6b9 <_printSentence>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:66
+		printSentence("\r\n", line++, 0, strlen("\r\n"), white);
+ 41e:	67 66 c7 04 24 32 10 	mov    DWORD PTR [esp],0x1032
+ 425:	00 00 
+ 427:	66 e8 ee fc ff ff    	call   11b <_strlen>
+ 42d:	66 89 c2             	mov    edx,eax
+ 430:	67 66 8b 45 e8       	mov    eax,DWORD PTR [ebp-0x18]
+ 435:	67 66 8d 48 01       	lea    ecx,[eax+0x1]
+ 43a:	67 66 89 4d e8       	mov    DWORD PTR [ebp-0x18],ecx
+ 43f:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
+ 446:	00 00 00 
+ 449:	67 66 89 54 24 0c    	mov    DWORD PTR [esp+0xc],edx
+ 44f:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
+ 456:	00 00 00 
+ 459:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+ 45f:	67 66 c7 04 24 32 10 	mov    DWORD PTR [esp],0x1032
+ 466:	00 00 
+ 468:	66 e8 4b 02 00 00    	call   6b9 <_printSentence>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:67
+		int2str(ret, tmpstr);
+ 46e:	66 a1 44 30          	mov    eax,ds:0x3044
+ 472:	67 66 8d 55 da       	lea    edx,[ebp-0x26]
+ 477:	67 66 89 54 24 04    	mov    DWORD PTR [esp+0x4],edx
+ 47d:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+ 482:	66 e8 84 fb ff ff    	call   c <_int2str>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:68
+		printSentence("The returned value is ", line, 0, strlen("The returned value is "), white);
+ 488:	67 66 c7 04 24 35 10 	mov    DWORD PTR [esp],0x1035
+ 48f:	00 00 
+ 491:	66 e8 84 fc ff ff    	call   11b <_strlen>
+ 497:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
+ 49e:	00 00 00 
+ 4a1:	67 66 89 44 24 0c    	mov    DWORD PTR [esp+0xc],eax
+ 4a7:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
+ 4ae:	00 00 00 
+ 4b1:	67 66 8b 45 e8       	mov    eax,DWORD PTR [ebp-0x18]
+ 4b6:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+ 4bc:	67 66 c7 04 24 35 10 	mov    DWORD PTR [esp],0x1035
+ 4c3:	00 00 
+ 4c5:	66 e8 ee 01 00 00    	call   6b9 <_printSentence>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:69
+		printSentence(tmpstr, line, strlen("The returned value is "), strlen(tmpstr), white);
+ 4cb:	67 66 8d 45 da       	lea    eax,[ebp-0x26]
+ 4d0:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+ 4d5:	66 e8 40 fc ff ff    	call   11b <_strlen>
+ 4db:	66 89 c3             	mov    ebx,eax
+ 4de:	67 66 c7 04 24 35 10 	mov    DWORD PTR [esp],0x1035
+ 4e5:	00 00 
+ 4e7:	66 e8 2e fc ff ff    	call   11b <_strlen>
+ 4ed:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
+ 4f4:	00 00 00 
+ 4f7:	67 66 89 5c 24 0c    	mov    DWORD PTR [esp+0xc],ebx
+ 4fd:	67 66 89 44 24 08    	mov    DWORD PTR [esp+0x8],eax
+ 503:	67 66 8b 45 e8       	mov    eax,DWORD PTR [ebp-0x18]
+ 508:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+ 50e:	67 66 8d 45 da       	lea    eax,[ebp-0x26]
+ 513:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+ 518:	66 e8 9b 01 00 00    	call   6b9 <_printSentence>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:70
+		printSentence("\r\n", line++, 0, strlen("\r\n"), white);
+ 51e:	67 66 c7 04 24 32 10 	mov    DWORD PTR [esp],0x1032
+ 525:	00 00 
+ 527:	66 e8 ee fb ff ff    	call   11b <_strlen>
+ 52d:	66 89 c2             	mov    edx,eax
+ 530:	67 66 8b 45 e8       	mov    eax,DWORD PTR [ebp-0x18]
+ 535:	67 66 8d 48 01       	lea    ecx,[eax+0x1]
+ 53a:	67 66 89 4d e8       	mov    DWORD PTR [ebp-0x18],ecx
+ 53f:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
+ 546:	00 00 00 
+ 549:	67 66 89 54 24 0c    	mov    DWORD PTR [esp+0xc],edx
+ 54f:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
+ 556:	00 00 00 
+ 559:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+ 55f:	67 66 c7 04 24 32 10 	mov    DWORD PTR [esp],0x1032
+ 566:	00 00 
+ 568:	66 e8 4b 01 00 00    	call   6b9 <_printSentence>
+ 56e:	eb 65                	jmp    5d5 <__file_alignment__+0x3d5>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:72
 	} else {
 		printSentence("\r\nSubprogram is counting the number...\r\n", line, 0, strlen("Subprogram is counting the number...\r\n"), white);
- 55a:	67 66 c7 04 24 4c 10 	mov    DWORD PTR [esp],0x104c
- 561:	00 00 
- 563:	66 e8 b2 fb ff ff    	call   11b <_strlen>
- 569:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
- 570:	00 00 00 
- 573:	67 66 89 44 24 0c    	mov    DWORD PTR [esp+0xc],eax
- 579:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
- 580:	00 00 00 
- 583:	67 66 8b 45 f0       	mov    eax,DWORD PTR [ebp-0x10]
- 588:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
- 58e:	67 66 c7 04 24 74 10 	mov    DWORD PTR [esp],0x1074
- 595:	00 00 
- 597:	66 e8 fc 00 00 00    	call   699 <_printSentence>
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:62
+ 570:	67 66 c7 04 24 4c 10 	mov    DWORD PTR [esp],0x104c
+ 577:	00 00 
+ 579:	66 e8 9c fb ff ff    	call   11b <_strlen>
+ 57f:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
+ 586:	00 00 00 
+ 589:	67 66 89 44 24 0c    	mov    DWORD PTR [esp+0xc],eax
+ 58f:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
+ 596:	00 00 00 
+ 599:	67 66 8b 45 e8       	mov    eax,DWORD PTR [ebp-0x18]
+ 59e:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+ 5a4:	67 66 c7 04 24 74 10 	mov    DWORD PTR [esp],0x1074
+ 5ab:	00 00 
+ 5ad:	66 e8 06 01 00 00    	call   6b9 <_printSentence>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:73
 		count = strlen(str);
- 59d:	67 66 c7 04 24 e0 05 	mov    DWORD PTR [esp],0x5e0
- 5a4:	00 00 
- 5a6:	66 e8 6f fb ff ff    	call   11b <_strlen>
- 5ac:	66 a3 2c 30          	mov    ds:0x302c,eax
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:63
+ 5b3:	67 66 c7 04 24 00 06 	mov    DWORD PTR [esp],0x600
+ 5ba:	00 00 
+ 5bc:	66 e8 59 fb ff ff    	call   11b <_strlen>
+ 5c2:	66 a3 2c 30          	mov    ds:0x302c,eax
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:74
 		exitprg(1);
- 5b0:	67 66 c7 04 24 01 00 	mov    DWORD PTR [esp],0x1
- 5b7:	00 00 
- 5b9:	66 e8 89 00 00 00    	call   648 <_exitprg>
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:65
+ 5c6:	67 66 c7 04 24 01 00 	mov    DWORD PTR [esp],0x1
+ 5cd:	00 00 
+ 5cf:	66 e8 93 00 00 00    	call   668 <_exitprg>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:76
 	}
 	getchar();
- 5bf:	66 e8 03 01 00 00    	call   6c8 <_getchar>
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:66
+ 5d5:	66 e8 0d 01 00 00    	call   6e8 <_getchar>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:77
 	exitprg(0);
- 5c5:	67 66 c7 04 24 00 00 	mov    DWORD PTR [esp],0x0
- 5cc:	00 00 
- 5ce:	66 e8 74 00 00 00    	call   648 <_exitprg>
-D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:67
- 5d4:	90                   	nop
- 5d5:	66 83 c4 30          	add    esp,0x30
- 5d9:	66 5b                	pop    ebx
- 5db:	66 5d                	pop    ebp
- 5dd:	66 c3                	ret    
- 5df:	90                   	nop
+ 5db:	67 66 c7 04 24 00 00 	mov    DWORD PTR [esp],0x0
+ 5e2:	00 00 
+ 5e4:	66 e8 7e 00 00 00    	call   668 <_exitprg>
+D:\OneDrive\Study\Operating Systems\实验\project6\codes/./user/testFork.c:78
+ 5ea:	90                   	nop
+ 5eb:	66 83 c4 38          	add    esp,0x38
+ 5ef:	66 5b                	pop    ebx
+ 5f1:	66 5d                	pop    ebp
+ 5f3:	66 c3                	ret    
+ 5f5:	eb 09                	jmp    600 <_str>
+ 5f7:	90                   	nop
+ 5f8:	90                   	nop
+ 5f9:	90                   	nop
+ 5fa:	90                   	nop
+ 5fb:	90                   	nop
+ 5fc:	90                   	nop
+ 5fd:	90                   	nop
+ 5fe:	90                   	nop
+ 5ff:	90                   	nop
 
-000005e0 <_str>:
- 5e0:	48                   	dec    ax
- 5e1:	65 6c                	gs ins BYTE PTR es:[di],dx
- 5e3:	6c                   	ins    BYTE PTR es:[di],dx
- 5e4:	6f                   	outs   dx,WORD PTR ds:[si]
- 5e5:	20 4d 79             	and    BYTE PTR [di+0x79],cl
- 5e8:	20 4f 73             	and    BYTE PTR [bx+0x73],cl
- 5eb:	21 00                	and    WORD PTR [bx+si],ax
+00000600 <_str>:
+ 600:	48                   	dec    ax
+ 601:	65 6c                	gs ins BYTE PTR es:[di],dx
+ 603:	6c                   	ins    BYTE PTR es:[di],dx
+ 604:	6f                   	outs   dx,WORD PTR ds:[si]
+ 605:	20 4d 79             	and    BYTE PTR [di+0x79],cl
+ 608:	20 4f 73             	and    BYTE PTR [bx+0x73],cl
+ 60b:	21 00                	and    WORD PTR [bx+si],ax
 	...
 
-00000640 <_fork>:
- 640:	b4 08                	mov    ah,0x8
- 642:	cd 21                	int    0x21
- 644:	66 59                	pop    ecx
- 646:	ff e1                	jmp    cx
+00000660 <_fork>:
+ 660:	b4 08                	mov    ah,0x8
+ 662:	cd 21                	int    0x21
+ 664:	66 59                	pop    ecx
+ 666:	ff e1                	jmp    cx
 
-00000648 <_exitprg>:
- 648:	66 55                	push   ebp
- 64a:	66 89 e5             	mov    ebp,esp
- 64d:	53                   	push   bx
- 64e:	50                   	push   ax
- 64f:	36 67 8b 5d 08       	mov    bx,WORD PTR ss:[ebp+0x8]
- 654:	53                   	push   bx
- 655:	b4 06                	mov    ah,0x6
- 657:	cd 21                	int    0x21
- 659:	5b                   	pop    bx
- 65a:	58                   	pop    ax
- 65b:	5b                   	pop    bx
- 65c:	66 89 ec             	mov    esp,ebp
- 65f:	66 5d                	pop    ebp
- 661:	66 59                	pop    ecx
- 663:	ff e1                	jmp    cx
+00000668 <_exitprg>:
+ 668:	66 55                	push   ebp
+ 66a:	66 89 e5             	mov    ebp,esp
+ 66d:	53                   	push   bx
+ 66e:	50                   	push   ax
+ 66f:	36 67 8b 5d 08       	mov    bx,WORD PTR ss:[ebp+0x8]
+ 674:	53                   	push   bx
+ 675:	b4 06                	mov    ah,0x6
+ 677:	cd 21                	int    0x21
+ 679:	5b                   	pop    bx
+ 67a:	58                   	pop    ax
+ 67b:	5b                   	pop    bx
+ 67c:	66 89 ec             	mov    esp,ebp
+ 67f:	66 5d                	pop    ebp
+ 681:	66 59                	pop    ecx
+ 683:	ff e1                	jmp    cx
 
-00000665 <_wait>:
- 665:	66 55                	push   ebp
- 667:	66 89 e5             	mov    ebp,esp
- 66a:	b4 07                	mov    ah,0x7
- 66c:	cd 21                	int    0x21
- 66e:	66 89 ec             	mov    esp,ebp
- 671:	66 5d                	pop    ebp
- 673:	66 59                	pop    ecx
- 675:	ff e1                	jmp    cx
+00000685 <_wait>:
+ 685:	66 55                	push   ebp
+ 687:	66 89 e5             	mov    ebp,esp
+ 68a:	b4 07                	mov    ah,0x7
+ 68c:	cd 21                	int    0x21
+ 68e:	66 89 ec             	mov    esp,ebp
+ 691:	66 5d                	pop    ebp
+ 693:	66 59                	pop    ecx
+ 695:	ff e1                	jmp    cx
 
-00000677 <_malloc>:
- 677:	66 55                	push   ebp
- 679:	66 89 e5             	mov    ebp,esp
- 67c:	0f a8                	push   gs
- 67e:	1e                   	push   ds
- 67f:	0f a9                	pop    gs
- 681:	66 53                	push   ebx
- 683:	66 67 8b 5d 08       	mov    ebx,DWORD PTR [ebp+0x8]
- 688:	b4 09                	mov    ah,0x9
- 68a:	cd 21                	int    0x21
- 68c:	66 5b                	pop    ebx
- 68e:	0f a9                	pop    gs
- 690:	66 89 ec             	mov    esp,ebp
- 693:	66 5d                	pop    ebp
- 695:	66 59                	pop    ecx
- 697:	ff e1                	jmp    cx
+00000697 <_malloc>:
+ 697:	66 55                	push   ebp
+ 699:	66 89 e5             	mov    ebp,esp
+ 69c:	0f a8                	push   gs
+ 69e:	1e                   	push   ds
+ 69f:	0f a9                	pop    gs
+ 6a1:	66 53                	push   ebx
+ 6a3:	66 67 8b 5d 08       	mov    ebx,DWORD PTR [ebp+0x8]
+ 6a8:	b4 09                	mov    ah,0x9
+ 6aa:	cd 21                	int    0x21
+ 6ac:	66 5b                	pop    ebx
+ 6ae:	0f a9                	pop    gs
+ 6b0:	66 89 ec             	mov    esp,ebp
+ 6b3:	66 5d                	pop    ebp
+ 6b5:	66 59                	pop    ecx
+ 6b7:	ff e1                	jmp    cx
 
-00000699 <_printSentence>:
- 699:	66 55                	push   ebp
- 69b:	66 89 e5             	mov    ebp,esp
- 69e:	60                   	pusha  
- 69f:	0f a8                	push   gs
- 6a1:	67 8b 7d 08          	mov    di,WORD PTR [ebp+0x8]
- 6a5:	67 8a 75 0c          	mov    dh,BYTE PTR [ebp+0xc]
- 6a9:	67 8a 55 10          	mov    dl,BYTE PTR [ebp+0x10]
- 6ad:	67 8b 4d 14          	mov    cx,WORD PTR [ebp+0x14]
- 6b1:	67 8a 5d 18          	mov    bl,BYTE PTR [ebp+0x18]
- 6b5:	1e                   	push   ds
- 6b6:	0f a9                	pop    gs
- 6b8:	b4 02                	mov    ah,0x2
- 6ba:	cd 21                	int    0x21
- 6bc:	0f a9                	pop    gs
- 6be:	61                   	popa   
- 6bf:	66 89 ec             	mov    esp,ebp
- 6c2:	66 5d                	pop    ebp
- 6c4:	66 59                	pop    ecx
- 6c6:	ff e1                	jmp    cx
+000006b9 <_printSentence>:
+ 6b9:	66 55                	push   ebp
+ 6bb:	66 89 e5             	mov    ebp,esp
+ 6be:	60                   	pusha  
+ 6bf:	0f a8                	push   gs
+ 6c1:	67 8b 7d 08          	mov    di,WORD PTR [ebp+0x8]
+ 6c5:	67 8a 75 0c          	mov    dh,BYTE PTR [ebp+0xc]
+ 6c9:	67 8a 55 10          	mov    dl,BYTE PTR [ebp+0x10]
+ 6cd:	67 8b 4d 14          	mov    cx,WORD PTR [ebp+0x14]
+ 6d1:	67 8a 5d 18          	mov    bl,BYTE PTR [ebp+0x18]
+ 6d5:	1e                   	push   ds
+ 6d6:	0f a9                	pop    gs
+ 6d8:	b4 02                	mov    ah,0x2
+ 6da:	cd 21                	int    0x21
+ 6dc:	0f a9                	pop    gs
+ 6de:	61                   	popa   
+ 6df:	66 89 ec             	mov    esp,ebp
+ 6e2:	66 5d                	pop    ebp
+ 6e4:	66 59                	pop    ecx
+ 6e6:	ff e1                	jmp    cx
 
-000006c8 <_getchar>:
- 6c8:	b4 00                	mov    ah,0x0
- 6ca:	cd 16                	int    0x16
- 6cc:	88 e0                	mov    al,ah
- 6ce:	b4 00                	mov    ah,0x0
- 6d0:	66 59                	pop    ecx
- 6d2:	ff e1                	jmp    cx
+000006e8 <_getchar>:
+ 6e8:	b4 00                	mov    ah,0x0
+ 6ea:	cd 16                	int    0x16
+ 6ec:	88 e0                	mov    al,ah
+ 6ee:	b4 00                	mov    ah,0x0
+ 6f0:	66 59                	pop    ecx
+ 6f2:	ff e1                	jmp    cx

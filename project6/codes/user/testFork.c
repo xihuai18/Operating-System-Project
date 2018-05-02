@@ -27,17 +27,28 @@ int _main()
 	{
 		printSentence("error", 11, 0, 5, white);
 	}
-	first->i = 1;
-	first->next = (struct testMalloc *)(malloc(sizeof(struct testMalloc)));
-	first->next->i = 2; 
-	first->next->next = NULL;
+	// first->i = 1;
+	// first->next = (struct testMalloc *)(malloc(sizeof(struct testMalloc)));
+	// first->next->i = 2; 
+	// first->next->next = NULL;
 
-	struct testMalloc * one = first;
-	while(one){
-		int2str(one->i, tmpstr);
-		printSentence(tmpstr, 10+one->i, 0, 1, white);
-		one = one->next;
+	// struct testMalloc * one = first;
+	struct testMalloc * p = first;
+	int i = 0;
+	for (int i = 0; i < 10; ++i)
+	{
+		p->i = i;
+		p->next = (struct testMalloc *)(malloc(sizeof(struct testMalloc)));
+		p = p->next;
 	}
+
+	p = first;
+	while(p){
+		int2str(p->i, tmpstr);
+		printSentence(tmpstr, 10+p->i, 0, 1, white);
+		p = p->next;
+	}
+
 
 	int line = 0;
 	int pid;
