@@ -27,8 +27,9 @@
 
 ## Demostrations
 Demo 1:
-[!Six-status model](../)
+![Six-status model](/demos/six-status.gif)
 
 
 Demo 2:
+![Sub-thread and heap memory allocation mechanism](/demos/subThreads.gif)
 
