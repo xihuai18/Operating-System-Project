@@ -24,6 +24,8 @@
 - Support sub-thread mechanism.
 - Support dynamic memory management and heap memory allocation.
 - Support one-layer file system.
+- Support semaphore mechanism.
+- Support delay mechanism.
 
 ## Demostrations
 Demo 1:
