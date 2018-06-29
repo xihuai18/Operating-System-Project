@@ -18,6 +18,8 @@
     *             run : following by a list of programs, seperated by "enter".
     *       susp [id] : suspend a process 
     *       acti [id] : activate a process 
+    * cp [sour] [des] : cp files
+    *    touch [name] : create files
     *   use "./" and the program following without space to run the program.
 
 - Support six-status(origin, ready, running, blocked, suspend, exit) process model.
@@ -36,5 +38,11 @@ Demo 1:
 Demo 2:
 
 ![Sub-thread and heap memory allocation mechanism](/demos/subThreads.gif)
+
+Demo 3:
+
+![File system demo 1](/demos/demo-create-and-delete.gif)
+
+![File system demo 2](/demos/demo-cp.gif)
 
 
