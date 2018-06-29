@@ -18,7 +18,7 @@
     *             run : following by a list of programs, seperated by "enter".
     *       susp [id] : suspend a process 
     *       acti [id] : activate a process 
-    * cp [sour] [des] : cp files
+    *  cp [sour] [des] : cp files
     *    touch [name] : create files
     *   use "./" and the program following without space to run the program.
 
