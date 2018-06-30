@@ -2,7 +2,8 @@
 
 ## Supported Functions(up to 5th May)
 - command line
-    *              ls : list the information of the folders and files inside 
+    
+    * >            ls : list the information of the folders and files inside 
                      the current work path in the below format:
               name    size    loaded memory address    type
                                        (lma)   (E:executable, F:folder, D: document)
@@ -18,7 +19,7 @@
     *             run : following by a list of programs, seperated by "enter".
     *       susp [id] : suspend a process 
     *       acti [id] : activate a process 
-    *  cp [sour] [des] : cp files
+    *  cp [sour][des] : cp files
     *    touch [name] : create files
     *   use "./" and the program following without space to run the program.
 
