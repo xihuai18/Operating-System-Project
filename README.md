@@ -1,6 +1,6 @@
 # Operating-System-Project
 
-## Supported Functions(up to 5th May)
+## Supported Functions(up to 1th July)
 - command line
     *              ls : list the information of the folders and files inside 
                      the current work path in the below format:
@@ -28,6 +28,7 @@
 - Support one-layer file system.
 - Support semaphore mechanism.
 - Support delay mechanism.
+- support multiple terminals.
 
 ## Demostrations
 Demo 1:
