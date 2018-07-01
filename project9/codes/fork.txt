@@ -1,0 +1,568 @@
+
+.\user\testFork.tmp:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00000000 <_empty>:
+empty():
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:33
+int size(struct Queue * que);
+void init(struct Queue * que);
+void enqueue(struct Queue * que, int ele);
+void dequeue(struct Queue * que, int * ele);
+int empty(struct Queue * que)
+{
+   0:	55                   	push   bp
+   1:	89 e5                	mov    bp,sp
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:34
+	return que->size == 0;
+   3:	8b 45 08             	mov    ax,WORD PTR [di+0x8]
+   6:	8b 40 08             	mov    ax,WORD PTR [bx+si+0x8]
+   9:	85 c0                	test   ax,ax
+   b:	0f 94 c0             	sete   al
+   e:	0f b6 c0             	movzx  ax,al
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:35
+}
+  11:	5d                   	pop    bp
+  12:	c3                   	ret    
+
+00000013 <_size>:
+size():
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:38
+
+int size(struct Queue * que)
+{
+  13:	55                   	push   bp
+  14:	89 e5                	mov    bp,sp
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:39
+	return que->size;
+  16:	8b 45 08             	mov    ax,WORD PTR [di+0x8]
+  19:	8b 40 08             	mov    ax,WORD PTR [bx+si+0x8]
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:40
+}
+  1c:	5d                   	pop    bp
+  1d:	c3                   	ret    
+
+0000001e <_init>:
+init():
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:43
+
+void init(struct Queue * que)
+{
+  1e:	55                   	push   bp
+  1f:	89 e5                	mov    bp,sp
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:44
+	que->tail = LEN - 1;
+  21:	8b 45 08             	mov    ax,WORD PTR [di+0x8]
+  24:	c7 00 13 00          	mov    WORD PTR [bx+si],0x13
+  28:	00 00                	add    BYTE PTR [bx+si],al
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:45
+	que->head = 0;
+  2a:	8b 45 08             	mov    ax,WORD PTR [di+0x8]
+  2d:	c7 40 04 00 00       	mov    WORD PTR [bx+si+0x4],0x0
+  32:	00 00                	add    BYTE PTR [bx+si],al
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:46
+	que->size = 0;
+  34:	8b 45 08             	mov    ax,WORD PTR [di+0x8]
+  37:	c7 40 08 00 00       	mov    WORD PTR [bx+si+0x8],0x0
+  3c:	00 00                	add    BYTE PTR [bx+si],al
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:47
+}
+  3e:	90                   	nop
+  3f:	5d                   	pop    bp
+  40:	c3                   	ret    
+
+00000041 <_enqueue>:
+enqueue():
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:50
+
+void enqueue(struct Queue * que, int ele)
+{
+  41:	55                   	push   bp
+  42:	89 e5                	mov    bp,sp
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:51
+	if (que->size >= LEN)
+  44:	8b 45 08             	mov    ax,WORD PTR [di+0x8]
+  47:	8b 40 08             	mov    ax,WORD PTR [bx+si+0x8]
+  4a:	83 f8 13             	cmp    ax,0x13
+  4d:	7f 33                	jg     82 <_enqueue+0x41>
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:53
+		return ;
+	que->size++;
+  4f:	8b 45 08             	mov    ax,WORD PTR [di+0x8]
+  52:	8b 40 08             	mov    ax,WORD PTR [bx+si+0x8]
+  55:	8d 50 01             	lea    dx,[bx+si+0x1]
+  58:	8b 45 08             	mov    ax,WORD PTR [di+0x8]
+  5b:	89 50 08             	mov    WORD PTR [bx+si+0x8],dx
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:54
+	que->tail = (que->tail + 1) % LEN;
+  5e:	8b 45 08             	mov    ax,WORD PTR [di+0x8]
+  61:	8b 00                	mov    ax,WORD PTR [bx+si]
+  63:	40                   	inc    ax
+  64:	b9 14 00             	mov    cx,0x14
+  67:	00 00                	add    BYTE PTR [bx+si],al
+  69:	99                   	cwd    
+  6a:	f7 f9                	idiv   cx
+  6c:	8b 45 08             	mov    ax,WORD PTR [di+0x8]
+  6f:	89 10                	mov    WORD PTR [bx+si],dx
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:55
+	que->array[que->tail] = ele;
+  71:	8b 45 08             	mov    ax,WORD PTR [di+0x8]
+  74:	8b 10                	mov    dx,WORD PTR [bx+si]
+  76:	8b 45 08             	mov    ax,WORD PTR [di+0x8]
+  79:	8b 4d 0c             	mov    cx,WORD PTR [di+0xc]
+  7c:	89 4c 90             	mov    WORD PTR [si-0x70],cx
+  7f:	0c eb                	or     al,0xeb
+  81:	01 90 5d c3          	add    WORD PTR [bx+si-0x3ca3],dx
+
+00000085 <_dequeue>:
+dequeue():
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:59
+}
+
+void dequeue(struct Queue * que, int * ele)
+{
+  85:	55                   	push   bp
+  86:	89 e5                	mov    bp,sp
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:60
+	if (que->size <= 0)
+  88:	8b 45 08             	mov    ax,WORD PTR [di+0x8]
+  8b:	8b 40 08             	mov    ax,WORD PTR [bx+si+0x8]
+  8e:	85 c0                	test   ax,ax
+  90:	7e 38                	jle    ca <_dequeue+0x45>
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:62
+		return ;
+	que->size--;
+  92:	8b 45 08             	mov    ax,WORD PTR [di+0x8]
+  95:	8b 40 08             	mov    ax,WORD PTR [bx+si+0x8]
+  98:	8d 50 ff             	lea    dx,[bx+si-0x1]
+  9b:	8b 45 08             	mov    ax,WORD PTR [di+0x8]
+  9e:	89 50 08             	mov    WORD PTR [bx+si+0x8],dx
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:63
+	*ele = que->array[que->head];
+  a1:	8b 45 08             	mov    ax,WORD PTR [di+0x8]
+  a4:	8b 50 04             	mov    dx,WORD PTR [bx+si+0x4]
+  a7:	8b 45 08             	mov    ax,WORD PTR [di+0x8]
+  aa:	8b 54 90             	mov    dx,WORD PTR [si-0x70]
+  ad:	0c 8b                	or     al,0x8b
+  af:	45                   	inc    bp
+  b0:	0c 89                	or     al,0x89
+  b2:	10 8b 45 08          	adc    BYTE PTR [bp+di+0x845],cl
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:64
+	que->head = (que->head + 1) % LEN;
+  b6:	8b 40 04             	mov    ax,WORD PTR [bx+si+0x4]
+  b9:	40                   	inc    ax
+  ba:	b9 14 00             	mov    cx,0x14
+  bd:	00 00                	add    BYTE PTR [bx+si],al
+  bf:	99                   	cwd    
+  c0:	f7 f9                	idiv   cx
+  c2:	8b 45 08             	mov    ax,WORD PTR [di+0x8]
+  c5:	89 50 04             	mov    WORD PTR [bx+si+0x4],dx
+  c8:	eb 01                	jmp    cb <_dequeue+0x46>
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:61
+		return ;
+  ca:	90                   	nop
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdlib.h:65
+  cb:	5d                   	pop    bp
+  cc:	c3                   	ret    
+
+000000cd <_int2str>:
+int2str():
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdio.h:4
+void printSentence(char * message, int x, int y, int len, int color);
+
+void int2str(int org, char * str)
+{
+  cd:	55                   	push   bp
+  ce:	89 e5                	mov    bp,sp
+  d0:	53                   	push   bx
+  d1:	83 ec 0c             	sub    sp,0xc
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdio.h:5
+	int num = 0;
+  d4:	c7 45 f8 00 00       	mov    WORD PTR [di-0x8],0x0
+  d9:	00 00                	add    BYTE PTR [bx+si],al
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdio.h:6
+	int cp = org;
+  db:	8b 45 08             	mov    ax,WORD PTR [di+0x8]
+  de:	89 45 f4             	mov    WORD PTR [di-0xc],ax
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdio.h:7
+	while (cp != 0)
+  e1:	eb 1c                	jmp    ff <_int2str+0x32>
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdio.h:9
+	{
+		cp /= 10;
+  e3:	8b 4d f4             	mov    cx,WORD PTR [di-0xc]
+  e6:	b8 67 66             	mov    ax,0x6667
+  e9:	66 66 f7 e9          	data32 imul ecx
+  ed:	c1 fa 02             	sar    dx,0x2
+  f0:	89 c8                	mov    ax,cx
+  f2:	c1 f8 1f             	sar    ax,0x1f
+  f5:	29 c2                	sub    dx,ax
+  f7:	89 d0                	mov    ax,dx
+  f9:	89 45 f4             	mov    WORD PTR [di-0xc],ax
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdio.h:10
+		++num;
+  fc:	ff 45 f8             	inc    WORD PTR [di-0x8]
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdio.h:7
+	while (cp != 0)
+  ff:	83 7d f4 00          	cmp    WORD PTR [di-0xc],0x0
+ 103:	75 de                	jne    e3 <_int2str+0x16>
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdio.h:12
+	}
+	if (org == 0)
+ 105:	83 7d 08 00          	cmp    WORD PTR [di+0x8],0x0
+ 109:	75 07                	jne    112 <_int2str+0x45>
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdio.h:13
+		num = 1;
+ 10b:	c7 45 f8 01 00       	mov    WORD PTR [di-0x8],0x1
+ 110:	00 00                	add    BYTE PTR [bx+si],al
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdio.h:14
+	str[num--] = '\0';
+ 112:	8b 45 f8             	mov    ax,WORD PTR [di-0x8]
+ 115:	8d 50 ff             	lea    dx,[bx+si-0x1]
+ 118:	89 55 f8             	mov    WORD PTR [di-0x8],dx
+ 11b:	89 c2                	mov    dx,ax
+ 11d:	8b 45 0c             	mov    ax,WORD PTR [di+0xc]
+ 120:	01 d0                	add    ax,dx
+ 122:	c6 00 00             	mov    BYTE PTR [bx+si],0x0
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdio.h:15
+	for (int i = num; i >= 0; --i)
+ 125:	8b 45 f8             	mov    ax,WORD PTR [di-0x8]
+ 128:	89 45 f0             	mov    WORD PTR [di-0x10],ax
+ 12b:	eb 4d                	jmp    17a <_int2str+0xad>
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdio.h:17
+	{
+		str[i] = org % 10 + 48;
+ 12d:	8b 55 f0             	mov    dx,WORD PTR [di-0x10]
+ 130:	8b 45 0c             	mov    ax,WORD PTR [di+0xc]
+ 133:	8d 1c                	lea    bx,[si]
+ 135:	02 8b 4d 08          	add    cl,BYTE PTR [bp+di+0x84d]
+ 139:	b8 67 66             	mov    ax,0x6667
+ 13c:	66 66 f7 e9          	data32 imul ecx
+ 140:	c1 fa 02             	sar    dx,0x2
+ 143:	89 c8                	mov    ax,cx
+ 145:	c1 f8 1f             	sar    ax,0x1f
+ 148:	29 c2                	sub    dx,ax
+ 14a:	89 d0                	mov    ax,dx
+ 14c:	c1 e0 02             	shl    ax,0x2
+ 14f:	01 d0                	add    ax,dx
+ 151:	01 c0                	add    ax,ax
+ 153:	29 c1                	sub    cx,ax
+ 155:	89 ca                	mov    dx,cx
+ 157:	88 d0                	mov    al,dl
+ 159:	83 c0 30             	add    ax,0x30
+ 15c:	88 03                	mov    BYTE PTR [bp+di],al
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdio.h:18
+		org /= 10;
+ 15e:	8b 4d 08             	mov    cx,WORD PTR [di+0x8]
+ 161:	b8 67 66             	mov    ax,0x6667
+ 164:	66 66 f7 e9          	data32 imul ecx
+ 168:	c1 fa 02             	sar    dx,0x2
+ 16b:	89 c8                	mov    ax,cx
+ 16d:	c1 f8 1f             	sar    ax,0x1f
+ 170:	29 c2                	sub    dx,ax
+ 172:	89 d0                	mov    ax,dx
+ 174:	89 45 08             	mov    WORD PTR [di+0x8],ax
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdio.h:15
+	for (int i = num; i >= 0; --i)
+ 177:	ff 4d f0             	dec    WORD PTR [di-0x10]
+ 17a:	83 7d f0 00          	cmp    WORD PTR [di-0x10],0x0
+ 17e:	79 ad                	jns    12d <_int2str+0x60>
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdio.h:20
+	}
+}
+ 180:	90                   	nop
+ 181:	83 c4 0c             	add    sp,0xc
+ 184:	5b                   	pop    bx
+ 185:	5d                   	pop    bp
+ 186:	c3                   	ret    
+
+00000187 <_strlen>:
+strlen():
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdio.h:23
+
+int strlen(char * sen)
+{
+ 187:	55                   	push   bp
+ 188:	89 e5                	mov    bp,sp
+ 18a:	83 ec 04             	sub    sp,0x4
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdio.h:24
+	int i = 0;
+ 18d:	c7 45 fc 00 00       	mov    WORD PTR [di-0x4],0x0
+ 192:	00 00                	add    BYTE PTR [bx+si],al
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdio.h:25
+	while (sen[i]) { ++i; }
+ 194:	eb 03                	jmp    199 <_strlen+0x12>
+ 196:	ff 45 fc             	inc    WORD PTR [di-0x4]
+ 199:	8b 55 fc             	mov    dx,WORD PTR [di-0x4]
+ 19c:	8b 45 08             	mov    ax,WORD PTR [di+0x8]
+ 19f:	01 d0                	add    ax,dx
+ 1a1:	8a 00                	mov    al,BYTE PTR [bx+si]
+ 1a3:	84 c0                	test   al,al
+ 1a5:	75 ef                	jne    196 <_strlen+0xf>
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdio.h:26
+	return i;
+ 1a7:	8b 45 fc             	mov    ax,WORD PTR [di-0x4]
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/stdio.h:27
+}
+ 1aa:	c9                   	leave  
+ 1ab:	c3                   	ret    
+ 1ac:	66 8c c8             	mov    eax,cs
+ 1af:	8e d8                	mov    ds,ax
+ 1b1:	8e c0                	mov    es,ax
+ 1b3:	8e d0                	mov    ss,ax
+ 1b5:	eb 00                	jmp    1b7 <__main>
+
+000001b7 <__main>:
+_main():
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/testFork.c:12
+__asm__("mov %ax, %es\n");
+__asm__("mov %ax, %ss\n");
+__asm__("jmp __main\n");
+
+int _main()
+{
+ 1b7:	66 55                	push   ebp
+ 1b9:	66 89 e5             	mov    ebp,esp
+ 1bc:	66 57                	push   edi
+ 1be:	66 56                	push   esi
+ 1c0:	66 53                	push   ebx
+ 1c2:	66 83 ec 38          	sub    esp,0x38
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/testFork.c:13
+	char text[] = "testing multiple terminal";
+ 1c6:	67 66 8d 45 d2       	lea    eax,[ebp-0x2e]
+ 1cb:	66 bb 00 10 00 00    	mov    ebx,0x1000
+ 1d1:	66 ba 1a 00 00 00    	mov    edx,0x1a
+ 1d7:	66 89 c7             	mov    edi,eax
+ 1da:	66 89 de             	mov    esi,ebx
+ 1dd:	66 89 d1             	mov    ecx,edx
+ 1e0:	f3 a4                	rep movs BYTE PTR es:[di],BYTE PTR ds:[si]
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/testFork.c:14
+	for (int i = 0; i < 20; ++i)
+ 1e2:	67 66 c7 45 f0 00 00 	mov    DWORD PTR [ebp-0x10],0x0
+ 1e9:	00 00 
+ 1eb:	eb 65                	jmp    252 <__file_alignment__+0x52>
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/testFork.c:16
+	{
+		printSentence(text, i, 0, strlen(text), white);
+ 1ed:	67 66 8d 45 d2       	lea    eax,[ebp-0x2e]
+ 1f2:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+ 1f7:	66 e8 8a ff ff ff    	call   187 <_strlen>
+ 1fd:	67 66 c7 44 24 10 0f 	mov    DWORD PTR [esp+0x10],0xf
+ 204:	00 00 00 
+ 207:	67 66 89 44 24 0c    	mov    DWORD PTR [esp+0xc],eax
+ 20d:	67 66 c7 44 24 08 00 	mov    DWORD PTR [esp+0x8],0x0
+ 214:	00 00 00 
+ 217:	67 66 8b 45 f0       	mov    eax,DWORD PTR [ebp-0x10]
+ 21c:	67 66 89 44 24 04    	mov    DWORD PTR [esp+0x4],eax
+ 222:	67 66 8d 45 d2       	lea    eax,[ebp-0x2e]
+ 227:	67 66 89 04 24       	mov    DWORD PTR [esp],eax
+ 22c:	66 e8 ed 00 00 00    	call   31f <_printSentence>
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/testFork.c:17
+		for (int j = 0; j < 100000; ++j)
+ 232:	67 66 c7 45 ec 00 00 	mov    DWORD PTR [ebp-0x14],0x0
+ 239:	00 00 
+ 23b:	eb 05                	jmp    242 <__file_alignment__+0x42>
+ 23d:	67 66 ff 45 ec       	inc    DWORD PTR [ebp-0x14]
+ 242:	67 66 81 7d ec 9f 86 	cmp    DWORD PTR [ebp-0x14],0x1869f
+ 249:	01 00 
+ 24b:	7e f0                	jle    23d <__file_alignment__+0x3d>
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/testFork.c:14
+	for (int i = 0; i < 20; ++i)
+ 24d:	67 66 ff 45 f0       	inc    DWORD PTR [ebp-0x10]
+ 252:	67 66 83 7d f0 13    	cmp    DWORD PTR [ebp-0x10],0x13
+ 258:	7e 93                	jle    1ed <__main+0x36>
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/testFork.c:20
+		{}
+	}
+	return 0;
+ 25a:	66 b8 00 00 00 00    	mov    eax,0x0
+D:\OneDrive\Study\Operating Systems\MyOs\project9\codes/./user/testFork.c:21
+ 260:	66 83 c4 38          	add    esp,0x38
+ 264:	66 5b                	pop    ebx
+ 266:	66 5e                	pop    esi
+ 268:	66 5f                	pop    edi
+ 26a:	66 5d                	pop    ebp
+ 26c:	66 c3                	ret    
+	...
+
+00000270 <_clear>:
+ 270:	50                   	push   ax
+ 271:	b4 04                	mov    ah,0x4
+ 273:	cd 21                	int    0x21
+ 275:	58                   	pop    ax
+ 276:	2e 66 8f 06 85 03    	pop    DWORD PTR cs:0x385
+ 27c:	2e ff 26 85 03       	jmp    WORD PTR cs:0x385
+
+00000281 <_fork>:
+ 281:	b4 08                	mov    ah,0x8
+ 283:	cd 21                	int    0x21
+ 285:	2e 66 8f 06 85 03    	pop    DWORD PTR cs:0x385
+ 28b:	2e ff 26 85 03       	jmp    WORD PTR cs:0x385
+
+00000290 <_exitprg>:
+ 290:	66 55                	push   ebp
+ 292:	66 89 e5             	mov    ebp,esp
+ 295:	53                   	push   bx
+ 296:	50                   	push   ax
+ 297:	36 67 8b 5d 08       	mov    bx,WORD PTR ss:[ebp+0x8]
+ 29c:	53                   	push   bx
+ 29d:	b4 06                	mov    ah,0x6
+ 29f:	cd 21                	int    0x21
+ 2a1:	5b                   	pop    bx
+ 2a2:	58                   	pop    ax
+ 2a3:	5b                   	pop    bx
+ 2a4:	66 89 ec             	mov    esp,ebp
+ 2a7:	66 5d                	pop    ebp
+ 2a9:	2e 66 8f 06 85 03    	pop    DWORD PTR cs:0x385
+ 2af:	2e ff 26 85 03       	jmp    WORD PTR cs:0x385
+
+000002b4 <_wait>:
+ 2b4:	66 55                	push   ebp
+ 2b6:	66 89 e5             	mov    ebp,esp
+ 2b9:	b4 07                	mov    ah,0x7
+ 2bb:	cd 21                	int    0x21
+ 2bd:	66 89 ec             	mov    esp,ebp
+ 2c0:	66 5d                	pop    ebp
+ 2c2:	2e 66 8f 06 85 03    	pop    DWORD PTR cs:0x385
+ 2c8:	2e ff 26 85 03       	jmp    WORD PTR cs:0x385
+
+000002cd <_malloc>:
+ 2cd:	66 55                	push   ebp
+ 2cf:	66 89 e5             	mov    ebp,esp
+ 2d2:	0f a8                	push   gs
+ 2d4:	1e                   	push   ds
+ 2d5:	0f a9                	pop    gs
+ 2d7:	66 53                	push   ebx
+ 2d9:	66 67 8b 5d 08       	mov    ebx,DWORD PTR [ebp+0x8]
+ 2de:	b4 09                	mov    ah,0x9
+ 2e0:	cd 21                	int    0x21
+ 2e2:	66 5b                	pop    ebx
+ 2e4:	0f a9                	pop    gs
+ 2e6:	66 89 ec             	mov    esp,ebp
+ 2e9:	66 5d                	pop    ebp
+ 2eb:	2e 66 8f 06 85 03    	pop    DWORD PTR cs:0x385
+ 2f1:	2e ff 26 85 03       	jmp    WORD PTR cs:0x385
+
+000002f6 <_free>:
+ 2f6:	66 55                	push   ebp
+ 2f8:	66 89 e5             	mov    ebp,esp
+ 2fb:	0f a8                	push   gs
+ 2fd:	1e                   	push   ds
+ 2fe:	0f a9                	pop    gs
+ 300:	66 51                	push   ecx
+ 302:	66 67 8b 4d 08       	mov    ecx,DWORD PTR [ebp+0x8]
+ 307:	b4 0f                	mov    ah,0xf
+ 309:	cd 21                	int    0x21
+ 30b:	66 59                	pop    ecx
+ 30d:	0f a9                	pop    gs
+ 30f:	66 89 ec             	mov    esp,ebp
+ 312:	66 5d                	pop    ebp
+ 314:	2e 66 8f 06 85 03    	pop    DWORD PTR cs:0x385
+ 31a:	2e ff 26 85 03       	jmp    WORD PTR cs:0x385
+
+0000031f <_printSentence>:
+ 31f:	66 55                	push   ebp
+ 321:	66 89 e5             	mov    ebp,esp
+ 324:	60                   	pusha  
+ 325:	0f a8                	push   gs
+ 327:	67 8b 7d 08          	mov    di,WORD PTR [ebp+0x8]
+ 32b:	67 8a 75 0c          	mov    dh,BYTE PTR [ebp+0xc]
+ 32f:	67 8a 55 10          	mov    dl,BYTE PTR [ebp+0x10]
+ 333:	67 8b 4d 14          	mov    cx,WORD PTR [ebp+0x14]
+ 337:	67 8a 5d 18          	mov    bl,BYTE PTR [ebp+0x18]
+ 33b:	1e                   	push   ds
+ 33c:	0f a9                	pop    gs
+ 33e:	b4 02                	mov    ah,0x2
+ 340:	cd 21                	int    0x21
+ 342:	0f a9                	pop    gs
+ 344:	61                   	popa   
+ 345:	66 89 ec             	mov    esp,ebp
+ 348:	66 5d                	pop    ebp
+ 34a:	66 59                	pop    ecx
+ 34c:	ff e1                	jmp    cx
+
+0000034e <_getchar>:
+ 34e:	b4 00                	mov    ah,0x0
+ 350:	cd 16                	int    0x16
+ 352:	b4 00                	mov    ah,0x0
+ 354:	2e 66 8f 06 85 03    	pop    DWORD PTR cs:0x385
+ 35a:	2e ff 26 85 03       	jmp    WORD PTR cs:0x385
+
+0000035f <_p>:
+ 35f:	66 55                	push   ebp
+ 361:	66 89 e5             	mov    ebp,esp
+ 364:	66 51                	push   ecx
+ 366:	66 50                	push   eax
+ 368:	66 67 8b 4d 08       	mov    ecx,DWORD PTR [ebp+0x8]
+ 36d:	b4 0c                	mov    ah,0xc
+ 36f:	cd 21                	int    0x21
+ 371:	66 58                	pop    eax
+ 373:	66 59                	pop    ecx
+ 375:	66 89 ec             	mov    esp,ebp
+ 378:	66 5d                	pop    ebp
+ 37a:	2e 66 8f 06 85 03    	pop    DWORD PTR cs:0x385
+ 380:	2e ff 26 85 03       	jmp    WORD PTR cs:0x385
+
+00000385 <retaddr>:
+ 385:	00 00                	add    BYTE PTR [bx+si],al
+	...
+
+00000389 <_v>:
+ 389:	66 55                	push   ebp
+ 38b:	66 89 e5             	mov    ebp,esp
+ 38e:	66 51                	push   ecx
+ 390:	66 50                	push   eax
+ 392:	66 67 8b 4d 08       	mov    ecx,DWORD PTR [ebp+0x8]
+ 397:	b4 0d                	mov    ah,0xd
+ 399:	cd 21                	int    0x21
+ 39b:	66 58                	pop    eax
+ 39d:	66 59                	pop    ecx
+ 39f:	66 89 ec             	mov    esp,ebp
+ 3a2:	66 5d                	pop    ebp
+ 3a4:	2e 66 8f 06 85 03    	pop    DWORD PTR cs:0x385
+ 3aa:	2e ff 26 85 03       	jmp    WORD PTR cs:0x385
+
+000003af <_getsem>:
+ 3af:	66 55                	push   ebp
+ 3b1:	66 89 e5             	mov    ebp,esp
+ 3b4:	66 51                	push   ecx
+ 3b6:	66 67 8b 4d 08       	mov    ecx,DWORD PTR [ebp+0x8]
+ 3bb:	b4 0a                	mov    ah,0xa
+ 3bd:	cd 21                	int    0x21
+ 3bf:	66 59                	pop    ecx
+ 3c1:	66 89 ec             	mov    esp,ebp
+ 3c4:	66 5d                	pop    ebp
+ 3c6:	2e 66 8f 06 85 03    	pop    DWORD PTR cs:0x385
+ 3cc:	2e ff 26 85 03       	jmp    WORD PTR cs:0x385
+
+000003d1 <_freesem>:
+ 3d1:	66 55                	push   ebp
+ 3d3:	66 89 e5             	mov    ebp,esp
+ 3d6:	66 51                	push   ecx
+ 3d8:	66 50                	push   eax
+ 3da:	66 67 8b 4d 08       	mov    ecx,DWORD PTR [ebp+0x8]
+ 3df:	b4 0b                	mov    ah,0xb
+ 3e1:	cd 21                	int    0x21
+ 3e3:	66 58                	pop    eax
+ 3e5:	66 59                	pop    ecx
+ 3e7:	66 89 ec             	mov    esp,ebp
+ 3ea:	66 5d                	pop    ebp
+ 3ec:	2e 66 8f 06 85 03    	pop    DWORD PTR cs:0x385
+ 3f2:	2e ff 26 85 03       	jmp    WORD PTR cs:0x385
+
+000003f7 <_delay>:
+ 3f7:	66 55                	push   ebp
+ 3f9:	66 89 e5             	mov    ebp,esp
+ 3fc:	66 51                	push   ecx
+ 3fe:	66 50                	push   eax
+ 400:	66 67 8b 4d 08       	mov    ecx,DWORD PTR [ebp+0x8]
+ 405:	b4 0e                	mov    ah,0xe
+ 407:	cd 21                	int    0x21
+ 409:	66 58                	pop    eax
+ 40b:	66 59                	pop    ecx
+ 40d:	66 89 ec             	mov    esp,ebp
+ 410:	66 5d                	pop    ebp
+ 412:	2e 66 8f 06 85 03    	pop    DWORD PTR cs:0x385
+ 418:	2e ff 26 85 03       	jmp    WORD PTR cs:0x385
