@@ -1,11 +1,12 @@
 # Operating-System-Project
 
 ## Supported Functions(up to 1th July)
-- command line, a simple shell.
+- Support command line, a simple shell.
 - Support six-status(origin, ready, running, blocked, suspend, exit) process model.
 - Support sub-thread mechanism.
 - Support dynamic memory management and heap memory allocation.
-- Support one-layer file system.
+- Support file system.
+- Support virtual file system.
 - Support semaphore mechanism.
 - Support delay mechanism.
 - support multiple terminals.
