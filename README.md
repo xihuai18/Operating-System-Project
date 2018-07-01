@@ -1,6 +1,6 @@
 # Operating-System-Project
 
-## Supported Functions(up to 1th July)
+## Supported Functions(up to 1st July)
 - Support command line, a simple shell.
 - Support six-status(origin, ready, running, blocked, suspend, exit) process model.
 - Support sub-thread mechanism.
